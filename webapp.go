@@ -8,14 +8,16 @@ import (
 )
 
 type Webapp struct {
-	Name string
+	cfg *config.Config
 }
 
 func NewWebapp(cfg *config.Config) *Webapp {
 	if cfg.Name == "" {
 		panic("empty webpp name")
 	}
-	return &Webapp{
-		Name: cfg.Name,
-	}
+	return &Webapp{cfg}
+}
+
+func (w *Webapp) Name() string {
+	return w.cfg.Name
 }

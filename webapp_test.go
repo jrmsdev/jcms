@@ -12,7 +12,7 @@ import (
 
 func TestNewWebapp(t *testing.T) {
 	wapp := NewWebapp(test.Config())
-	if check.NotEqual(t, wapp.Name, "testing", "webapp Name") {
+	if check.NotEqual(t, wapp.Name(), "testing", "webapp Name") {
 		t.FailNow()
 	}
 }
