@@ -7,10 +7,11 @@ import (
 	"testing"
 
 	"github.com/jrmsdev/jcms/internal/_t/check"
+	"github.com/jrmsdev/jcms/internal/_t/test"
 )
 
 func TestNewWebapp(t *testing.T) {
-	wapp := NewWebapp("testing")
+	wapp := NewWebapp(test.Config())
 	if check.NotEqual(t, wapp.Name, "testing", "webapp Name") {
 		t.FailNow()
 	}

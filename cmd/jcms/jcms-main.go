@@ -3,5 +3,10 @@
 
 package main
 
+import (
+	"github.com/jrmsdev/jcms"
+)
+
 func main() {
+	jcms.Main()
 }
