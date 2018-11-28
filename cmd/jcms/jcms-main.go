@@ -5,8 +5,12 @@ package main
 
 import (
 	"github.com/jrmsdev/jcms"
+	"github.com/jrmsdev/jcms/webapp/config"
 )
 
 func main() {
-	jcms.Main()
+	cfg := &config.Config{
+		Name: "default",
+	}
+	jcms.Main(cfg)
 }

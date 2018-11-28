@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
 
 import os
-from subprocess import check_output
+import sys
+from subprocess import check_output, getstatusoutput
 
-os.environ["PKGLIST"] = check_output("go list ./...".split()).decode()
+verbose = ""
+if '-v' in sys.argv:
+	verbose = " -v"
 
-cmdlist = {
-	# ~ 0: "echo $PKGLIST",
+prevcmd = {
 	10: "go install -i ./cmd/jcms",
-	# ~ 20: "echo $PKGLIST | xargs go get -v -t",
-	30: "echo $PKGLIST | xargs go vet",
-	40: "echo $PKGLIST | xargs go test",
+	20: "go get -v -t ./...",
+	30: "go vet ./...",
 }
+gotest = f"go test{verbose} ./..."
 
-for idx in sorted(cmdlist.keys()):
-	cmd = cmdlist[idx]
+for idx in sorted(prevcmd.keys()):
+	cmd = prevcmd[idx]
 	print(cmd)
-	os.system(cmd)
+	outs = check_output(cmd.split()).decode().strip()
+	if outs != "":
+		print(outs)
+
+print(gotest)
+rc, outs = getstatusoutput(gotest)
+print(outs)
+sys.exit(rc)
