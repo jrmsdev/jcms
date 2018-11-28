@@ -4,6 +4,7 @@
 package jcms
 
 import (
+	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
@@ -14,6 +15,7 @@ func Main(cfg *config.Config) {
 }
 
 func Start(w *Webapp) string {
+	log.Init(w.Log())
 	return "127.0.0.1:6080"
 }
 
