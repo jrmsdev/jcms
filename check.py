@@ -2,7 +2,7 @@
 
 import os
 import sys
-from subprocess import check_output, getstatusoutput
+from subprocess import getstatusoutput
 
 verbose = ""
 if '-v' in sys.argv:
@@ -18,11 +18,14 @@ gotest = f"go test{verbose} ./..."
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
 	print(cmd)
-	outs = check_output(cmd.split()).decode().strip()
+	rc, outs = getstatusoutput(cmd)
 	if outs != "":
 		print(outs)
+	if rc != 0:
+		sys.exit(rc)
 
 print(gotest)
 rc, outs = getstatusoutput(gotest)
+
 print(outs)
 sys.exit(rc)
