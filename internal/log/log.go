@@ -27,6 +27,8 @@ func Init(level string) {
 	if l == nil {
 		l = xlog.New(os.Stderr, "", lflags)
 		setLevel(level)
+	} else {
+		panic("log pkg was initialized already")
 	}
 }
 

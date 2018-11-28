@@ -12,9 +12,6 @@ type Webapp struct {
 }
 
 func NewWebapp(cfg *config.Config) *Webapp {
-	if cfg.Name == "" {
-		panic("empty webpp name")
-	}
 	config.SetDefaults(cfg)
 	return &Webapp{cfg}
 }

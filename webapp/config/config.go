@@ -9,6 +9,9 @@ type Config struct {
 }
 
 func SetDefaults(cfg *Config) {
+	if cfg.Name == "" {
+		cfg.Name = "default"
+	}
 	if cfg.Log == "" {
 		cfg.Log = "default"
 	}
