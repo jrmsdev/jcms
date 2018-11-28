@@ -30,7 +30,7 @@ func TestPrintf(t *testing.T) {
 
 func TestQuiet(t *testing.T) {
 	setLevel("quiet")
-	Debug("testing quiet")
+	Printf("testing quiet")
 	defer buf.Reset()
 	if check.NotEqual(t, buf.String(), "", "") {
 		t.FailNow()
@@ -39,7 +39,7 @@ func TestQuiet(t *testing.T) {
 }
 
 func TestError(t *testing.T) {
-	Error("testing error")
+	E("testing error")
 	defer buf.Reset()
 	if check.NotEqual(t, buf.String(), "testing error\n", "") {
 		t.FailNow()
@@ -47,7 +47,7 @@ func TestError(t *testing.T) {
 }
 
 func TestDebug(t *testing.T) {
-	Debug("testing debug")
+	D("testing debug")
 	defer buf.Reset()
 	if check.NotEqual(t, buf.String(), "", "") {
 		t.FailNow()
@@ -56,7 +56,7 @@ func TestDebug(t *testing.T) {
 
 func TestEnableDebug(t *testing.T) {
 	setLevel("debug")
-	Debug("testing debug")
+	D("testing debug")
 	defer buf.Reset()
 	if check.NotEqual(t, buf.String(), "testing debug\n", "") {
 		t.FailNow()

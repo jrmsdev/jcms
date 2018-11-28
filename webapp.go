@@ -15,14 +15,8 @@ func NewWebapp(cfg *config.Config) *Webapp {
 	if cfg.Name == "" {
 		panic("empty webpp name")
 	}
-	setDefaults(cfg)
+	config.SetDefaults(cfg)
 	return &Webapp{cfg}
-}
-
-func setDefaults(cfg *config.Config) {
-	if cfg.Log == "" {
-		cfg.Log = "default"
-	}
 }
 
 func (w *Webapp) Name() string {

@@ -7,3 +7,9 @@ type Config struct {
 	Name string
 	Log string
 }
+
+func SetDefaults(cfg *Config) {
+	if cfg.Log == "" {
+		cfg.Log = "default"
+	}
+}

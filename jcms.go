@@ -16,8 +16,10 @@ func Main(cfg *config.Config) {
 
 func Start(w *Webapp) string {
 	log.Init(w.Log())
+	log.D("Start")
 	return "127.0.0.1:6080"
 }
 
 func Stop(w *Webapp) {
+	log.D("Stop")
 }
