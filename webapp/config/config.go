@@ -3,16 +3,32 @@
 
 package config
 
+import "os"
+
 type Config struct {
 	Name string
-	Log string
+	Log  string
+}
+
+var defName string
+var defLog string
+
+func init() {
+	defName = os.Getenv("JCMS_WEBAPP")
+	if defName == "" {
+		defName = "default"
+	}
+	defLog = os.Getenv("JCMS_LOG")
+	if defLog == "" {
+		defLog = "default"
+	}
 }
 
 func SetDefaults(cfg *Config) {
 	if cfg.Name == "" {
-		cfg.Name = "default"
+		cfg.Name = defName
 	}
 	if cfg.Log == "" {
-		cfg.Log = "default"
+		cfg.Log = defLog
 	}
 }
