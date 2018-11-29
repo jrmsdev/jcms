@@ -15,6 +15,7 @@ type Config struct {
 	Log           string
 	AssetsManager assets.Manager
 	StaticEnable  bool
+	StaticURL     string
 }
 
 var defDone bool
@@ -52,4 +53,5 @@ func SetDefaults(cfg *Config) {
 		cfg.AssetsManager = manager.New()
 	}
 	cfg.StaticEnable = true
+	cfg.StaticURL = "/static/"
 }
