@@ -1,0 +1,27 @@
+sudo: false
+language: go
+
+go:
+  - "1.10.x"
+  - "1.x"
+  - master
+
+git:
+  depth: 5
+  submodules: false
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode8.3
+      go: master
+
+install:
+  - true
+
+script:
+  - python3 check.py
