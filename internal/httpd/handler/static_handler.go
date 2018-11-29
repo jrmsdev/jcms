@@ -10,8 +10,7 @@ import (
 	"os"
 
 	"github.com/jrmsdev/jcms/internal/log"
-	xassets "github.com/jrmsdev/jcms/assets"
-	"github.com/jrmsdev/jcms/internal/assets"
+	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/webapp/config"
 
 	"github.com/gorilla/mux"
@@ -38,11 +37,11 @@ func (fs staticFS) Open(name string) (http.File, error) {
 }
 
 type staticFile struct {
-	xassets.File
+	assets.File
 	name string
 }
 
-func newFile(fn string, fh xassets.File) http.File {
+func newFile(fn string, fh assets.File) http.File {
 	log.D("newFile %s", fn)
 	return &staticFile{fh, fn}
 }

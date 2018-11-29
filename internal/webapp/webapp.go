@@ -4,7 +4,7 @@
 package webapp
 
 import (
-	"github.com/jrmsdev/jcms/internal/assets"
+	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
