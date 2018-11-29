@@ -61,27 +61,25 @@ func shortFile(name string) string {
 	return name[shortIdx:]
 }
 
+func getCodeInfo() string {
+	if codeInfo {
+		_, fn, ln, ok := runtime.Caller(2)
+		if ok {
+			return fmt.Sprintf("%s:%d: ", shortFile(fn), ln)
+		}
+	}
+	return ""
+}
+
 func dummy(fmtstr string, args ...interface{}) {
 }
 
 func printf(fmtstr string, args ...interface{}) {
-	prefix := ""
-	if codeInfo {
-		_, fn, ln, ok := runtime.Caller(1)
-		if ok {
-			prefix = fmt.Sprintf("%s:%d: ", shortFile(fn), ln)
-		}
-	}
+	prefix := getCodeInfo()
 	l.Printf(prefix+fmtstr, args...)
 }
 
 func panicf(fmtstr string, args ...interface{}) {
-	prefix := ""
-	if codeInfo {
-		_, fn, ln, ok := runtime.Caller(1)
-		if ok {
-			prefix = fmt.Sprintf("%s:%d: ", fn, ln)
-		}
-	}
+	prefix := getCodeInfo()
 	l.Panicf(prefix+fmtstr, args...)
 }
