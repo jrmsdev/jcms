@@ -23,7 +23,6 @@ prevcmd.update({
 	30: "{} vet ./...".format(gocmd),
 })
 
-
 rc = call([gocmd, "version"])
 if rc != 0:
 	sys.exit(rc)
