@@ -4,6 +4,8 @@
 package jcms
 
 import (
+	"github.com/jrmsdev/jcms/internal/log"
+	"github.com/jrmsdev/jcms/internal/webapp"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
@@ -22,4 +24,14 @@ func (w *Webapp) Name() string {
 
 func (w *Webapp) Log() string {
 	return w.cfg.Log
+}
+
+func (w *Webapp) Start() {
+	log.D("Start")
+	webapp.Start(w.cfg)
+}
+
+func (w *Webapp) Stop() {
+	log.D("Stop")
+	webapp.Stop(w.cfg)
 }

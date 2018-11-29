@@ -12,5 +12,14 @@
 	* serve
 		* httpd serve
 	* stop
-		* httpd stop
 		* webapp stop
+		* httpd stop
+
+## internal
+
+* webapp
+	* start
+		* setup assets manager
+		* setup storage manager
+		* setup httpd handlers
+	* stop

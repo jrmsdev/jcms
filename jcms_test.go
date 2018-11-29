@@ -3,12 +3,12 @@
 
 package jcms
 
-import (
-	"testing"
+//import (
+//	"testing"
+//
+//	"github.com/jrmsdev/jcms/internal/_t/test"
+//)
 
-	"github.com/jrmsdev/jcms/internal/_t/test"
-)
-
-func TestMain(t *testing.T) {
-	Main(test.Config())
-}
+//func TestMain(t *testing.T) {
+//	Main(test.Config())
+//}
