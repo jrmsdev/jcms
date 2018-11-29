@@ -9,6 +9,7 @@
 	* start
 		* log init
 		* webapp setup
+		* httpd setup
 		* httpd listen (MISS)
 	* serve
 		* httpd serve (MISS)
@@ -21,4 +22,9 @@
 	* setup
 		* setup assets manager
 		* setup storage manager (MISS)
-		* setup httpd handlers (MISS)
+
+* httpd
+	* setup
+		* init httpd router
+		* setup httpd handlers
+		* create httpd server (MISS)

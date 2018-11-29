@@ -14,6 +14,7 @@ type Config struct {
 	Name          string
 	Log           string
 	AssetsManager assets.Manager
+	StaticEnable  bool
 }
 
 var defDone bool
@@ -50,4 +51,5 @@ func SetDefaults(cfg *Config) {
 	if cfg.AssetsManager == nil {
 		cfg.AssetsManager = manager.New()
 	}
+	cfg.StaticEnable = true
 }
