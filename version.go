@@ -3,7 +3,10 @@
 
 package jcms
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 const (
 	VMAJOR = 0
@@ -16,5 +19,5 @@ func Version() string {
 	if VPATCH > 0 {
 		v = fmt.Sprintf("%s.%d", v, VPATCH)
 	}
-	return v
+	return fmt.Sprintf("%s %s/%s", v, runtime.GOOS, runtime.GOARCH)
 }
