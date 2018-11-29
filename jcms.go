@@ -4,8 +4,8 @@
 package jcms
 
 import (
-	"os"
 	"fmt"
+	"os"
 
 	"github.com/jrmsdev/jcms/internal/cmd/flags"
 	"github.com/jrmsdev/jcms/internal/log"

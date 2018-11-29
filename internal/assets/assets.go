@@ -19,16 +19,16 @@ func SetManager(m Manager) {
 }
 
 func ReadFile(parts ...string) ([]byte, error) {
-        fn := filepath.Join(parts...)
-        return manager.ReadFile(fn)
+	fn := filepath.Join(parts...)
+	return manager.ReadFile(fn)
 }
 
 func Open(parts ...string) (File, error) {
-        fn := filepath.Join(parts...)
-        return manager.Open(fn)
+	fn := filepath.Join(parts...)
+	return manager.Open(fn)
 }
 
 func Stat(parts ...string) (os.FileInfo, error) {
-        fn := filepath.Join(parts...)
-        return manager.Stat(fn)
+	fn := filepath.Join(parts...)
+	return manager.Stat(fn)
 }
