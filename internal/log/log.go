@@ -54,12 +54,9 @@ func setLevel(level string) {
 }
 
 func shortFile(name string) string {
-	fmt.Printf("split: %v\n", filepath.SplitList(name))
-	fmt.Printf("index: %d\n", strings.Index(name, "jcms"))
 	if shortIdx == 0 {
 		shortIdx = strings.Index(name, "jcms")
-		n := strings.Index(name[shortIdx:], string(filepath.Separator))
-		shortIdx += n + 4
+		shortIdx += 4 + len(string(filepath.Separator))
 	}
 	return name[shortIdx:]
 }
