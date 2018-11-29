@@ -6,17 +6,26 @@ package log
 import (
 	xlog "log"
 	"os"
+	"runtime"
+	"fmt"
+	"path/filepath"
+	"strings"
 )
 
 var l *xlog.Logger
-var lflags = xlog.Ldate | xlog.Ltime | xlog.Lshortfile
+var lflags = xlog.Ldate | xlog.Ltime
 
 var D func(fmtstr string, args ...interface{})
 var E func(fmtstr string, args ...interface{})
 var Panic func(fmtstr string, args ...interface{})
 var Printf func(fmtstr string, args ...interface{})
 
+var codeInfo bool
+var shortIdx int
+
 func init() {
+	codeInfo = true
+	shortIdx = 0
 	D = dummy
 	E = dummy
 	Panic = dummy
@@ -34,15 +43,48 @@ func Init(level string) {
 
 func setLevel(level string) {
 	D = dummy
-	E = l.Printf
-	Panic = l.Panicf
-	Printf = l.Printf
+	E = printf
+	Panic = panicf
+	Printf = printf
 	if level == "debug" {
-		D = l.Printf
+		D = printf
 	} else if level == "quiet" {
 		Printf = dummy
 	}
 }
 
+func shortFile(name string) string {
+	fmt.Printf("split: %v\n", filepath.SplitList(name))
+	fmt.Printf("index: %d\n", strings.Index(name, "jcms"))
+	if shortIdx == 0 {
+		shortIdx = strings.Index(name, "jcms")
+		n := strings.Index(name[shortIdx:], string(filepath.Separator))
+		shortIdx += n + 4
+	}
+	return name[shortIdx:]
+}
+
 func dummy(fmtstr string, args ...interface{}) {
+}
+
+func printf(fmtstr string, args ...interface{}) {
+	prefix := ""
+	if codeInfo {
+		_, fn, ln, ok := runtime.Caller(1)
+		if ok {
+			prefix = fmt.Sprintf("%s:%d: ", shortFile(fn), ln)
+		}
+	}
+	l.Printf(prefix+fmtstr, args...)
+}
+
+func panicf(fmtstr string, args ...interface{}) {
+	prefix := ""
+	if codeInfo {
+		_, fn, ln, ok := runtime.Caller(1)
+		if ok {
+			prefix = fmt.Sprintf("%s:%d: ", fn, ln)
+		}
+	}
+	l.Panicf(prefix+fmtstr, args...)
 }

@@ -14,10 +14,9 @@ import (
 var buf bytes.Buffer
 
 func init() {
-	if l == nil {
-		l = xlog.New(&buf, "", 0)
-		setLevel("testing")
-	}
+	codeInfo = false
+	l = xlog.New(&buf, "", 0)
+	setLevel("testing")
 }
 
 func TestPrintf(t *testing.T) {
