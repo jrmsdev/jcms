@@ -25,3 +25,4 @@ install: true
 
 script:
   - python check.py
+  - jcms -version

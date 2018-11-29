@@ -27,8 +27,4 @@ rc = call(gotest.split())
 if rc != 0:
 	sys.exit(rc)
 
-rc = call("jcms -version".split())
-if rc != 0:
-	sys.exit(rc)
-
 sys.exit(0)
