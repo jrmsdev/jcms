@@ -32,6 +32,10 @@ func init() {
 	}
 }
 
+func New() *Config {
+	return &Config{}
+}
+
 func SetDefaults(cfg *Config) {
 	if defDone {
 		panic("config.SetDefaults was already called!")

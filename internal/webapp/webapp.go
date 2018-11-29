@@ -13,11 +13,3 @@ func Setup(cfg *config.Config) {
 	log.D("Setup")
 	assets.SetManager(cfg.AssetsManager)
 }
-
-func Start(cfg *config.Config) {
-	log.D("Start")
-}
-
-func Stop(cfg *config.Config) {
-	log.D("Stop")
-}

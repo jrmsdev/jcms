@@ -10,8 +10,7 @@ import (
 	"github.com/jrmsdev/jcms/assets"
 )
 
-type astman struct {
-}
+type astman struct{}
 
 func New() *astman {
 	return &astman{}

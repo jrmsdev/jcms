@@ -19,7 +19,7 @@ func Main() {
 		fmt.Printf("jcms version %s\n", Version())
 		os.Exit(0)
 	}
-	cfg := &config.Config{}
+	cfg := config.New()
 	if flags.Quiet {
 		cfg.Log = "quiet"
 	}
@@ -34,8 +34,8 @@ func Main() {
 
 func Start(w *Webapp) string {
 	log.Init(w.Log())
+	log.D("Start")
 	webapp.Setup(w.cfg)
-	webapp.Start(w.cfg)
 	return "127.0.0.1:6080"
 }
 
@@ -45,5 +45,4 @@ func Serve(w *Webapp) {
 
 func Stop(w *Webapp) {
 	log.D("Stop")
-	webapp.Stop(w.cfg)
 }

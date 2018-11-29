@@ -9,12 +9,10 @@
 	* start
 		* log init
 		* webapp setup
-		* webapp start
 		* httpd listen (MISS)
 	* serve
 		* httpd serve (MISS)
 	* stop
-		* webapp stop
 		* httpd stop (MISS)
 
 ## internal
@@ -23,6 +21,4 @@
 	* setup
 		* setup assets manager
 		* setup storage manager (MISS)
-	* start
 		* setup httpd handlers (MISS)
-	* stop
