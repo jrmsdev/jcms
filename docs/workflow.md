@@ -1,5 +1,6 @@
 * jcms
 	* main
+		* parse cmd flags
 		* webapp config
 		* create webapp
 		* start

@@ -9,8 +9,7 @@ if '-v' in sys.argv:
 	verbose = " -v"
 
 prevcmd = {
-	10: "go version",
-	11: "go install -i ./cmd/jcms",
+	10: "go install -i ./cmd/jcms",
 	20: "go get -v -t ./...",
 	30: "go vet ./...",
 }
@@ -21,6 +20,10 @@ if sys.platform.startswith('win'):
 		0: "choco install golang",
 	})
 
+rc = call("go version".split())
+if rc != 0:
+	sys.exit(rc)
+
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
 	print(cmd)
@@ -30,4 +33,11 @@ for idx in sorted(prevcmd.keys()):
 
 print(gotest)
 rc = call(gotest.split())
-sys.exit(rc)
+if rc != 0:
+	sys.exit(rc)
+
+rc = call("jcms -version".split())
+if rc != 0:
+	sys.exit(rc)
+
+sys.exit(0)
