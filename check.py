@@ -13,7 +13,7 @@ prevcmd = {
 	20: "go get -v -t ./...",
 	30: "go vet ./...",
 }
-gotest = f"go test{verbose} ./..."
+gotest = "go test{} ./...".format(verbose)
 
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
