@@ -19,7 +19,14 @@ func Main() {
 		fmt.Printf("jcms version %s\n", Version())
 		os.Exit(0)
 	}
-	w := NewWebapp(&config.Config{})
+	cfg := &config.Config{}
+	if flags.Quiet {
+		cfg.Log = "quiet"
+	}
+	if flags.Debug {
+		cfg.Log = "debug"
+	}
+	w := NewWebapp(cfg)
 	Start(w)
 	defer Stop(w)
 	Serve(w)
