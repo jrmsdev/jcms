@@ -8,7 +8,7 @@ go:
 
 git:
   depth: 5
-  submodules: false
+  submodules: true
 
 branches:
   only:
