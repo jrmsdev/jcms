@@ -4,11 +4,11 @@
 package log
 
 import (
+	"fmt"
 	xlog "log"
 	"os"
-	"runtime"
-	"fmt"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 

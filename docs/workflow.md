@@ -7,19 +7,21 @@
 		* stop
 	* start
 		* log init
+		* webapp setup
 		* webapp start
-		* httpd listen
+		* httpd listen (MISS)
 	* serve
-		* httpd serve
+		* httpd serve (MISS)
 	* stop
 		* webapp stop
-		* httpd stop
+		* httpd stop (MISS)
 
 ## internal
 
 * webapp
-	* start
+	* setup
 		* setup assets manager
-		* setup storage manager
-		* setup httpd handlers
+		* setup storage manager (MISS)
+	* start
+		* setup httpd handlers (MISS)
 	* stop

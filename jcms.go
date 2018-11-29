@@ -5,6 +5,7 @@ package jcms
 
 import (
 	"github.com/jrmsdev/jcms/internal/log"
+	"github.com/jrmsdev/jcms/internal/webapp"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
@@ -17,8 +18,8 @@ func Main() {
 
 func Start(w *Webapp) string {
 	log.Init(w.Log())
-	log.D("Start")
-	w.Start()
+	webapp.Setup(w.cfg)
+	webapp.Start(w.cfg)
 	return "127.0.0.1:6080"
 }
 
@@ -28,5 +29,5 @@ func Serve(w *Webapp) {
 
 func Stop(w *Webapp) {
 	log.D("Stop")
-	w.Stop()
+	webapp.Stop(w.cfg)
 }

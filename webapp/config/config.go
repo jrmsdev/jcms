@@ -3,17 +3,25 @@
 
 package config
 
-import "os"
+import (
+	"os"
+
+	"github.com/jrmsdev/jcms/assets"
+	"github.com/jrmsdev/jcms/internal/assets/manager"
+)
 
 type Config struct {
-	Name string
-	Log  string
+	Name          string
+	Log           string
+	AssetsManager assets.Manager
 }
 
+var defDone bool
 var defName string
 var defLog string
 
 func init() {
+	defDone = false
 	defName = os.Getenv("JCMS_WEBAPP")
 	if defName == "" {
 		defName = "default"
@@ -25,10 +33,17 @@ func init() {
 }
 
 func SetDefaults(cfg *Config) {
+	if defDone {
+		panic("config.SetDefaults was already called!")
+	}
+	defDone = true
 	if cfg.Name == "" {
 		cfg.Name = defName
 	}
 	if cfg.Log == "" {
 		cfg.Log = defLog
+	}
+	if cfg.AssetsManager == nil {
+		cfg.AssetsManager = manager.New()
 	}
 }
