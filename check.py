@@ -9,15 +9,11 @@ if '-v' in sys.argv:
 	verbose = " -v"
 
 prevcmd = {
-	10: "go install -i ./cmd/jcms",
-	20: "go get -v -t ./...",
-	30: "go vet ./...",
+	10: "go vet ./...",
+	20: "go install -i ./cmd/jcms",
+	30: "go get -v -t ./...",
 }
 gotest = "go test{} ./...".format(verbose)
-
-rc = call(["go", "version"])
-if rc != 0:
-	sys.exit(rc)
 
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
