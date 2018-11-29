@@ -26,23 +26,23 @@ func Main() {
 	if flags.Debug {
 		cfg.Log = "debug"
 	}
-	w := NewWebapp(cfg)
-	Start(w)
-	defer Stop(w)
-	Serve(w)
+	Start(cfg)
+	defer Stop(cfg)
+	Serve(cfg)
 }
 
-func Start(w *Webapp) string {
-	log.Init(w.Log())
+func Start(cfg *config.Config) string {
+	log.Init(cfg.Log)
 	log.D("Start")
-	webapp.Setup(w.cfg)
+	config.SetDefaults(cfg)
+	webapp.Setup(cfg)
 	return "127.0.0.1:6080"
 }
 
-func Serve(w *Webapp) {
+func Serve(cfg *config.Config) {
 	log.D("Serve")
 }
 
-func Stop(w *Webapp) {
+func Stop(cfg *config.Config) {
 	log.D("Stop")
 }
