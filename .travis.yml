@@ -23,8 +23,7 @@ matrix:
     - os: windows
       go: master
 
-install:
-  - python --version
+install: true
 
 script:
   - python check.py
