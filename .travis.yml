@@ -17,15 +17,10 @@ branches:
 matrix:
   include:
     - os: osx
-      osx_image: xcode8.3
       go: master
 
-before_install:
-  - python3 --version
-  - go version
-
 install:
-  - true
+  - python --version
 
 script:
-  - python3 check.py
+  - python check.py

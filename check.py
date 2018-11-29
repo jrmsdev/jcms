@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import os
 import sys
-from subprocess import getstatusoutput
+from subprocess import call
 
 verbose = ""
 if '-v' in sys.argv:
@@ -18,14 +18,10 @@ gotest = "go test{} ./...".format(verbose)
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
 	print(cmd)
-	rc, outs = getstatusoutput(cmd)
-	if outs != "":
-		print(outs)
+	rc = call(cmd.split())
 	if rc != 0:
 		sys.exit(rc)
 
 print(gotest)
-rc, outs = getstatusoutput(gotest)
-
-print(outs)
+rc = call(gotest.split())
 sys.exit(rc)
