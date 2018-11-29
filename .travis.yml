@@ -4,6 +4,7 @@ language: go
 go:
   - "1.10.x"
   - "1.x"
+  - tip
   - master
 
 git:
@@ -19,9 +20,9 @@ matrix:
     - os: windows
   include:
     - os: osx
-      go: master
+      go: tip
     - os: windows
-      go: master
+      go: "1.x"
 
 install: true
 
