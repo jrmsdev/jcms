@@ -28,7 +28,7 @@ func init() {
 	shortIdx = 0
 	D = dummy
 	E = dummy
-	Panic = dummy
+	Panic = panicf
 	Printf = dummy
 }
 
@@ -43,8 +43,7 @@ func Init(level string) {
 
 func setLevel(level string) {
 	D = dummy
-	E = printf
-	Panic = panicf
+	E = printError
 	Printf = printf
 	if level == "debug" {
 		D = printf
@@ -82,4 +81,9 @@ func printf(fmtstr string, args ...interface{}) {
 func panicf(fmtstr string, args ...interface{}) {
 	prefix := getCodeInfo()
 	l.Panicf(prefix+fmtstr, args...)
+}
+
+func printError(fmtstr string, args ...interface{}) {
+	prefix := getCodeInfo()
+	l.Printf("ERROR "+prefix+fmtstr, args...)
 }

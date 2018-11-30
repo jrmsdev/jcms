@@ -38,9 +38,9 @@ func TestQuiet(t *testing.T) {
 }
 
 func TestError(t *testing.T) {
-	E("testing error")
+	E("testing")
 	defer buf.Reset()
-	if check.NotEqual(t, buf.String(), "testing error\n", "") {
+	if check.NotEqual(t, buf.String(), "ERROR testing\n", "") {
 		t.FailNow()
 	}
 }

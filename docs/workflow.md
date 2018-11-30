@@ -11,11 +11,11 @@
 		* log init
 		* webapp setup
 		* httpd setup
-		* httpd listen (MISS)
+		* httpd listen
 	* serve
-		* httpd serve (MISS)
+		* httpd serve
 	* stop
-		* httpd stop (MISS)
+		* httpd stop
 
 ## internal
 

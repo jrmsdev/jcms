@@ -28,8 +28,8 @@ func Main() {
 		cfg.Log = "debug"
 	}
 	Start(cfg)
-	defer Stop(cfg)
-	Serve(cfg)
+	defer Stop()
+	Serve()
 }
 
 func Start(cfg *config.Config) string {
@@ -38,13 +38,15 @@ func Start(cfg *config.Config) string {
 	log.D("Start: %s", cfg.Name)
 	webapp.Setup(cfg)
 	httpd.Setup(cfg)
-	return "127.0.0.1:6080"
+	return httpd.Listen()
 }
 
-func Serve(cfg *config.Config) {
+func Serve() {
 	log.D("Serve")
+	httpd.Serve()
 }
 
-func Stop(cfg *config.Config) {
+func Stop() {
 	log.D("Stop")
+	httpd.Stop()
 }
