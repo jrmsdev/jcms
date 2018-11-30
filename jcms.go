@@ -27,7 +27,8 @@ func Main() {
 	if flags.Debug {
 		cfg.Log = "debug"
 	}
-	log.Printf("jcms v%s %s", Version(), Start(cfg))
+	cfg.HttpPort = fmt.Sprintf("%d", flags.HttpPort)
+	log.Printf("%s %s", cfg.Name, Start(cfg))
 	defer Stop()
 	Serve()
 }
@@ -36,6 +37,7 @@ func Start(cfg *config.Config) string {
 	config.SetDefaults(cfg)
 	log.Init(cfg.Log)
 	log.D("Start: %s", cfg.Name)
+	log.Printf("jcms v%s", Version())
 	webapp.Setup(cfg)
 	httpd.Setup(cfg)
 	return httpd.Listen()

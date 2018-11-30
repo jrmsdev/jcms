@@ -26,9 +26,10 @@ type staticFS struct{}
 
 func (fs staticFS) Open(name string) (http.File, error) {
 	fn := filepath.Join("static", name)
+	log.D("Open: %s", fn)
 	fh, err := assets.Open(fn)
 	if err != nil {
-		log.E("Open %s: %s", fn, err)
+		log.E(err.Error())
 		return nil, err
 	}
 	return newFile(fn, fh), nil
