@@ -17,6 +17,7 @@ type Config struct {
 	Basedir       string
 	AssetsManager assets.Manager
 	StaticEnable  bool
+	HttpPort      string
 }
 
 var (
@@ -64,5 +65,8 @@ func SetDefaults(cfg *Config) {
 	}
 	if cfg.AssetsManager == nil {
 		cfg.AssetsManager = manager.New(cfg.Name, cfg.Basedir)
+	}
+	if cfg.HttpPort == "" {
+		cfg.HttpPort = "0"
 	}
 }
