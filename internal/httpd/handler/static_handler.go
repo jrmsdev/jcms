@@ -4,13 +4,13 @@
 package handler
 
 import (
-	"net/http"
-	"path/filepath"
 	"errors"
+	"net/http"
 	"os"
+	"path/filepath"
 
-	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/assets"
+	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/webapp/config"
 
 	"github.com/gorilla/mux"
@@ -18,19 +18,17 @@ import (
 
 func setupStatic(r *mux.Router, cfg *config.Config) {
 	log.D("setupStatic")
-	r.PathPrefix(cfg.StaticURL).Handler(http.StripPrefix(cfg.StaticURL,
-		     http.FileServer(staticFS{"static"})))
+	r.PathPrefix("/static/").
+		Handler(http.StripPrefix("/static/", http.FileServer(staticFS{})))
 }
 
-type staticFS struct {
-	name string
-}
+type staticFS struct{}
 
 func (fs staticFS) Open(name string) (http.File, error) {
-	fn := filepath.Join(fs.name, name)
+	fn := filepath.Join("static", name)
 	fh, err := assets.Open(fn)
 	if err != nil {
-		log.E("Open %s", err)
+		log.E("Open %s: %s", fn, err)
 		return nil, err
 	}
 	return newFile(fn, fh), nil

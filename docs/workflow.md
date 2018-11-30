@@ -7,6 +7,7 @@
 		* serve
 		* stop
 	* start
+		* webapp config defaults
 		* log init
 		* webapp setup
 		* httpd setup

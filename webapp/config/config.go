@@ -5,6 +5,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/assets/manager"
@@ -13,14 +14,17 @@ import (
 type Config struct {
 	Name          string
 	Log           string
+	Basedir       string
 	AssetsManager assets.Manager
 	StaticEnable  bool
-	StaticURL     string
 }
 
-var defDone bool
-var defName string
-var defLog string
+var (
+	defDone    bool
+	defName    string
+	defLog     string
+	defBasedir string
+)
 
 func init() {
 	defDone = false
@@ -32,10 +36,16 @@ func init() {
 	if defLog == "" {
 		defLog = "default"
 	}
+	defBasedir = os.Getenv("JCMS_BASEDIR")
+	if defBasedir == "" {
+		defBasedir = filepath.FromSlash("/srv/jcms")
+	}
 }
 
 func New() *Config {
-	return &Config{}
+	return &Config{
+		StaticEnable: true,
+	}
 }
 
 func SetDefaults(cfg *Config) {
@@ -49,9 +59,10 @@ func SetDefaults(cfg *Config) {
 	if cfg.Log == "" {
 		cfg.Log = defLog
 	}
-	if cfg.AssetsManager == nil {
-		cfg.AssetsManager = manager.New()
+	if cfg.Basedir == "" {
+		cfg.Basedir = defBasedir
 	}
-	cfg.StaticEnable = true
-	cfg.StaticURL = "/static/"
+	if cfg.AssetsManager == nil {
+		cfg.AssetsManager = manager.New(cfg.Name, cfg.Basedir)
+	}
 }

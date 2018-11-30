@@ -6,7 +6,6 @@ package assets
 import (
 	"io"
 	"os"
-	"path/filepath"
 
 	"github.com/jrmsdev/jcms/internal/log"
 )
@@ -17,9 +16,9 @@ type File interface {
 }
 
 type Manager interface {
-	Open(filename string) (File, error)
-	Stat(filename string) (os.FileInfo, error)
-	ReadFile(name string) ([]byte, error)
+	Open(relname string) (File, error)
+	Stat(relname string) (os.FileInfo, error)
+	ReadFile(relname string) ([]byte, error)
 }
 
 var manager Manager
@@ -32,17 +31,14 @@ func SetManager(m Manager) {
 	manager = m
 }
 
-func ReadFile(parts ...string) ([]byte, error) {
-	fn := filepath.Join(parts...)
-	return manager.ReadFile(fn)
+func ReadFile(relname string) ([]byte, error) {
+	return manager.ReadFile(relname)
 }
 
-func Open(parts ...string) (File, error) {
-	fn := filepath.Join(parts...)
-	return manager.Open(fn)
+func Open(relname string) (File, error) {
+	return manager.Open(relname)
 }
 
-func Stat(parts ...string) (os.FileInfo, error) {
-	fn := filepath.Join(parts...)
-	return manager.Stat(fn)
+func Stat(relname string) (os.FileInfo, error) {
+	return manager.Stat(relname)
 }

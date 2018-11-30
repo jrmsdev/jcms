@@ -33,9 +33,9 @@ func Main() {
 }
 
 func Start(cfg *config.Config) string {
-	log.Init(cfg.Log)
-	log.D("Start")
 	config.SetDefaults(cfg)
+	log.Init(cfg.Log)
+	log.D("Start: %s", cfg.Name)
 	webapp.Setup(cfg)
 	httpd.Setup(cfg)
 	return "127.0.0.1:6080"

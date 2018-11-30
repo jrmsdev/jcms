@@ -10,6 +10,6 @@ import (
 )
 
 func Setup(cfg *config.Config) {
-	log.D("Setup")
+	log.D("Setup: %s", cfg.Name)
 	assets.SetManager(cfg.AssetsManager)
 }
