@@ -27,7 +27,7 @@ func Main() {
 	if flags.Debug {
 		cfg.Log = "debug"
 	}
-	Start(cfg)
+	log.Printf("jcms v%s %s", Version(), Start(cfg))
 	defer Stop()
 	Serve()
 }

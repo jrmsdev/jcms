@@ -45,19 +45,19 @@ func TestError(t *testing.T) {
 	}
 }
 
-func TestDebug(t *testing.T) {
-	D("testing debug")
+func TestDebugDisabled(t *testing.T) {
+	D("testing debug disabled")
 	defer buf.Reset()
 	if check.NotEqual(t, buf.String(), "", "") {
 		t.FailNow()
 	}
 }
 
-func TestEnableDebug(t *testing.T) {
+func TestDebug(t *testing.T) {
 	setLevel("debug")
 	D("testing debug")
 	defer buf.Reset()
-	if check.NotEqual(t, buf.String(), "testing debug\n", "") {
+	if check.NotEqual(t, buf.String(), "[D] testing debug\n", "") {
 		t.FailNow()
 	}
 	setLevel("testing")

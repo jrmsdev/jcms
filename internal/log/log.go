@@ -42,11 +42,10 @@ func Init(level string) {
 }
 
 func setLevel(level string) {
-	D = dummy
 	E = printError
 	Printf = printf
 	if level == "debug" {
-		D = printf
+		D = printDebug
 	} else if level == "quiet" {
 		Printf = dummy
 	}
@@ -74,16 +73,17 @@ func dummy(fmtstr string, args ...interface{}) {
 }
 
 func printf(fmtstr string, args ...interface{}) {
-	prefix := getCodeInfo()
-	l.Printf(prefix+fmtstr, args...)
+	l.Printf(fmtstr, args...)
 }
 
 func panicf(fmtstr string, args ...interface{}) {
-	prefix := getCodeInfo()
-	l.Panicf(prefix+fmtstr, args...)
+	l.Panicf(getCodeInfo()+fmtstr, args...)
+}
+
+func printDebug(fmtstr string, args ...interface{}) {
+	l.Printf("[D] "+getCodeInfo()+fmtstr, args...)
 }
 
 func printError(fmtstr string, args ...interface{}) {
-	prefix := getCodeInfo()
-	l.Printf("ERROR "+prefix+fmtstr, args...)
+	l.Printf("ERROR "+fmtstr, args...)
 }
