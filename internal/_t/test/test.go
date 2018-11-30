@@ -8,15 +8,13 @@ import (
 	"testing"
 
 	"github.com/jrmsdev/jcms/webapp"
+	"github.com/jrmsdev/jcms/webapp/client"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
-func Config() *config.Config {
-	return &config.Config{Name: "testing"}
-}
-
 var (
 	wapp      *webapp.Webapp
+	cli       *client.Client
 	serverURI string
 )
 
@@ -30,15 +28,20 @@ func Main(m *testing.M, name string) {
 	go func() {
 		wapp.Serve()
 	}()
+	cli = wapp.Client()
 	rc := m.Run()
 	wapp = nil
 	os.Exit(rc)
+}
+
+func newConfig(name string) *config.Config {
+	return &config.Config{Name: name}
 }
 
 func Webapp() *webapp.Webapp {
 	return wapp
 }
 
-func newConfig(name string) *config.Config {
-	return &config.Config{Name: name}
+func Client() *client.Client {
+	return cli
 }

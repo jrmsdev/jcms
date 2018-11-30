@@ -45,7 +45,7 @@ func init() {
 
 func New(name string) *Config {
 	return &Config{
-		Name: name,
+		Name:         name,
 		StaticEnable: true,
 	}
 }

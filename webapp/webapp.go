@@ -5,15 +5,17 @@ package webapp
 
 import (
 	"github.com/jrmsdev/jcms"
+	"github.com/jrmsdev/jcms/webapp/client"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
 type Webapp struct {
 	cfg *config.Config
+	uri string
 }
 
 func New(cfg *config.Config) *Webapp {
-	return &Webapp{cfg}
+	return &Webapp{cfg, ""}
 }
 
 func (w *Webapp) Name() string {
@@ -21,7 +23,8 @@ func (w *Webapp) Name() string {
 }
 
 func (w *Webapp) Start() string {
-	return jcms.Start(w.cfg)
+	w.uri = jcms.Start(w.cfg)
+	return w.uri
 }
 
 func (w *Webapp) Serve() {
@@ -30,4 +33,8 @@ func (w *Webapp) Serve() {
 
 func (w *Webapp) Stop() {
 	jcms.Stop()
+}
+
+func (w *Webapp) Client() *client.Client {
+	return client.New(w.uri)
 }
