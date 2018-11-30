@@ -4,6 +4,7 @@
 package webapp
 
 import (
+	"github.com/jrmsdev/jcms"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
@@ -17,4 +18,16 @@ func New(cfg *config.Config) *Webapp {
 
 func (w *Webapp) Name() string {
 	return w.cfg.Name
+}
+
+func (w *Webapp) Start() string {
+	return jcms.Start(w.cfg)
+}
+
+func (w *Webapp) Serve() {
+	jcms.Serve()
+}
+
+func (w *Webapp) Stop() {
+	jcms.Stop()
 }

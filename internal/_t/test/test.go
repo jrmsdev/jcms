@@ -15,13 +15,21 @@ func Config() *config.Config {
 	return &config.Config{Name: "testing"}
 }
 
-var wapp *webapp.Webapp
+var (
+	wapp      *webapp.Webapp
+	serverURI string
+)
 
 func Main(m *testing.M, name string) {
 	if wapp != nil {
 		panic("wapp is not nil")
 	}
 	wapp = webapp.New(newConfig(name))
+	serverURI = wapp.Start()
+	defer wapp.Stop()
+	go func() {
+		wapp.Serve()
+	}()
 	rc := m.Run()
 	wapp = nil
 	os.Exit(rc)
