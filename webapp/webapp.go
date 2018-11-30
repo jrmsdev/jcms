@@ -2,3 +2,11 @@
 // See LICENSE file.
 
 package webapp
+
+type Webapp struct {
+	name string
+}
+
+func New(name string) *Webapp {
+	return &Webapp{name}
+}

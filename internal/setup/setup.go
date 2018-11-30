@@ -1,7 +1,7 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-package webapp
+package setup
 
 import (
 	"github.com/jrmsdev/jcms/assets"
@@ -9,7 +9,7 @@ import (
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
-func Setup(cfg *config.Config) {
-	log.D("Setup: %s", cfg.Name)
+func Webapp(cfg *config.Config) {
+	log.D("Webapp: %s", cfg.Name)
 	assets.SetManager(cfg.AssetsManager)
 }
