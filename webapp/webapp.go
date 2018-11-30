@@ -3,10 +3,18 @@
 
 package webapp
 
+import (
+	"github.com/jrmsdev/jcms/webapp/config"
+)
+
 type Webapp struct {
-	name string
+	cfg *config.Config
 }
 
-func New(name string) *Webapp {
-	return &Webapp{name}
+func New(cfg *config.Config) *Webapp {
+	return &Webapp{cfg}
+}
+
+func (w *Webapp) Name() string {
+	return w.cfg.Name
 }

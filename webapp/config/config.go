@@ -43,8 +43,9 @@ func init() {
 	}
 }
 
-func New() *Config {
+func New(name string) *Config {
 	return &Config{
+		Name: name,
 		StaticEnable: true,
 	}
 }

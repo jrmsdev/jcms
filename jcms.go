@@ -20,7 +20,7 @@ func Main() {
 		fmt.Printf("jcms version %s\n", Version())
 		os.Exit(0)
 	}
-	cfg := config.New()
+	cfg := config.New("")
 	if flags.Quiet {
 		cfg.Log = "quiet"
 	}

@@ -17,11 +17,20 @@ func Config() *config.Config {
 
 var wapp *webapp.Webapp
 
-func init() {
-	wapp = webapp.New("testing")
+func Main(m *testing.M, name string) {
+	if wapp != nil {
+		panic("wapp is not nil")
+	}
+	wapp = webapp.New(newConfig(name))
+	rc := m.Run()
+	wapp = nil
+	os.Exit(rc)
 }
 
-func Main(m *testing.M) {
-	println("test.Main")
-	os.Exit(m.Run())
+func Webapp() *webapp.Webapp {
+	return wapp
+}
+
+func newConfig(name string) *config.Config {
+	return &config.Config{Name: name}
 }
