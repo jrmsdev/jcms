@@ -37,8 +37,7 @@ func Main(m *testing.M, name string) {
 		wapp.Serve()
 	}()
 	cli = wapp.Client()
-	rc := m.Run()
-	os.Exit(rc)
+	os.Exit(m.Run())
 }
 
 func newConfig(name string) *config.Config {

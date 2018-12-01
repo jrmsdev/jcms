@@ -20,3 +20,11 @@ func TestWebappName(t *testing.T) {
 		t.FailNow()
 	}
 }
+
+func TestServerUri(t *testing.T) {
+	wapp := test.Webapp()
+	if check.NotMatch(t, "^http://127\\.0\\.0\\.1:\\d+$",
+			  wapp.ServerUri(), "webapp server uri") {
+		t.FailNow()
+	}
+}

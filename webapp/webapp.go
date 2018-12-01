@@ -41,3 +41,7 @@ func (w *Webapp) Client() *client.Client {
 	}
 	return client.New(w.uri)
 }
+
+func (w *Webapp) ServerUri() string {
+	return w.uri
+}
