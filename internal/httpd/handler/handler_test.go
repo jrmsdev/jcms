@@ -18,7 +18,7 @@ func TestStatic(t *testing.T) {
 	r := c.Get("/static/test.txt")
 	r.Status(200)
 	r.StatusInfo("200 OK")
-	r.Body("testing\n")
+	r.Body("testing")
 }
 
 func TestStaticNotFound(t *testing.T) {

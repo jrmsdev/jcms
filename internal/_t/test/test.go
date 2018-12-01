@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/jrmsdev/jcms/internal/_t/check"
@@ -23,7 +24,7 @@ var (
 )
 
 //
-// test main / config
+// test main
 //
 
 func Main(m *testing.M, name string) {
@@ -40,6 +41,8 @@ func Main(m *testing.M, name string) {
 	os.Exit(m.Run())
 }
 
+// config
+
 func newConfig(name string) *config.Config {
 	cfg := config.New(name)
 	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
@@ -47,6 +50,8 @@ func newConfig(name string) *config.Config {
 		"github.com", "jrmsdev", "jcms", "testdata", "basedir")
 	return cfg
 }
+
+// webapp
 
 func Webapp() *webapp.Webapp {
 	return wapp
@@ -83,7 +88,8 @@ func (r *TestResponse) Body(expect string) {
 		r.t.Fatal(err)
 	}
 	r.orig.Body.Close()
-	if check.NotEqual(r.t, string(body), expect, "response body") {
+	if check.NotEqual(r.t, strings.TrimSpace(string(body)),
+			  expect, "response body") {
 		r.t.FailNow()
 	}
 }
