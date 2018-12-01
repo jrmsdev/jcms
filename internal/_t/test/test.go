@@ -22,6 +22,10 @@ var (
 	serverURI string
 )
 
+//
+// test main / config
+//
+
 func Main(m *testing.M, name string) {
 	if wapp != nil {
 		panic("wapp is not nil")
@@ -52,8 +56,12 @@ func Webapp() *webapp.Webapp {
 	return wapp
 }
 
+//
+// test response
+//
+
 type TestResponse struct {
-	t *testing.T
+	t    *testing.T
 	orig *http.Response
 }
 
@@ -84,8 +92,12 @@ func (r *TestResponse) Body(expect string) {
 	}
 }
 
+//
+// test client
+//
+
 type TestClient struct {
-	t *testing.T
+	t   *testing.T
 	cli *client.Client
 }
 
