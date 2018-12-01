@@ -12,6 +12,10 @@ for a in sys.argv:
 	elif a == "-race":
 		race = " -race"
 
+tests = os.getenv("JCMS_TEST", "").split(",")
+if "race" in tests and race == "":
+	race = " -race"
+
 prevcmd = {
 	10: "go vet ./...",
 	20: "go install -i ./cmd/jcms",
