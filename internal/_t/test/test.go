@@ -34,7 +34,6 @@ func Main(m *testing.M, name string) {
 	}()
 	cli = wapp.Client()
 	rc := m.Run()
-	wapp = nil
 	os.Exit(rc)
 }
 
