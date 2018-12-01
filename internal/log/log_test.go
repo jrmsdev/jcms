@@ -7,7 +7,6 @@ import (
 	"bytes"
 	"fmt"
 	xlog "log"
-	"path/filepath"
 	"strings"
 	"testing"
 
@@ -83,10 +82,9 @@ func TestInit(t *testing.T) {
 func TestCodeInfo(t *testing.T) {
 	testInit("debug")
 	codeInfo = true
-	D("shortfile")
+	D("testing")
 	codeInfo = false
-	patf := filepath.Join("internal", "log", "log_test.go")
-	if check.NotMatch(t, "^\\[D\\] "+patf+":\\d+: shortfile$",
+	if check.NotMatch(t, "^\\[D\\] [^:]+:\\d+: testing$",
 		readBuf(), "code info") {
 		t.FailNow()
 	}
