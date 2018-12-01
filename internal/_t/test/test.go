@@ -4,6 +4,7 @@
 package test
 
 import (
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -73,6 +74,17 @@ func (r *TestResponse) StatusInfo(expect string) {
 	}
 }
 
+func (r *TestResponse) Body(expect string) {
+	body, err := ioutil.ReadAll(r.orig.Body)
+	if err != nil {
+		r.t.Fatal(err)
+	}
+	r.orig.Body.Close()
+	if check.NotEqual(r.t, string(body), expect, "response body") {
+		r.t.FailNow()
+	}
+}
+
 type TestClient struct {
 	t *testing.T
 	cli *client.Client
@@ -85,7 +97,7 @@ func Client(t *testing.T) *TestClient {
 func (c *TestClient) Get(p string) *TestResponse {
 	resp, err := c.cli.Get(p)
 	if err != nil {
-		c.t.Error(err)
+		c.t.Fatal(err)
 	}
 	return newResponse(c.t, resp)
 }

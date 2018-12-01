@@ -18,10 +18,12 @@ func TestStatic(t *testing.T) {
 	r := c.Get("/static/test.txt")
 	r.Status(200)
 	r.StatusInfo("200 OK")
+	r.Body("testing\n")
 }
 
 func TestStaticNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/notfound.txt")
 	r.Status(404)
+	r.StatusInfo("404 Not Found")
 }
