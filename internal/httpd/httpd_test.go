@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jrmsdev/jcms/internal/httpd"
 	"github.com/jrmsdev/jcms/internal/_t/test"
+	"github.com/jrmsdev/jcms/internal/httpd"
 )
 
 func TestHttpd(t *testing.T) {
