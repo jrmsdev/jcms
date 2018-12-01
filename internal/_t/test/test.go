@@ -4,9 +4,12 @@
 package test
 
 import (
+	"net/http"
 	"os"
+	"path/filepath"
 	"testing"
 
+	"github.com/jrmsdev/jcms/internal/_t/check"
 	"github.com/jrmsdev/jcms/webapp"
 	"github.com/jrmsdev/jcms/webapp/client"
 	"github.com/jrmsdev/jcms/webapp/config"
@@ -35,13 +38,54 @@ func Main(m *testing.M, name string) {
 }
 
 func newConfig(name string) *config.Config {
-	return &config.Config{Name: name}
+	cfg := config.New(name)
+	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
+	if srcdir == "" {
+		panic("no GOPATH")
+	}
+	cfg.Basedir = filepath.Join(srcdir,
+		"github.com", "jrmsdev", "jcms", "testdata")
+	return cfg
 }
 
 func Webapp() *webapp.Webapp {
 	return wapp
 }
 
-func Client() *client.Client {
-	return cli
+type TestResponse struct {
+	t *testing.T
+	orig *http.Response
+}
+
+func newResponse(t *testing.T, r *http.Response) *TestResponse {
+	return &TestResponse{t, r}
+}
+
+func (r *TestResponse) Status(expect int) {
+	if check.NotEqual(r.t, r.orig.StatusCode, expect, "response status") {
+		r.t.FailNow()
+	}
+}
+
+func (r *TestResponse) StatusInfo(expect string) {
+	if check.NotEqual(r.t, r.orig.Status, expect, "response status info") {
+		r.t.FailNow()
+	}
+}
+
+type TestClient struct {
+	t *testing.T
+	cli *client.Client
+}
+
+func Client(t *testing.T) *TestClient {
+	return &TestClient{t, cli}
+}
+
+func (c *TestClient) Get(p string) *TestResponse {
+	resp, err := c.cli.Get(p)
+	if err != nil {
+		c.t.Error(err)
+	}
+	return newResponse(c.t, resp)
 }

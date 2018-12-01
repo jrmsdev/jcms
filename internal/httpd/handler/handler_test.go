@@ -6,7 +6,6 @@ package handler_test
 import (
 	"testing"
 
-	//~ "github.com/jrmsdev/jcms/internal/_t/check"
 	"github.com/jrmsdev/jcms/internal/_t/test"
 )
 
@@ -15,11 +14,14 @@ func TestMain(m *testing.M) {
 }
 
 func TestStatic(t *testing.T) {
-	c := test.Client()
-	r, err := c.Get("/static/test.txt")
-	if err != nil {
-		t.Log(err)
-		t.FailNow()
-	}
-	t.Log(r)
+	c := test.Client(t)
+	r := c.Get("/static/test.txt")
+	r.Status(200)
+	r.StatusInfo("200 OK")
+}
+
+func TestStaticNotFound(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/static/notfound.txt")
+	r.Status(404)
 }
