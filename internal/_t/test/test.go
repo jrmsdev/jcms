@@ -48,7 +48,7 @@ func newConfig(name string) *config.Config {
 		panic("no GOPATH")
 	}
 	cfg.Basedir = filepath.Join(srcdir,
-		"github.com", "jrmsdev", "jcms", "testdata")
+		"github.com", "jrmsdev", "jcms", "testdata", "basedir")
 	return cfg
 }
 
