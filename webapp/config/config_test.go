@@ -4,6 +4,7 @@
 package config
 
 import (
+	"os"
 	"testing"
 
 	"github.com/jrmsdev/jcms/internal/_t/check"
@@ -14,7 +15,11 @@ func TestDefaults(t *testing.T) {
 	if check.NotEqual(t, cfg.Name, "default", "config name") {
 		t.Fail()
 	}
-	if check.NotEqual(t, cfg.Log, "default", "config log") {
+	expect := os.Getenv("JCMS_LOG")
+	if expect == "" {
+		expect = "default"
+	}
+	if check.NotEqual(t, cfg.Log, expect, "config log") {
 		t.Fail()
 	}
 }

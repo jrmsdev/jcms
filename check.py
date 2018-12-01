@@ -4,6 +4,11 @@ import os
 import sys
 from subprocess import call
 
+def _exit(rc):
+	if rc != 0:
+		print("check failed!")
+	sys.exit(rc)
+
 verbose = ""
 race = ""
 for a in sys.argv:
@@ -28,11 +33,11 @@ for idx in sorted(prevcmd.keys()):
 	print(cmd)
 	rc = call(cmd.split())
 	if rc != 0:
-		sys.exit(rc)
+		_exit(rc)
 
 print(gotest)
 rc = call(gotest.split())
 if rc != 0:
-	sys.exit(rc)
+	_exit(rc)
 
-sys.exit(0)
+_exit(0)
