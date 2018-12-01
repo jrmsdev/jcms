@@ -5,7 +5,10 @@ package log
 
 import (
 	"bytes"
+	"fmt"
 	xlog "log"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/jrmsdev/jcms/internal/_t/check"
@@ -20,6 +23,10 @@ func testInit(lvl string) {
 	}
 	buf.Reset()
 	setLevel(lvl)
+}
+
+func readBuf() string {
+	return strings.TrimSpace(buf.String())
 }
 
 func TestPrintf(t *testing.T) {
@@ -58,6 +65,29 @@ func TestDebug(t *testing.T) {
 	testInit("debug")
 	D("testing debug")
 	if check.NotEqual(t, buf.String(), "[D] testing debug\n", "") {
+		t.FailNow()
+	}
+}
+
+func TestInit(t *testing.T) {
+	l = nil
+	buf.Reset()
+	Init("default")
+	typ := fmt.Sprintf("%T", l)
+	if check.NotEqual(t, typ, "*log.Logger", "invalid logger type") {
+		t.FailNow()
+	}
+	l = nil
+}
+
+func TestCodeInfo(t *testing.T) {
+	testInit("debug")
+	codeInfo = true
+	D("shortfile")
+	codeInfo = false
+	patf := filepath.Join("internal", "log", "log_test.go")
+	if check.NotMatch(t, "^\\[D\\] "+patf+":\\d+: shortfile$",
+		readBuf(), "code info") {
 		t.FailNow()
 	}
 }

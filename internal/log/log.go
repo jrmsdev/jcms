@@ -42,6 +42,7 @@ func Init(level string) {
 }
 
 func setLevel(level string) {
+	D = dummy
 	E = printError
 	Printf = printf
 	if level == "debug" {
