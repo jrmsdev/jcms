@@ -30,9 +30,9 @@ func (fs staticFS) Open(name string) (http.File, error) {
 	if strings.HasSuffix(fn, ".html") {
 		log.D("denied .html access")
 		return nil, &os.PathError{
-			Op: "open",
+			Op:   "open",
 			Path: fn,
-			Err: os.ErrNotExist,
+			Err:  os.ErrNotExist,
 		}
 	}
 	fh, err := assets.Open(fn)
