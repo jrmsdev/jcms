@@ -44,9 +44,6 @@ func Main(m *testing.M, name string) {
 func newConfig(name string) *config.Config {
 	cfg := config.New(name)
 	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
-	if srcdir == "" {
-		panic("no GOPATH")
-	}
 	cfg.Basedir = filepath.Join(srcdir,
 		"github.com", "jrmsdev", "jcms", "testdata", "basedir")
 	return cfg

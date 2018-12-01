@@ -36,5 +36,8 @@ func (w *Webapp) Stop() {
 }
 
 func (w *Webapp) Client() *client.Client {
+	if w.uri == "" {
+		panic("webapp not started yet!")
+	}
 	return client.New(w.uri)
 }
