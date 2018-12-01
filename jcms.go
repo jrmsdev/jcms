@@ -34,7 +34,6 @@ func Main() {
 }
 
 func Start(cfg *config.Config) string {
-	config.SetDefaults(cfg)
 	log.Init(cfg.Log)
 	log.D("Start: %s", cfg.Name)
 	log.Printf("jcms v%s", Version())

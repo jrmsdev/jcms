@@ -10,8 +10,7 @@ import (
 )
 
 func TestDefaults(t *testing.T) {
-	cfg := &Config{}
-	SetDefaults(cfg)
+	cfg := New("")
 	if check.NotEqual(t, cfg.Name, "default", "config name") {
 		t.Fail()
 	}

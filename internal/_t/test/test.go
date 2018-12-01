@@ -33,9 +33,9 @@ func Main(m *testing.M, name string) {
 	}
 	wapp = webapp.New(newConfig(name))
 	serverURI = wapp.Start()
-	defer wapp.Stop()
 	go func() {
 		wapp.Serve()
+		wapp.Stop()
 	}()
 	cli = wapp.Client()
 	os.Exit(m.Run())
@@ -44,8 +44,8 @@ func Main(m *testing.M, name string) {
 // config
 
 func newConfig(name string) *config.Config {
-	cfg := config.New(name)
 	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
+	cfg := config.New(name)
 	cfg.Basedir = filepath.Join(srcdir,
 		"github.com", "jrmsdev", "jcms", "testdata", "basedir")
 	return cfg
@@ -89,7 +89,7 @@ func (r *TestResponse) Body(expect string) {
 	}
 	r.orig.Body.Close()
 	if check.NotEqual(r.t, strings.TrimSpace(string(body)),
-			  expect, "response body") {
+		expect, "response body") {
 		r.t.FailNow()
 	}
 }
