@@ -5,26 +5,18 @@ package jcms_test
 
 import (
 	"testing"
+	"time"
 
-	"github.com/jrmsdev/jcms/internal/_t/check"
 	"github.com/jrmsdev/jcms/internal/_t/test"
+	"github.com/jrmsdev/jcms"
 )
 
-func TestMain(m *testing.M) {
-	test.Main(m, "testing")
-}
-
-func TestWebappName(t *testing.T) {
-	wapp := test.Webapp()
-	if check.NotEqual(t, wapp.Name(), "testing", "webapp name") {
-		t.FailNow()
-	}
-}
-
-func TestServerUri(t *testing.T) {
-	wapp := test.Webapp()
-	if check.NotMatch(t, "^http://127\\.0\\.0\\.1:\\d+$",
-		wapp.ServerUri(), "webapp server uri") {
-		t.FailNow()
-	}
+func TestJCMS(t *testing.T) {
+	cfg := test.Config("testing")
+	jcms.Start(cfg)
+	go func() {
+		jcms.Serve()
+	}()
+	time.Sleep(300 * time.Millisecond)
+	jcms.Stop()
 }
