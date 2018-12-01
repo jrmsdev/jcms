@@ -8,6 +8,15 @@ import (
 	"testing"
 )
 
+func NotTrue(t *testing.T, got bool, errmsg string) bool {
+	t.Helper()
+	if !got {
+		t.Logf("%s: is false (should be true)", errmsg)
+		return true
+	}
+	return false
+}
+
 func NotEqual(t *testing.T, got, expect interface{}, errmsg string) bool {
 	t.Helper()
 	if got != expect {
@@ -18,6 +27,7 @@ func NotEqual(t *testing.T, got, expect interface{}, errmsg string) bool {
 }
 
 func NotMatch(t *testing.T, pat, s, errmsg string) bool {
+	t.Helper()
 	m, err := regexp.MatchString(pat, s)
 	if err != nil {
 		t.Fatalf("%s: %s", errmsg, err)
