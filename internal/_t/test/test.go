@@ -23,7 +23,7 @@ func Main(m *testing.M, name string) {
 	if wapp != nil {
 		panic("wapp is not nil")
 	}
-	wapp = webapp.New(newConfig(name))
+	wapp = webapp.New(Config(name))
 	serverURI = wapp.Start()
 	go func() {
 		wapp.Serve()
@@ -33,7 +33,7 @@ func Main(m *testing.M, name string) {
 	os.Exit(m.Run())
 }
 
-func newConfig(name string) *config.Config {
+func Config(name string) *config.Config {
 	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
 	cfg := config.New(name)
 	cfg.Basedir = filepath.Join(srcdir,
