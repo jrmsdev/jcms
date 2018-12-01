@@ -37,7 +37,7 @@ func newConfig(name string) *config.Config {
 	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
 	cfg := config.New(name)
 	cfg.Basedir = filepath.Join(srcdir,
-		"github.com", "jrmsdev", "jcms", "testdata", "basedir")
+		"github.com", "jrmsdev", "jcms", "testdata", "assets")
 	return cfg
 }
 

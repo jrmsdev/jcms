@@ -10,5 +10,5 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	test.Main(m, "")
+	test.Main(m, "testing")
 }
