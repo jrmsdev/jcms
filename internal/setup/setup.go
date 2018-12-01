@@ -11,5 +11,5 @@ import (
 
 func Webapp(cfg *config.Config) {
 	log.D("Webapp: %s", cfg.Name)
-	assets.SetManager(cfg.AssetsManager)
+	assets.SetManager(cfg.GetAssetsManager())
 }
