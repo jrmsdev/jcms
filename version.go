@@ -19,5 +19,6 @@ func Version() string {
 	if VPATCH > 0 {
 		v = fmt.Sprintf("%s.%d", v, VPATCH)
 	}
-	return fmt.Sprintf("%s %s/%s", v, runtime.GOOS, runtime.GOARCH)
+	return fmt.Sprintf("%s (%s %s/%s)", v,
+		runtime.Version(), runtime.GOOS, runtime.GOARCH)
 }
