@@ -14,23 +14,22 @@ clone_folder: /usr/go/src/github.com/jrmsdev/jcms
 clone_depth: 5
 
 stack:
-  - go 1.10
   - go 1.11
-
-environment:
-  GOPATH: /usr/go
+  - go 1.10
+  - go 1.9
 
 matrix:
   fast_finish: true
 
 before_build:
   - go version
-  - go env
   - export GOPATH=/usr/go
   - go env
+  - git submodule update --init
 
 build_script:
-  - GOPATH=/usr/go python build.py
+  - go env
+  - python build.py
 
 after_build:
   - file build/jcms-*.bin
