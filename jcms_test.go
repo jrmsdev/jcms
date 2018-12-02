@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jrmsdev/jcms/internal/_t/test"
 	"github.com/jrmsdev/jcms"
+	"github.com/jrmsdev/jcms/internal/_t/test"
 )
 
 func TestJCMS(t *testing.T) {
