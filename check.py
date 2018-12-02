@@ -2,7 +2,7 @@
 
 import os
 import sys
-from subprocess import call
+from subprocess import call, check_output
 
 def _print(s):
 	print(s)
@@ -12,6 +12,11 @@ def _exit(rc):
 	if rc != 0:
 		_print("check failed!")
 	sys.exit(rc)
+
+install_args = " -i"
+goversion = check_output("go version".split()).strip()
+if "1.9" in goversion:
+	install_args = ""
 
 verbose = ""
 race = ""
@@ -27,7 +32,7 @@ if "race" in tests and race == "":
 
 prevcmd = {
 	10: "go vet ./...",
-	20: "go install -i ./cmd/jcms",
+	20: "go install{} ./cmd/jcms".format(install_args),
 	30: "go get -v -t ./...",
 }
 gotest = "go test{}{} ./...".format(verbose, race)
