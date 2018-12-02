@@ -35,15 +35,18 @@ build_script:
   - python build.py
 
 after_build:
-  - file build/jcms-*.bin | sort
-  - md5sum build/jcms-*.bin >build/${JCMS_BUILDNAME}-md5sum.txt
-  - sha256sum build/jcms-*.bin >build/${JCMS_BUILDNAME}-sha256sum.txt
-  - sha512sum build/jcms-*.bin >build/${JCMS_BUILDNAME}-sha512sum.txt
-  - mkdir -vp dist
-  - cd build && zip ../dist/${JCMS_BUILDNAME}.zip jcms-*.bin ${JCMS_BUILDNAME}-*.txt
-  - md5sum dist/${JCMS_BUILDNAME}.zip >dist/${JCMS_BUILDNAME}-md5sum.txt
-  - sha256sum dist/${JCMS_BUILDNAME}.zip >dist/${JCMS_BUILDNAME}-sha256sum.txt
-  - sha512sum dist/${JCMS_BUILDNAME}.zip >dist/${JCMS_BUILDNAME}-sha512sum.txt
+  - mkdir dist
+  - cd build
+  - file jcms-*.bin | sort
+  - md5sum jcms-*.bin >${JCMS_BUILDNAME}-md5sum.txt
+  - sha256sum jcms-*.bin >${JCMS_BUILDNAME}-sha256sum.txt
+  - sha512sum jcms-*.bin >${JCMS_BUILDNAME}-sha512sum.txt
+  - zip ../dist/${JCMS_BUILDNAME}.zip jcms-*.bin ${JCMS_BUILDNAME}-*.txt
+  - cd ../dist
+  - md5sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-md5sum.txt
+  - sha256sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-sha256sum.txt
+  - sha512sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-sha512sum.txt
+  - cd ..
 
 artifacts:
   - path: 'dist/jcms-*.zip'
