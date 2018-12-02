@@ -23,8 +23,14 @@ environment:
 matrix:
   fast_finish: true
 
+before_build:
+  - go version
+  - go env
+  - export GOPATH=/usr/go
+  - go env
+
 build_script:
-  - python build.py
+  - GOPATH=/usr/go python build.py
 
 after_build:
   - file build/jcms-*.bin
