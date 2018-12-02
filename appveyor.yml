@@ -26,11 +26,11 @@ install:
   - git submodule update --init
 
 before_build:
+  - go version
+  - export GOPATH=/usr/go
+  - go env
   - export JCMS_VERSION=$(go run ./internal/_build/version/main.go)
   - export JCMS_BUILDNAME=jcms-${JCMS_VERSION}-build${APPVEYOR_BUILD_NUMBER}
-  - export GOPATH=/usr/go
-  - go version
-  - go env
 
 build_script:
   - python build.py
