@@ -25,26 +25,25 @@ install:
   - git submodule update --init
 
 before_build:
+  - env | sort
   - go version
   - export GOPATH=/usr/go
   - go env
 
 build_script:
-  - go env
   - python build.py
 
 after_build:
   - file build/jcms-*.bin
-  - md5sum build/jcms-*.bin >build/jcms-bin-md5sum.txt
-  - sha256sum build/jcms-*.bin >build/jcms-bin-sha256sum.txt
-  - sha512sum build/jcms-*.bin >build/jcms-bin-sha512sum.txt
-  - zip build/jcms-build${APPVEYOR_BUILD_NUMBER}.zip build/jcms-*.bin build/jcms-bin-*.txt
-  - unzip -l build/jcms-build${APPVEYOR_BUILD_NUMBER}.zip
+  - md5sum build/jcms-*.bin >build/jcms-build${APPVEYOR_BUILD_NUMBER}-md5sum.txt
+  - sha256sum build/jcms-*.bin >build/jcms-build${APPVEYOR_BUILD_NUMBER}-sha256sum.txt
+  - sha512sum build/jcms-*.bin >build/jcms-build${APPVEYOR_BUILD_NUMBER}-sha512sum.txt
+  - zip jcms-build${APPVEYOR_BUILD_NUMBER}.zip build/jcms-*.bin build/jcms-*.txt
+  - md5sum jcms-build${APPVEYOR_BUILD_NUMBER}.zip >jcms-build${APPVEYOR_BUILD_NUMBER}-md5sum.txt
 
 artifacts:
-  - path: 'build/jcms-*.bin'
-  - path: 'build/jcms-bin-*.txt'
-  - path: 'build/jcms-build*.zip'
+  - path: 'jcms-build*.zip'
+  - path: 'jcms-build*-md5sum.txt'
 
 test: off
 
