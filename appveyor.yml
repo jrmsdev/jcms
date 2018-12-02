@@ -14,6 +14,7 @@ clone_folder: /usr/go/src/github.com/jrmsdev/jcms
 clone_depth: 5
 
 stack:
+  - go tip
   - go 1.11
   - go 1.10
   - go 1.9
