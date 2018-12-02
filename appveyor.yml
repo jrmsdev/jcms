@@ -13,7 +13,9 @@ image: Ubuntu1804
 clone_folder: /usr/go/src/github.com/jrmsdev/jcms
 clone_depth: 5
 
-stack: go go1.x
+stack:
+  - go 1.10
+  - go 1.11
 
 environment:
   GOPATH: /usr/go
