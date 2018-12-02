@@ -4,9 +4,13 @@ import os
 import sys
 from subprocess import call
 
+def _print(s):
+	print(s)
+	sys.stdout.flush()
+
 def _exit(rc):
 	if rc != 0:
-		print("check failed!")
+		_print("check failed!")
 	sys.exit(rc)
 
 verbose = ""
@@ -30,12 +34,12 @@ gotest = "go test{}{} ./...".format(verbose, race)
 
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
-	print(cmd)
+	_print(cmd)
 	rc = call(cmd.split())
 	if rc != 0:
 		_exit(rc)
 
-print(gotest)
+_print(gotest)
 rc = call(gotest.split())
 if rc != 0:
 	_exit(rc)
