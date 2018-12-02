@@ -40,14 +40,15 @@ after_build:
   - md5sum build/jcms-*.bin >build/${JCMS_BUILDNAME}-md5sum.txt
   - sha256sum build/jcms-*.bin >build/${JCMS_BUILDNAME}-sha256sum.txt
   - sha512sum build/jcms-*.bin >build/${JCMS_BUILDNAME}-sha512sum.txt
-  - zip ${JCMS_BUILDNAME}.zip build/jcms-*.bin build/${JCMS_BUILDNAME}-*.txt
-  - md5sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-md5sum.txt
-  - sha256sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-sha256sum.txt
-  - sha512sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-sha512sum.txt
+  - mkdir -vp dist
+  - cd build && zip ../dist/${JCMS_BUILDNAME}.zip jcms-*.bin ${JCMS_BUILDNAME}-*.txt
+  - md5sum dist/${JCMS_BUILDNAME}.zip >dist/${JCMS_BUILDNAME}-md5sum.txt
+  - sha256sum dist/${JCMS_BUILDNAME}.zip >dist/${JCMS_BUILDNAME}-sha256sum.txt
+  - sha512sum dist/${JCMS_BUILDNAME}.zip >dist/${JCMS_BUILDNAME}-sha512sum.txt
 
 artifacts:
-  - path: 'jcms-build*.zip'
-  - path: 'jcms-build*-md5sum.txt'
+  - path: 'dist/jcms-*.zip'
+  - path: 'dist/jcms-*.txt'
 
 test: off
 
