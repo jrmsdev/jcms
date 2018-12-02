@@ -21,11 +21,13 @@ stack:
 matrix:
   fast_finish: true
 
+install:
+  - git submodule update --init
+
 before_build:
   - go version
   - export GOPATH=/usr/go
   - go env
-  - git submodule update --init
 
 build_script:
   - go env

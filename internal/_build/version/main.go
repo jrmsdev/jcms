@@ -5,6 +5,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 
 	"github.com/jrmsdev/jcms"
 )
@@ -14,5 +15,6 @@ func main() {
 	if jcms.VPATCH > 0 {
 		v = fmt.Sprintf("%s.%d", v, jcms.VPATCH)
 	}
+	v = fmt.Sprintf("%s-%s", v, runtime.Version())
 	fmt.Println(v)
 }
