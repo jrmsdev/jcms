@@ -38,10 +38,10 @@ after_build:
   - mkdir dist
   - cd build
   - file jcms-*.bin | sort
-  - md5sum jcms-*.bin >${JCMS_BUILDNAME}-md5sum.txt
-  - sha256sum jcms-*.bin >${JCMS_BUILDNAME}-sha256sum.txt
-  - sha512sum jcms-*.bin >${JCMS_BUILDNAME}-sha512sum.txt
-  - zip ../dist/${JCMS_BUILDNAME}.zip jcms-*.bin ${JCMS_BUILDNAME}-*.txt
+  - md5sum jcms-*.bin >${JCMS_BUILDNAME}-bin-md5sum.txt
+  - sha256sum jcms-*.bin >${JCMS_BUILDNAME}-bin-sha256sum.txt
+  - sha512sum jcms-*.bin >${JCMS_BUILDNAME}-bin-sha512sum.txt
+  - zip ../dist/${JCMS_BUILDNAME}.zip jcms-*.bin ${JCMS_BUILDNAME}-bin-*sum.txt
   - cd ../dist
   - md5sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-md5sum.txt
   - sha256sum ${JCMS_BUILDNAME}.zip >${JCMS_BUILDNAME}-sha256sum.txt
