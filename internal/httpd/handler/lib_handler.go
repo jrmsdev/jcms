@@ -6,6 +6,7 @@
 package handler
 
 import (
+	"encoding/base64"
 	"io"
 	"net/http"
 
@@ -25,9 +26,14 @@ type libServer struct {
 func (s *libServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fn := r.URL.String()
 	log.D("ServeHTTP %s", fn)
-	body, found := libFiles[fn]
+	encBody, found := libFiles[fn]
 	if found {
-		io.WriteString(w, body)
+		body, err := base64.StdEncoding.DecodeString(encBody)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		io.WriteString(w, string(body))
 	} else {
 		http.Error(w, "file not found", http.StatusNotFound)
 	}

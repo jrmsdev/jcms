@@ -3,6 +3,7 @@
 import os
 import sys
 from time import asctime, gmtime
+from subprocess import check_output
 
 W3JS = "https://www.w3schools.com/lib/w3.js"
 
@@ -32,17 +33,24 @@ _cwd = os.getcwd()
 def _path(fn):
 	return os.path.join(_cwd, fn)
 
+def _read(fn):
+	fn = _path(fn)
+	_print("load %s" % fn)
+	cmd = "base64 -w 0 %s" % fn
+	return check_output(cmd.split())
+
 def _gen():
 	dst = _path("lib_files.go")
+	_print("generate %s" % dst)
 	with open(_path("lib_files.go.in"), "r") as src:
 		with open(dst, "w") as fh:
 			s = src.read().\
-				replace("[[LIB_W3JS]]", "testing", 1).\
+				replace("[[LIB_W3JS]]", _read("lib/w3.js"), 1).\
 				replace("[[GEN_DATE]]", _now(), 1)
 			fh.write(s)
 			fh.close()
 		src.close()
-	_print("created %s" % dst)
+	_print("%s done!" % dst)
 
 if "--update" in sys.argv:
 	_update()

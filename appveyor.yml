@@ -37,7 +37,7 @@ build_script:
 after_build:
   - mkdir dist
   - cd build
-  - file jcms-*.bin | sort
+  - file jcms-*.bin | sort | cut -d ':' -f '2-' | sed 's/^ *//'
   - md5sum jcms-*.bin >${JCMS_BUILDNAME}-bin-md5sum.txt
   - sha256sum jcms-*.bin >${JCMS_BUILDNAME}-bin-sha256sum.txt
   - sha512sum jcms-*.bin >${JCMS_BUILDNAME}-bin-sha512sum.txt
