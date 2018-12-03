@@ -33,7 +33,7 @@ before_build:
 
 build_script:
   - go generate ./...
-  - python build.py
+  - python build.py --all
 
 after_build:
   - mkdir dist
@@ -53,6 +53,7 @@ artifacts:
   - path: 'dist/jcms-*.zip'
   - path: 'dist/jcms-*.txt'
 
-test: off
+test_script:
+  - go test ./...
 
 deploy: off

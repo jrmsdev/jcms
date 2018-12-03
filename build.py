@@ -28,26 +28,32 @@ def _call(cmd):
 		_exit(rc)
 	sys.stdout.flush()
 
-if len(sys.argv) >= 2:
-	n = sys.argv[1]
-	l = sys.argv[2:]
-	if len(l) == 0:
-		try:
-			l = BUILDS[n]
-		except KeyError:
-			print("unknown os")
-			sys.exit(1)
-	BUILDS = {n: l}
+argc = len(sys.argv) - 1
 
 version = check_output("go run ./internal/_build/version/main.go".split()).strip()
+goos = check_output("go env GOOS".split()).strip()
+goarch = check_output("go env GOARCH".split()).strip()
+
+if not "--all" in sys.argv:
+	if argc == 0:
+		BUILDS = {goos: [goarch]}
+	elif argc >= 1:
+		n = sys.argv[1]
+		l = sys.argv[2:]
+		if len(l) == 0:
+			try:
+				l = BUILDS[n]
+			except KeyError:
+				print("unknown os")
+				sys.exit(1)
+		BUILDS = {n: l}
 
 _call("rm -rf build")
 _call("mkdir build")
 
 _call("go vet ./...")
-_call("go test ./...")
 
-for goos in BUILDS.keys():
+for goos in sorted(BUILDS.keys()):
 	os.environ["GOOS"] = goos
 	for goarch in BUILDS[goos]:
 		os.environ["GOARCH"] = goarch
