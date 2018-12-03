@@ -15,19 +15,11 @@ import (
 )
 
 func Main() {
-	flags.Parse()
+	cfg := flags.Parse()
 	if flags.ShowVersion {
 		fmt.Printf("jcms version %s\n", Version())
 		os.Exit(0)
 	}
-	cfg := config.New(flags.Webapp)
-	if flags.Quiet {
-		cfg.Log = "quiet"
-	}
-	if flags.Debug {
-		cfg.Log = "debug"
-	}
-	cfg.HttpPort = fmt.Sprintf("%d", flags.HttpPort)
 	log.Printf("%s %s", cfg.Name, Start(cfg))
 	defer Stop()
 	Serve()

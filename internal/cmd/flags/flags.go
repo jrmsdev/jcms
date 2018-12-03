@@ -3,7 +3,12 @@
 
 package flags
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+
+	"github.com/jrmsdev/jcms/webapp/config"
+)
 
 var ShowVersion bool
 var Debug bool
@@ -19,6 +24,15 @@ func init() {
 	flag.StringVar(&Webapp, "n", "default", "`webapp` name")
 }
 
-func Parse() {
+func Parse() *config.Config {
 	flag.Parse()
+	cfg := config.New(Webapp)
+	if Quiet {
+		cfg.Log = "quiet"
+	}
+	if Debug {
+		cfg.Log = "debug"
+	}
+	cfg.HttpPort = fmt.Sprintf("%d", HttpPort)
+	return cfg
 }
