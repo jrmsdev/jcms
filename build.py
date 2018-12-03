@@ -30,6 +30,7 @@ def _call(cmd):
 
 argc = len(sys.argv) - 1
 
+_call("go generate ./...")
 version = check_output("go run ./internal/_build/version/main.go".split()).strip()
 goos = check_output("go env GOOS".split()).strip()
 goarch = check_output("go env GOARCH".split()).strip()
@@ -53,6 +54,7 @@ _call("mkdir build")
 
 _call("go vet ./...")
 
+_print("            build jcms %s" % version)
 for goos in sorted(BUILDS.keys()):
 	os.environ["GOOS"] = goos
 	for goarch in BUILDS[goos]:

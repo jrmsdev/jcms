@@ -31,6 +31,7 @@ if "race" in tests and race == "":
 	race = " -race"
 
 prevcmd = {
+	 0: "go generate ./...",
 	10: "go vet ./...",
 	20: "go install{} ./cmd/jcms".format(install_args),
 	30: "go get -v -t ./...",

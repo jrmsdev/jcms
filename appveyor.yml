@@ -27,7 +27,6 @@ install:
 before_build:
   - export GOPATH=/usr/go
   - go version
-  - go generate ./...
 
 build_script:
   - export JCMS_VERSION=$(go run ./internal/_build/version/main.go)

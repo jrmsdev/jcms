@@ -27,8 +27,7 @@ matrix:
       env:
         - JCMS_TEST=race
 
-install:
-  - go generate ./...
+install: true
 
 script:
   - python check.py
