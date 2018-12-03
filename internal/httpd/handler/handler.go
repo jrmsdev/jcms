@@ -12,11 +12,11 @@ import (
 
 func Setup(r *mux.Router, cfg *config.Config) {
 	log.D("Setup")
+	handlersSetup(r, cfg)
 	if cfg.StaticEnable {
 		setupStatic(r)
 	}
 	setupLib(r)
-	handlersSetup(r, cfg)
 }
 
 func handlersSetup(r *mux.Router, cfg *config.Config) {
