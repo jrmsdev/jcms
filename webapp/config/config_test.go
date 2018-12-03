@@ -35,6 +35,11 @@ func TestDefaults(t *testing.T) {
 	if check.NotEqual(t, cfg.HttpPort, "0", "http port") {
 		t.Fail()
 	}
+	typ := fmt.Sprintf("%T", cfg.HandlerSetup)
+	if check.NotEqual(t, typ,
+		"map[string]config.HandlerSetupFunc", "handler setup") {
+		t.Fail()
+	}
 }
 
 func TestAssetsManager(t *testing.T) {

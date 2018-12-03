@@ -16,4 +16,12 @@ func Setup(r *mux.Router, cfg *config.Config) {
 		setupStatic(r)
 	}
 	setupLib(r)
+	handlersSetup(r, cfg)
+}
+
+func handlersSetup(r *mux.Router, cfg *config.Config) {
+	for n, f := range cfg.HandlerSetup {
+		log.D("handlerSetup %s", n)
+		f(r)
+	}
 }

@@ -9,7 +9,11 @@ import (
 
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/assets/manager"
+
+	"github.com/gorilla/mux"
 )
+
+type HandlerSetupFunc func(*mux.Router)
 
 type Config struct {
 	Name          string
@@ -18,6 +22,7 @@ type Config struct {
 	AssetsManager assets.Manager
 	StaticEnable  bool
 	HttpPort      string
+	HandlerSetup  map[string]HandlerSetupFunc
 }
 
 var (
@@ -51,6 +56,7 @@ func New(name string) *Config {
 		Basedir:      defBasedir,
 		StaticEnable: true,
 		HttpPort:     "0",
+		HandlerSetup: make(map[string]HandlerSetupFunc),
 	}
 }
 
