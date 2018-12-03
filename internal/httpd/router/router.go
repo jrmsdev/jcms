@@ -11,5 +11,10 @@ import (
 
 func Init() *mux.Router {
 	log.D("Init")
-	return mux.NewRouter()
+	r := mux.NewRouter()
+	return r.Host("127.0.0.1").
+		Methods("GET").
+		Schemes("http").
+		Subrouter().
+		StrictSlash(true)
 }

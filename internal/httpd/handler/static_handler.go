@@ -11,15 +11,15 @@ import (
 
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/log"
-	"github.com/jrmsdev/jcms/webapp/config"
 
 	"github.com/gorilla/mux"
 )
 
-func setupStatic(r *mux.Router, cfg *config.Config) {
+func setupStatic(r *mux.Router) {
 	log.D("setupStatic")
 	r.PathPrefix("/static/").
-		Handler(http.StripPrefix("/static/", http.FileServer(staticFS{})))
+		Handler(http.StripPrefix("/static/", http.FileServer(staticFS{}))).
+		Name("static")
 }
 
 type staticFS struct{}

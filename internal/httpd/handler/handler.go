@@ -13,6 +13,7 @@ import (
 func Setup(r *mux.Router, cfg *config.Config) {
 	log.D("Setup")
 	if cfg.StaticEnable {
-		setupStatic(r, cfg)
+		setupStatic(r)
 	}
+	setupLib(r)
 }
