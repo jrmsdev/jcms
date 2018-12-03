@@ -9,15 +9,22 @@ import (
 	"github.com/jrmsdev/jcms/internal/_t/test"
 )
 
-func TestLib(t *testing.T) {
-	c := test.Client(t)
-	r := c.Get("/_/lib/w3.js")
-	r.Status(200)
-	r.Body("testing")
-}
-
 func TestLibNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_/lib/notfound.js")
 	r.Status(404)
+}
+
+func TestW3JS(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/_/lib/w3.js")
+	r.Status(200)
+	//~ r.Body("testing")
+}
+
+func TestW3CSS(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/_/lib/w3.css")
+	r.Status(200)
+	//~ r.Body("testing")
 }

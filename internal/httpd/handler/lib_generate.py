@@ -6,6 +6,7 @@ from time import asctime, gmtime
 from subprocess import check_output
 
 W3JS = "https://www.w3schools.com/lib/w3.js"
+W3CSS = "https://www.w3schools.com/w3css/4/w3.css"
 
 def _now():
 	return "%s UTC" % asctime(gmtime())
@@ -27,6 +28,7 @@ def _call(cmd):
 
 def _update():
 	_call("wget -nv -c -O lib/w3.js %s" % W3JS)
+	_call("wget -nv -c -O lib/w3.css %s" % W3CSS)
 
 _cwd = os.getcwd()
 
@@ -46,6 +48,7 @@ def _gen():
 		with open(dst, "w") as fh:
 			s = src.read().\
 				replace("[[LIB_W3JS]]", _read("lib/w3.js"), 1).\
+				replace("[[LIB_W3CSS]]", _read("lib/w3.css"), 1).\
 				replace("[[GEN_DATE]]", _now(), 1)
 			fh.write(s)
 			fh.close()

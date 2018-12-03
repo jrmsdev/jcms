@@ -7,4 +7,5 @@ package handler
 
 var libFiles = map[string]string{
 	"lib/w3.js": "[[LIB_W3JS]]",
+	"lib/w3.css": "[[LIB_W3CSS]]",
 }
