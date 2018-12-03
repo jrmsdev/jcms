@@ -27,7 +27,8 @@ matrix:
       env:
         - JCMS_TEST=race
 
-install: true
+install:
+  - python build.py
 
 script:
   - python check.py
