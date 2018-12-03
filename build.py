@@ -49,8 +49,10 @@ if not "--all" in sys.argv:
 				sys.exit(1)
 		BUILDS = {n: l}
 
-_call("rm -rf build")
-_call("mkdir build")
+if os.system("rm -rf build") != 0:
+	_exit(1)
+if os.system("mkdir build") != 0:
+	_exit(1)
 
 _call("go vet ./...")
 
