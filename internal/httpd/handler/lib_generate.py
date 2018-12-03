@@ -2,6 +2,7 @@
 
 import os
 import sys
+import md5
 from base64 import b64encode
 from time import asctime, gmtime
 from subprocess import check_output
@@ -27,10 +28,6 @@ def _call(cmd):
 	if rc != 0:
 		_exit(rc)
 
-def _update():
-	_call("wget -nv -c -O lib/w3.js %s" % W3JS)
-	_call("wget -nv -c -O lib/w3.css %s" % W3CSS)
-
 _cwd = os.getcwd()
 
 def _path(fn):
@@ -41,7 +38,35 @@ def _load(fn):
 	with open(fn, "r") as fh:
 		return b64encode(fh.read())
 
+def _md5(s):
+	m = md5.new()
+	m.update(s)
+	return m.hexdigest()
+
+def _genDone():
+	check = (
+		"lib_files.go.in",
+		"lib/w3.js",
+		"lib/w3.css",
+	)
+	s = ""
+	for fn in check:
+		with open(fn, "r") as fh:
+			s = "%s%s %s " % (s, _md5(fh.read()), fn)
+			fh.close()
+	x = _md5(s)
+	_call("echo done >.gen.%s" % x)
+	_call("echo %s >.gen.done" % x)
+
+def _checkDone():
+	if not os.path.isfile(".gen.done"):
+		return False
+	with open(".gen.done", "r") as fh:
+		return os.path.isfile(".gen.%s" % fh.readline().strip())
+
 def _gen():
+	if _checkDone():
+		return
 	dst = _path("lib_files.go")
 	_print("generate %s" % dst)
 	with open(_path("lib_files.go.in"), "r") as src:
@@ -53,9 +78,11 @@ def _gen():
 			fh.write(s)
 			fh.close()
 		src.close()
+	_genDone()
 
 if "--update" in sys.argv:
-	_update()
+	_call("wget -nv -c -O lib/w3.js %s" % W3JS)
+	_call("wget -nv -c -O lib/w3.css %s" % W3CSS)
 
 _gen()
 _exit(0)
