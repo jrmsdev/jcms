@@ -136,6 +136,7 @@ def coverr (pkg):
 
 if __name__ == '__main__':
     global INDEX_FH
+    check_call(['go', 'generate', './...'])
     os.makedirs (DOCROOT, exist_ok = True)
     INDEX_FH = open (INDEX_FN, 'w')
     print (HTML_HEAD, file = INDEX_FH)
