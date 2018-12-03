@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 srcdir=`pwd`
-mainsrc=./internal/cmd/jcms-devel
+mainsrc=./internal/cmd/_devel
 develcmd=./build/jcms-devel.bin
 go install -i .
 mkdir -p build
