@@ -32,6 +32,7 @@ before_build:
   - export JCMS_BUILDNAME=jcms-${JCMS_VERSION}-build${APPVEYOR_BUILD_NUMBER}
 
 build_script:
+  - go generate ./...
   - python build.py
 
 after_build:

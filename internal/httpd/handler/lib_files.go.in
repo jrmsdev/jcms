@@ -1,0 +1,10 @@
+// Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
+// See LICENSE file.
+
+// generated on [[GEN_DATE]]
+
+package handler
+
+var libFiles = map[string]string{
+	"lib/w3.js": "[[LIB_W3JS]]",
+}

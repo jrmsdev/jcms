@@ -1,6 +1,8 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
+//go:generate python lib_generate.py
+
 package handler
 
 import (
@@ -29,8 +31,4 @@ func (s *libServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "file not found", http.StatusNotFound)
 	}
-}
-
-var libFiles = map[string]string{
-	"lib/w3.js": "testing",
 }
