@@ -4,6 +4,10 @@
 package check
 
 import (
+	"crypto/md5"
+	"fmt"
+	"io"
+	"os"
 	"regexp"
 	"testing"
 )
@@ -38,4 +42,21 @@ func NotMatch(t *testing.T, pat, s, errmsg string) bool {
 	}
 	t.Logf("%s: '%s' not match '%s'", errmsg, s, pat)
 	return true
+}
+
+func NotFileChecksum(t *testing.T, got []byte, fn string) bool {
+	t.Helper()
+	fh, err := os.Open(fn)
+	if err != nil {
+		t.Fatalf("%s: %s", fn, err.Error())
+		return true
+	}
+	defer fh.Close()
+	h := md5.New()
+	if _, err := io.Copy(h, fh); err != nil {
+		t.Fatalf("%s: %s", fn, err.Error())
+		return true
+	}
+	return NotEqual(t, fmt.Sprintf("%x", md5.Sum(got)),
+		fmt.Sprintf("%x", h.Sum(nil)), "checksum "+fn)
 }

@@ -18,7 +18,7 @@ func Client(t *testing.T) *TestClient {
 	return &TestClient{t, cli}
 }
 
-func (c *TestClient) Get(p string) *TestResponse {
+func (c *TestClient) Get(p string) *Response {
 	c.t.Helper()
 	resp, err := c.cli.Get(p)
 	if err != nil {
