@@ -36,7 +36,8 @@ _cwd = os.getcwd()
 def _path(fn):
 	return os.path.join(_cwd, fn)
 
-def _read(fn):
+def _load(fn):
+	_print("    load %s" % fn)
 	with open(fn, "r") as fh:
 		return b64encode(fh.read())
 
@@ -46,13 +47,12 @@ def _gen():
 	with open(_path("lib_files.go.in"), "r") as src:
 		with open(dst, "w") as fh:
 			s = src.read().\
-				replace("[[LIB_W3JS]]", _read("lib/w3.js"), 1).\
-				replace("[[LIB_W3CSS]]", _read("lib/w3.css"), 1).\
+				replace("[[LIB_W3JS]]", _load("lib/w3.js"), 1).\
+				replace("[[LIB_W3CSS]]", _load("lib/w3.css"), 1).\
 				replace("[[GEN_DATE]]", _now(), 1)
 			fh.write(s)
 			fh.close()
 		src.close()
-	_print("%s done!" % dst)
 
 if "--update" in sys.argv:
 	_update()
