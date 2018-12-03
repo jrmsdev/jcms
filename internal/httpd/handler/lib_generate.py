@@ -2,6 +2,7 @@
 
 import os
 import sys
+from base64 import b64encode
 from time import asctime, gmtime
 from subprocess import check_output
 
@@ -36,10 +37,8 @@ def _path(fn):
 	return os.path.join(_cwd, fn)
 
 def _read(fn):
-	fn = _path(fn)
-	_print("load %s" % fn)
-	cmd = "base64 -w 0 %s" % fn
-	return check_output(cmd.split())
+	with open(fn, "r") as fh:
+		return b64encode(fh.read())
 
 def _gen():
 	dst = _path("lib_files.go")
