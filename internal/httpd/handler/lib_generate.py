@@ -55,8 +55,10 @@ def _genDone():
 			s = "%s%s %s " % (s, _md5(fh.read()), fn)
 			fh.close()
 	x = _md5(s)
-	_call("echo done >.gen.%s" % x)
-	_call("echo %s >.gen.done" % x)
+	if os.system("echo done >.gen.%s" % x) != 0:
+		_exit(1)
+	if os.system("echo %s >.gen.done" % x) != 0:
+		_exit(1)
 
 def _checkDone():
 	if not os.path.isfile(".gen.done"):
@@ -81,6 +83,8 @@ def _gen():
 	_genDone()
 
 if "--update" in sys.argv:
+	if os.system("rm -f .gen.*") != 0:
+		_exit(1)
 	_call("wget -nv -c -O lib/w3.js %s" % W3JS)
 	_call("wget -nv -c -O lib/w3.css %s" % W3CSS)
 
