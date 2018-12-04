@@ -7,7 +7,6 @@ import (
 	"encoding/base64"
 	"mime"
 	"net/http"
-	"os"
 	"path"
 	"strings"
 
@@ -33,28 +32,6 @@ func handlersSetup(r *mux.Router, cfg *config.Config) {
 		log.D("handlerSetup %s", n)
 		f(r)
 	}
-}
-
-// struct to serve static files common to static and view handlers
-
-type staticFile struct {
-	assets.File
-	name string
-}
-
-func newFile(fn string, fh assets.File) http.File {
-	log.D("newFile %s", fn)
-	return &staticFile{fh, fn}
-}
-
-func (f *staticFile) Readdir(count int) ([]os.FileInfo, error) {
-	log.D("Readdir %s", f.name)
-	return []os.FileInfo{}, nil
-}
-
-func (f *staticFile) Stat() (os.FileInfo, error) {
-	log.D("Stat %s", f.name)
-	return assets.Stat(f.name)
 }
 
 // struct to serve static files

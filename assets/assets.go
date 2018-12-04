@@ -4,20 +4,10 @@
 package assets
 
 import (
-	"io"
-	"os"
-
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
-type File interface {
-	io.ReadSeeker
-	io.Closer
-}
-
 type Manager interface {
-	Open(relname string) (File, error)
-	Stat(relname string) (os.FileInfo, error)
 	ReadFile(relname string) ([]byte, error)
 }
 
@@ -34,15 +24,4 @@ func SetManager(m Manager) {
 func ReadFile(relname string) ([]byte, error) {
 	log.D("ReadFile: %s", relname)
 	return manager.ReadFile(relname)
-}
-
-func Open(relname string) (File, error) {
-	log.D("Open: %s", relname)
-	log.Printf("asset open: %s", relname)
-	return manager.Open(relname)
-}
-
-func Stat(relname string) (os.FileInfo, error) {
-	log.D("Stat: %s", relname)
-	return manager.Stat(relname)
 }
