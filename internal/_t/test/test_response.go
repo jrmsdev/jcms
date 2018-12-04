@@ -99,6 +99,7 @@ func (r *Response) ContentType(typ string) {
 }
 
 func (r *Response) Check(status int, ctyp string) {
+	r.t.Helper()
 	r.Status(status)
 	t := ctyp
 	if strings.HasPrefix(t, "text/") {
