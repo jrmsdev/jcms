@@ -35,13 +35,13 @@ func (s *viewServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.D("filepath %s", fp)
 	blob, err := assets.ReadFile(fp)
 	if err != nil {
-		log.E("view handler %s: %s", rp, err)
+		log.E("view handler %s: %s", fp, err)
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	if n, err := io.WriteString(w, string(blob)); err != nil {
-		log.E("view handler write %s: %s", rp, err)
+		log.E("view handler write %s: %s", fp, err)
 	} else {
-		log.Printf("sent: %s %d bytes", rp, n)
+		log.Printf("sent: %s %d bytes", fp, n)
 	}
 }
