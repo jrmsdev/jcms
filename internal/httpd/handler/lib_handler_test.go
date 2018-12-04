@@ -12,23 +12,20 @@ import (
 func TestLibNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/notfound.js")
-	r.Status(404)
+	r.Check(404, "text/plain")
 	r.Body("/_lib/notfound.js: not found")
-	r.ContentType("text/plain; charset=utf-8")
 }
 
 func TestLibW3JS(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/w3.js")
-	r.Status(200)
+	r.Check(200, "application/javascript")
 	r.BodyChecksumMatch("lib/w3.js")
-	r.ContentType("application/javascript")
 }
 
 func TestLibW3CSS(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/w3.css")
-	r.Status(200)
+	r.Check(200, "text/css")
 	r.BodyChecksumMatch("lib/w3.css")
-	r.ContentType("text/css; charset=utf-8")
 }

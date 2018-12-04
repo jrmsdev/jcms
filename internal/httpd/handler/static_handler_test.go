@@ -12,7 +12,7 @@ import (
 func TestStatic(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/test.txt")
-	r.Status(200)
+	r.Check(200, "text/plain")
 	r.StatusInfo("200 OK")
 	r.Body("testing")
 }
@@ -20,7 +20,7 @@ func TestStatic(t *testing.T) {
 func TestStaticNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/notfound.txt")
-	r.Status(404)
+	r.Check(404, "text/plain")
 	r.StatusInfo("404 Not Found")
 	r.Body("/static/notfound.txt: not found")
 }
@@ -28,7 +28,6 @@ func TestStaticNotFound(t *testing.T) {
 func TestStaticGetDir(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/testdir/")
-	r.Status(404)
-	r.StatusInfo("404 Not Found")
+	r.Check(404, "text/plain")
 	r.Body("/static/testdir: not found")
 }

@@ -97,3 +97,12 @@ func (r *Response) ContentType(typ string) {
 	r.t.Helper()
 	r.Header("content-type", typ)
 }
+
+func (r *Response) Check(status int, ctyp string) {
+	r.Status(status)
+	t := ctyp
+	if strings.HasPrefix(t, "text/") {
+		t = fmt.Sprintf("%s; charset=utf-8", t)
+	}
+	r.ContentType(t)
+}
