@@ -6,7 +6,6 @@ package handler_test
 import (
 	"testing"
 
-	"github.com/jrmsdev/jcms/internal/_t/check"
 	"github.com/jrmsdev/jcms/internal/_t/test"
 )
 
@@ -20,28 +19,26 @@ func TestViewIndex(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/index.html")
 	r.Status(200)
-	if check.NotFileChecksum(t, r.ReadBody(),
-		"testdata/assets/testing/view/index.html") {
-		t.FailNow()
-	}
+	r.BodyChecksumMatch("testdata/assets/testing/view/index.html")
 }
 
 func TestViewIndexSlash(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/")
 	r.Status(200)
-	if check.NotFileChecksum(t, r.ReadBody(),
-		"testdata/assets/testing/view/index.html") {
-		t.FailNow()
-	}
+	r.BodyChecksumMatch("testdata/assets/testing/view/index.html")
 }
 
 func TestViewIndexEmpty(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("")
 	r.Status(200)
-	if check.NotFileChecksum(t, r.ReadBody(),
-		"testdata/assets/testing/view/index.html") {
-		t.FailNow()
-	}
+	r.BodyChecksumMatch("testdata/assets/testing/view/index.html")
+}
+
+func TestViewNoSlash(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/testing")
+	r.Status(200)
+	r.BodyChecksumMatch("testdata/assets/testing/view/testing/index.html")
 }

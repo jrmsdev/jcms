@@ -77,3 +77,9 @@ func (r *Response) BodyMatch(pat string) {
 		r.t.Fatalf("'%s' not match body '%s'", pat, body)
 	}
 }
+
+func (r *Response) BodyChecksumMatch(fn string) {
+	if check.NotFileChecksum(r.t, r.ReadBody(), fn) {
+		r.t.FailNow()
+	}
+}

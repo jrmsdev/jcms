@@ -26,7 +26,13 @@ func TestStaticNotFound(t *testing.T) {
 
 func TestStaticGetDir(t *testing.T) {
 	c := test.Client(t)
-	r := c.Get("/static/testdir")
+	r := c.Get("/static/testdir/")
 	r.Status(200)
 	r.BodyMatch("(?s)^<pre>.</pre>$")
+}
+
+func TestStaticSlashRedirect(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/static/testdir")
+	r.Status(301)
 }

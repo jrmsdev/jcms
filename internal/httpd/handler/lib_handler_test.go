@@ -6,7 +6,6 @@ package handler_test
 import (
 	"testing"
 
-	"github.com/jrmsdev/jcms/internal/_t/check"
 	"github.com/jrmsdev/jcms/internal/_t/test"
 )
 
@@ -20,16 +19,12 @@ func TestLibW3JS(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/w3.js")
 	r.Status(200)
-	if check.NotFileChecksum(t, r.ReadBody(), "lib/w3.js") {
-		t.FailNow()
-	}
+	r.BodyChecksumMatch("lib/w3.js")
 }
 
 func TestLibW3CSS(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/w3.css")
 	r.Status(200)
-	if check.NotFileChecksum(t, r.ReadBody(), "lib/w3.css") {
-		t.FailNow()
-	}
+	r.BodyChecksumMatch("lib/w3.css")
 }
