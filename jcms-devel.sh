@@ -2,6 +2,7 @@
 srcdir=`pwd`
 mainsrc=./internal/cmd/_devel
 develcmd=./build/jcms-devel.bin
+go generate ./...
 go install -i .
 mkdir -p build
 rm -f $develcmd
