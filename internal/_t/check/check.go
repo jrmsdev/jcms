@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"regexp"
 	"testing"
 )
@@ -46,7 +47,7 @@ func NotMatch(t *testing.T, pat, s, errmsg string) bool {
 
 func NotFileChecksum(t *testing.T, got []byte, fn string) bool {
 	t.Helper()
-	fh, err := os.Open(fn)
+	fh, err := os.Open(filepath.FromSlash(fn))
 	if err != nil {
 		t.Fatalf("%s: %s", fn, err.Error())
 		return true

@@ -17,10 +17,11 @@ import (
 type Response struct {
 	t    *testing.T
 	orig *http.Response
+	body []byte
 }
 
 func newResponse(t *testing.T, r *http.Response) *Response {
-	return &Response{t, r}
+	return &Response{t: t, orig: r}
 }
 
 func (r *Response) String() string {
@@ -42,13 +43,16 @@ func (r *Response) StatusInfo(expect string) {
 }
 
 func (r *Response) ReadBody() []byte {
+	var err error
 	r.t.Helper()
-	body, err := ioutil.ReadAll(r.orig.Body)
-	if err != nil {
-		r.t.Fatal(err)
+	if r.body == nil {
+		r.body, err = ioutil.ReadAll(r.orig.Body)
+		if err != nil {
+			r.t.Fatal(err)
+		}
+		r.orig.Body.Close()
 	}
-	r.orig.Body.Close()
-	return body
+	return r.body
 }
 
 func (r *Response) getBody() string {

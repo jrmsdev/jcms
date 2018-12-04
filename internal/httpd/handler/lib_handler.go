@@ -35,7 +35,11 @@ func (s *libServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		io.WriteString(w, string(body))
+		if n, err := io.WriteString(w, string(body)); err != nil {
+			log.E("lib handler write %s: %s", fn, err)
+		} else {
+			log.Printf("sent: %s %d bytes", fn, n)
+		}
 	} else {
 		http.Error(w, "file not found", http.StatusNotFound)
 	}

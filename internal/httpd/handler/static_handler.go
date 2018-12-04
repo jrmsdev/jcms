@@ -42,23 +42,3 @@ func (fs staticFS) Open(name string) (http.File, error) {
 	}
 	return newFile(fn, fh), nil
 }
-
-type staticFile struct {
-	assets.File
-	name string
-}
-
-func newFile(fn string, fh assets.File) http.File {
-	log.D("newFile %s", fn)
-	return &staticFile{fh, fn}
-}
-
-func (f *staticFile) Readdir(count int) ([]os.FileInfo, error) {
-	log.D("Readdir %s", f.name)
-	return []os.FileInfo{}, nil
-}
-
-func (f *staticFile) Stat() (os.FileInfo, error) {
-	log.D("Stat %s", f.name)
-	return assets.Stat(f.name)
-}

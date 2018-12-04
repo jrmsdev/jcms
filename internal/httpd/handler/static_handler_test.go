@@ -17,14 +17,14 @@ func TestStatic(t *testing.T) {
 	r.Body("testing")
 }
 
-func TestNotFound(t *testing.T) {
+func TestStaticNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/notfound.txt")
 	r.Status(404)
 	r.StatusInfo("404 Not Found")
 }
 
-func TestGetDir(t *testing.T) {
+func TestStaticGetDir(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/testdir")
 	r.Status(200)
