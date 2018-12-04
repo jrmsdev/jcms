@@ -34,10 +34,8 @@ func Main(m *testing.M, name string) {
 }
 
 func Config(name string) *config.Config {
-	srcdir := filepath.Join(os.Getenv("GOPATH"), "src")
 	cfg := config.New(name)
-	cfg.Basedir = filepath.Join(srcdir,
-		"github.com", "jrmsdev", "jcms", "testdata", "assets")
+	cfg.Basedir = filepath.FromSlash("./testdata/assets")
 	return cfg
 }
 
