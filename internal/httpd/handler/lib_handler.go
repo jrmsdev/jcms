@@ -20,8 +20,7 @@ func setupLib(r *mux.Router) {
 	r.PathPrefix("/_/lib/").Handler(http.StripPrefix("/_/", &libServer{}))
 }
 
-type libServer struct {
-}
+type libServer struct{}
 
 func (s *libServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fn := r.URL.String()
