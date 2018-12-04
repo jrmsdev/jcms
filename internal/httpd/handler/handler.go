@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/log"
@@ -59,32 +60,40 @@ func (f *staticFile) Stat() (os.FileInfo, error) {
 // struct to serve static files
 
 type fileServer struct {
-	typ     string
-	basedir string
+	typ string
 }
 
-func newFileServer(typ, basedir string) *fileServer {
-	return &fileServer{typ, basedir}
+func newFileServer(typ string) *fileServer {
+	return &fileServer{typ}
 }
 
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	rp := r.URL.String()
-	fp := filepath.FromSlash(path.Join(s.basedir, rp))
-	if s.typ == "html" {
+	rp := r.URL.Path
+	if rp == "" {
+		rp = "/"
+	}
+	fp := filepath.FromSlash(path.Join("/", s.typ, rp))
+	if s.typ == "view" {
 		if rp != "index.html" {
 			fp = filepath.Join(fp, "index.html")
 		}
+	} else {
+		if strings.HasSuffix(fp, ".html") {
+			log.D("denied .html access")
+			http.Error(w, "invalid request", http.StatusBadRequest)
+			return
+		}
 	}
-	log.D("ServeHTTP '%s'", rp)
-	log.D("filepath '%s'", fp)
+	log.D("ServeHTTP %s", rp)
+	log.D("filepath %s", fp)
 	blob, err := assets.ReadFile(fp)
 	if err != nil {
-		log.E("serve file %s: %s", fp, err)
-		http.Error(w, err.Error(), http.StatusNotFound)
+		log.E("file serve %s: %s", rp, err)
+		http.Error(w, fp+": not found", http.StatusNotFound)
 		return
 	}
 	if n, err := io.WriteString(w, string(blob)); err != nil {
-		log.E("serve file write %s: %s", fp, err)
+		log.E("file serve write %s: %s", rp, err)
 	} else {
 		log.Printf("sent: %s %d bytes", fp, n)
 	}

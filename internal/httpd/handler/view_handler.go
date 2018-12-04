@@ -13,8 +13,8 @@ import (
 
 func setupView(r *mux.Router) {
 	log.D("setupView")
-	if r.Get("index") == nil {
+	if r.Get("view") == nil {
 		r.PathPrefix("/").Handler(http.StripPrefix("/",
-			newFileServer("html", "view"))).Name("index")
+			newFileServer("view"))).Name("view")
 	}
 }
