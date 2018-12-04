@@ -35,4 +35,5 @@ func TestStaticSlashRedirect(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/testdir")
 	r.Status(301)
+	r.Header("location", "testdir/")
 }

@@ -42,6 +42,13 @@ func (r *Response) StatusInfo(expect string) {
 	}
 }
 
+func (r *Response) Header(k, expect string) {
+	if check.NotEqual(r.t, r.orig.Header.Get(k),
+		expect, "response header "+k) {
+		r.t.FailNow()
+	}
+}
+
 func (r *Response) ReadBody() []byte {
 	var err error
 	r.t.Helper()
