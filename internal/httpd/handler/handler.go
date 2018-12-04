@@ -5,7 +5,6 @@ package handler
 
 import (
 	"encoding/base64"
-	"io"
 	"mime"
 	"net/http"
 	"os"
@@ -73,14 +72,10 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		body []byte
 		err  error
 	)
-	rp := r.URL.Path
-	if rp == "" {
-		rp = "/"
-	}
-	fp := path.Join("/", s.typ, rp)
+	fp := path.Join(s.typ, r.URL.Path)
 	log.D("ServeHTTP %s", fp)
 	if s.typ == "view" {
-		if rp != "index.html" {
+		if path.Ext(fp) != ".html" {
 			fp = path.Join(fp, "index.html")
 		}
 	} else {
@@ -115,7 +110,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	s.setHeaders(w, fp)
-	if n, err := io.WriteString(w, string(body)); err != nil {
+	if n, err := w.Write(body); err != nil {
 		log.E("file serve write %s: %s", fp, err)
 	} else {
 		log.Printf("sent: %s %d bytes", fp, n)
