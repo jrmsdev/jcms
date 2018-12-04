@@ -13,6 +13,7 @@ import (
 
 func libHandlerSetup(r *mux.Router) {
 	log.D("libHandlerSetup")
-	r.PathPrefix("/_/lib/").Handler(http.StripPrefix("/_/lib/",
-		http.FileServer(http.Dir("internal/httpd/handler/lib"))))
+	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
+		http.FileServer(http.Dir("internal/httpd/handler/lib")))).
+		Name("_lib")
 }

@@ -12,13 +12,13 @@ import (
 
 func TestLibNotFound(t *testing.T) {
 	c := test.Client(t)
-	r := c.Get("/_/lib/notfound.js")
+	r := c.Get("/_lib/notfound.js")
 	r.Status(404)
 }
 
 func TestW3JS(t *testing.T) {
 	c := test.Client(t)
-	r := c.Get("/_/lib/w3.js")
+	r := c.Get("/_lib/w3.js")
 	r.Status(200)
 	if check.NotFileChecksum(t, r.ReadBody(), "lib/w3.js") {
 		t.FailNow()
@@ -27,7 +27,7 @@ func TestW3JS(t *testing.T) {
 
 func TestW3CSS(t *testing.T) {
 	c := test.Client(t)
-	r := c.Get("/_/lib/w3.css")
+	r := c.Get("/_lib/w3.css")
 	r.Status(200)
 	if check.NotFileChecksum(t, r.ReadBody(), "lib/w3.css") {
 		t.FailNow()
