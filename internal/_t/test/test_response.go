@@ -43,6 +43,7 @@ func (r *Response) StatusInfo(expect string) {
 }
 
 func (r *Response) Header(k, expect string) {
+	r.t.Helper()
 	if check.NotEqual(r.t, r.orig.Header.Get(k),
 		expect, "response header "+k) {
 		r.t.FailNow()
@@ -86,7 +87,13 @@ func (r *Response) BodyMatch(pat string) {
 }
 
 func (r *Response) BodyChecksumMatch(fn string) {
+	r.t.Helper()
 	if check.NotFileChecksum(r.t, r.ReadBody(), fn) {
 		r.t.FailNow()
 	}
+}
+
+func (r *Response) ContentType(typ string) {
+	r.t.Helper()
+	r.Header("content-type", fmt.Sprintf("%s; charset=utf-8", typ))
 }

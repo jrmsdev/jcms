@@ -114,9 +114,20 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	s.setHeaders(w, fp)
 	if n, err := io.WriteString(w, string(body)); err != nil {
 		log.E("file serve write %s: %s", fp, err)
 	} else {
 		log.Printf("sent: %s %d bytes", fp, n)
+	}
+}
+
+func (s *fileServer) setHeaders(w http.ResponseWriter, fp string) {
+	log.D("file server setHeaders %s", fp)
+	h := w.Header()
+	if strings.HasSuffix(fp, ".js") {
+		h.Set("Content-Type", "application/x-javascript; charset=utf-8")
+	} else if strings.HasSuffix(fp, ".css") {
+		h.Set("Content-Type", "text/css; charset=utf-8")
 	}
 }
