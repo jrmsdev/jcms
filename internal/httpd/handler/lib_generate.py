@@ -5,6 +5,7 @@ import sys
 import md5
 from base64 import b64encode
 from time import asctime, gmtime
+from glob import glob
 from subprocess import check_output
 
 W3JS = "https://www.w3schools.com/lib/w3.js"
@@ -29,6 +30,7 @@ def _call(cmd):
 		_exit(rc)
 
 _cwd = os.getcwd()
+_libfiles = glob("lib/*.*")
 
 def _path(fn):
 	return os.path.join(_cwd, fn)
@@ -44,11 +46,8 @@ def _md5(s):
 	return m.hexdigest()
 
 def _genDone():
-	check = (
-		"lib_files.go.in",
-		"lib/w3.js",
-		"lib/w3.css",
-	)
+	check = ["lib_files.go.in", "lib_files.go"]
+	check.extend(_libfiles)
 	s = ""
 	for fn in check:
 		with open(fn, "r") as fh:
@@ -66,6 +65,12 @@ def _checkDone():
 	with open(".gen.done", "r") as fh:
 		return os.path.isfile(".gen.%s" % fh.readline().strip())
 
+def _genFiles(fh):
+	fh.write("var libFiles = map[string]string{\n")
+	for fn in sorted(_libfiles):
+		fh.write('\t"%s": "%s",\n' % (fn, _load(fn)))
+	fh.write("}\n")
+
 def _gen():
 	if _checkDone():
 		return
@@ -73,11 +78,16 @@ def _gen():
 	_print("generate %s" % dst)
 	with open(_path("lib_files.go.in"), "r") as src:
 		with open(dst, "w") as fh:
-			s = src.read().\
-				replace("[[LIB_W3JS]]", _load("lib/w3.js"), 1).\
-				replace("[[LIB_W3CSS]]", _load("lib/w3.css"), 1).\
-				replace("[[GEN_DATE]]", _now(), 1)
-			fh.write(s)
+			for l in src.readlines():
+				l = l.rstrip()
+				if l.startswith("// generated on"):
+					s = "%s\n" % l.replace("[[GEN_DATE]]", _now(), 1)
+					fh.write(s)
+				elif l.startswith("var libFiles ="):
+					_genFiles(fh)
+				else:
+					fh.write("%s\n" % l)
+			fh.flush()
 			fh.close()
 		src.close()
 	_genDone()
