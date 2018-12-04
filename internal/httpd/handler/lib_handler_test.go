@@ -14,7 +14,7 @@ func TestLibNotFound(t *testing.T) {
 	r := c.Get("/_lib/notfound.js")
 	r.Status(404)
 	r.Body("/_lib/notfound.js: not found")
-	r.ContentType("text/plain")
+	r.ContentType("text/plain; charset=utf-8")
 }
 
 func TestLibW3JS(t *testing.T) {
@@ -22,7 +22,7 @@ func TestLibW3JS(t *testing.T) {
 	r := c.Get("/_lib/w3.js")
 	r.Status(200)
 	r.BodyChecksumMatch("lib/w3.js")
-	r.ContentType("application/x-javascript")
+	r.ContentType("application/javascript")
 }
 
 func TestLibW3CSS(t *testing.T) {
@@ -30,5 +30,5 @@ func TestLibW3CSS(t *testing.T) {
 	r := c.Get("/_lib/w3.css")
 	r.Status(200)
 	r.BodyChecksumMatch("lib/w3.css")
-	r.ContentType("text/css")
+	r.ContentType("text/css; charset=utf-8")
 }

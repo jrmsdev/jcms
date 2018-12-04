@@ -6,10 +6,10 @@ package handler
 import (
 	"encoding/base64"
 	"io"
+	"mime"
 	"net/http"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
 
 	"github.com/jrmsdev/jcms/assets"
@@ -81,7 +81,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.D("ServeHTTP %s", fp)
 	if s.typ == "view" {
 		if rp != "index.html" {
-			fp = filepath.Join(fp, "index.html")
+			fp = path.Join(fp, "index.html")
 		}
 	} else {
 		if strings.HasSuffix(fp, ".html") {
@@ -125,9 +125,10 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (s *fileServer) setHeaders(w http.ResponseWriter, fp string) {
 	log.D("file server setHeaders %s", fp)
 	h := w.Header()
-	if strings.HasSuffix(fp, ".js") {
-		h.Set("Content-Type", "application/x-javascript; charset=utf-8")
-	} else if strings.HasSuffix(fp, ".css") {
-		h.Set("Content-Type", "text/css; charset=utf-8")
+	typ := mime.TypeByExtension(path.Ext(fp))
+	if typ == "" {
+		h.Set("Content-Type", "application/octet-stream")
+	} else {
+		h.Set("Content-Type", typ)
 	}
 }

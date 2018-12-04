@@ -95,5 +95,5 @@ func (r *Response) BodyChecksumMatch(fn string) {
 
 func (r *Response) ContentType(typ string) {
 	r.t.Helper()
-	r.Header("content-type", fmt.Sprintf("%s; charset=utf-8", typ))
+	r.Header("content-type", typ)
 }
