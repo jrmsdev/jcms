@@ -13,6 +13,7 @@ func TestLibNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/notfound.js")
 	r.Status(404)
+	r.Body("/_lib/notfound.js: not found")
 }
 
 func TestLibW3JS(t *testing.T) {

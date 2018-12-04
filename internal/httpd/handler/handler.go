@@ -4,6 +4,7 @@
 package handler
 
 import (
+	"encoding/base64"
 	"io"
 	"net/http"
 	"os"
@@ -68,11 +69,16 @@ func newFileServer(typ string) *fileServer {
 }
 
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	var (
+		body []byte
+		err  error
+	)
 	rp := r.URL.Path
 	if rp == "" {
 		rp = "/"
 	}
-	fp := filepath.FromSlash(path.Join("/", s.typ, rp))
+	fp := path.Join("/", s.typ, rp)
+	log.D("ServeHTTP %s", fp)
 	if s.typ == "view" {
 		if rp != "index.html" {
 			fp = filepath.Join(fp, "index.html")
@@ -80,20 +86,36 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		if strings.HasSuffix(fp, ".html") {
 			log.D("denied .html access")
-			http.Error(w, "invalid request", http.StatusBadRequest)
+			http.Error(w, fp+": invalid request",
+				http.StatusBadRequest)
 			return
 		}
 	}
-	log.D("ServeHTTP %s", rp)
-	log.D("filepath %s", fp)
-	blob, err := assets.ReadFile(fp)
-	if err != nil {
-		log.E("file serve %s: %s", rp, err)
-		http.Error(w, fp+": not found", http.StatusNotFound)
-		return
+	if s.typ == "_lib" {
+		encBody, found := libFiles[fp]
+		if found {
+			body, err = base64.StdEncoding.DecodeString(encBody)
+			if err != nil {
+				log.E("lib file serve %s: %s", fp, err)
+				http.Error(w, fp+": "+err.Error(),
+					http.StatusInternalServerError)
+				return
+			}
+		} else {
+			log.E("%s: not found", fp)
+			http.Error(w, fp+": not found", http.StatusNotFound)
+			return
+		}
+	} else {
+		body, err = assets.ReadFile(fp)
+		if err != nil {
+			log.E("file serve %s: %s", fp, err)
+			http.Error(w, fp+": not found", http.StatusNotFound)
+			return
+		}
 	}
-	if n, err := io.WriteString(w, string(blob)); err != nil {
-		log.E("file serve write %s: %s", rp, err)
+	if n, err := io.WriteString(w, string(body)); err != nil {
+		log.E("file serve write %s: %s", fp, err)
 	} else {
 		log.Printf("sent: %s %d bytes", fp, n)
 	}

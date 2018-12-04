@@ -69,7 +69,7 @@ def _genFiles(fh):
 	fh.write("var libFiles = map[string]string{\n")
 	for fn in sorted(_libfiles):
 		fn = "/".join(os.path.split(fn))
-		fh.write('\t"%s": "%s",\n' % (fn, _load(fn)))
+		fh.write('\t"/_%s": "%s",\n' % (fn, _load(fn)))
 	fh.write("}\n")
 
 def _gen():
