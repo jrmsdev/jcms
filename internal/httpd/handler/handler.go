@@ -49,23 +49,24 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		body []byte
 		err  error
 	)
-	rp := r.URL.Path
-	fp := path.Join(s.typ, rp)
+	fp := path.Join(s.typ, r.URL.Path)
 	log.D("ServeHTTP %s", fp)
+	rp := path.Join("/", fp)
 	// pre checks
 	if s.typ == "view" {
+		rp = path.Join("/", r.URL.Path)
 		if x := path.Ext(fp); x == "" {
 			fp = path.Join(fp, "index.html")
 		} else if x != ".html" {
 			log.Printf("view redirect static: %s", fp)
-			http.Redirect(w, r, path.Join("static", rp),
+			http.Redirect(w, r, path.Join("/", "static", rp),
 				http.StatusMovedPermanently)
 			return
 		}
 	} else {
 		if strings.HasSuffix(fp, ".html") {
 			log.D("denied .html access")
-			http.Error(w, fp+": invalid request",
+			http.Error(w, rp+": invalid request",
 				http.StatusBadRequest)
 			return
 		}
@@ -78,21 +79,21 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			body, err = base64.StdEncoding.DecodeString(encBody)
 			if err != nil {
 				log.E("lib file serve %s: %s", fp, err)
-				http.Error(w, fp+": base64 error",
+				http.Error(w, rp+": base64 error",
 					http.StatusInternalServerError)
 				return
 			}
 		} else {
 			log.E("%s: not found", fp)
-			http.Error(w, fp+": not found", http.StatusNotFound)
+			http.Error(w, rp+": not found", http.StatusNotFound)
 			return
 		}
 	} else {
-		// asset files
+		// asset files (static and view)
 		body, err = assets.ReadFile(fp)
 		if err != nil {
 			log.E("file serve %s: %s", fp, err)
-			http.Error(w, fp+": not found", http.StatusNotFound)
+			http.Error(w, rp+": not found", http.StatusNotFound)
 			return
 		}
 	}

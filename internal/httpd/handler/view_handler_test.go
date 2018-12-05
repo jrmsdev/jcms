@@ -42,3 +42,10 @@ func TestViewNoSlash(t *testing.T) {
 	r.Check(200, "text/html")
 	r.BodyChecksumMatch("testdata/assets/testing/view/testing/index.html")
 }
+
+func TestViewStaticRedirect(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/static.ext")
+	r.Check(301, "text/html")
+	r.Header("location", "/static/static.ext")
+}
