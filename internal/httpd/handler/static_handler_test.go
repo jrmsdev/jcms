@@ -31,3 +31,10 @@ func TestStaticGetDir(t *testing.T) {
 	r.Check(404, "text/plain")
 	r.Body("static/testdir: not found")
 }
+
+func TestStaticHTMLFile(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/static/testdir/index.html")
+	r.Check(400, "text/plain")
+	r.Body("static/testdir/index.html: invalid request")
+}
