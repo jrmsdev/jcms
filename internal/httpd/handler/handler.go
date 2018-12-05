@@ -34,10 +34,6 @@ func handlersSetup(r *mux.Router, cfg *config.Config) {
 	}
 }
 
-func TestingMode() {
-	libFiles["_lib/testerror.base64"] = "ABC"
-}
-
 // struct to serve static files
 
 type fileServer struct {
@@ -55,6 +51,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	)
 	fp := path.Join(s.typ, r.URL.Path)
 	log.D("ServeHTTP %s", fp)
+	// pre checks
 	if s.typ == "view" {
 		if path.Ext(fp) != ".html" {
 			fp = path.Join(fp, "index.html")
@@ -67,7 +64,9 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	// get file content (body)
 	if s.typ == "_lib" {
+		// _lib files
 		encBody, found := libFiles[fp]
 		if found {
 			body, err = base64.StdEncoding.DecodeString(encBody)
@@ -83,6 +82,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else {
+		// asset files
 		body, err = assets.ReadFile(fp)
 		if err != nil {
 			log.E("file serve %s: %s", fp, err)
@@ -90,6 +90,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	// send file content
 	s.setHeaders(w, fp)
 	if n, err := w.Write(body); err != nil {
 		log.E("file serve write %s: %s", fp, err)
