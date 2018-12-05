@@ -5,8 +5,8 @@ package mime
 
 import (
 	"fmt"
-	"strings"
 	mimelib "mime"
+	"strings"
 )
 
 func TypeByExtension(x string) string {

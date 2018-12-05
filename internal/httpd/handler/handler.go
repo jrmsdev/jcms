@@ -49,15 +49,17 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		body []byte
 		err  error
 	)
-	fp := path.Join(s.typ, r.URL.Path)
+	rp := r.URL.Path
+	fp := path.Join(s.typ, rp)
 	log.D("ServeHTTP %s", fp)
 	// pre checks
 	if s.typ == "view" {
 		if x := path.Ext(fp); x == "" {
 			fp = path.Join(fp, "index.html")
 		} else if x != ".html" {
-			http.Error(w, fp+": invalid request",
-				http.StatusBadRequest)
+			log.Printf("view redirect static: %s", fp)
+			http.Redirect(w, r, path.Join("static", rp),
+				http.StatusMovedPermanently)
 			return
 		}
 	} else {
