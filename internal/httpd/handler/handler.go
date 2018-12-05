@@ -5,13 +5,13 @@ package handler
 
 import (
 	"encoding/base64"
-	"mime"
 	"net/http"
 	"path"
 	"strings"
 
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/log"
+	"github.com/jrmsdev/jcms/internal/mime"
 	"github.com/jrmsdev/jcms/webapp/config"
 
 	"github.com/gorilla/mux"

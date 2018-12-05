@@ -19,7 +19,7 @@ func TestLibNotFound(t *testing.T) {
 func TestLibW3JS(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/w3.js")
-	r.Check(200, "application/javascript")
+	r.Check(200, "application/javascript; charset=utf-8")
 	r.BodyChecksumMatch("lib/w3.js")
 }
 
