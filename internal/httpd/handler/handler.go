@@ -53,8 +53,12 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.D("ServeHTTP %s", fp)
 	// pre checks
 	if s.typ == "view" {
-		if path.Ext(fp) != ".html" {
+		if x := path.Ext(fp); x == "" {
 			fp = path.Join(fp, "index.html")
+		} else if x != ".html" {
+			http.Error(w, fp+": invalid request",
+				http.StatusBadRequest)
+			return
 		}
 	} else {
 		if strings.HasSuffix(fp, ".html") {
