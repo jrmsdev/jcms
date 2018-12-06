@@ -13,7 +13,7 @@ func TestLibNotFound(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/notfound.js")
 	r.Check(404, "text/plain")
-	r.Body("/_lib/notfound.js: not found")
+	r.Body("FileNotFound /_lib/notfound.js")
 }
 
 func TestLibW3JS(t *testing.T) {
@@ -34,5 +34,5 @@ func TestLibBase64Error(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/testerror.base64")
 	r.Check(500, "text/plain")
-	r.Body("/_lib/testerror.base64: base64 error")
+	r.BodyMatch("^IOError /_lib/testerror.base64: ")
 }

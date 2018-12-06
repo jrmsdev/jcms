@@ -4,12 +4,12 @@
 package handler
 
 import (
-	"encoding/base64"
 	"net/http"
 	"path"
 	"strings"
 
 	"github.com/jrmsdev/jcms/assets"
+	"github.com/jrmsdev/jcms/internal/errors"
 	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/internal/mime"
 	"github.com/jrmsdev/jcms/webapp/config"
@@ -48,6 +48,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var (
 		body []byte
 		err  error
+		errX errors.Error
 	)
 	fp := path.Join(s.typ, r.URL.Path)
 	log.D("ServeHTTP %s", fp)
@@ -73,19 +74,9 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	// get file content (body)
 	if s.typ == "_lib" {
-		// _lib files
-		encBody, found := libFiles[fp]
-		if found {
-			body, err = base64.StdEncoding.DecodeString(encBody)
-			if err != nil {
-				log.E("lib file serve %s: %s", fp, err)
-				http.Error(w, rp+": base64 error",
-					http.StatusInternalServerError)
-				return
-			}
-		} else {
-			log.E("%s: not found", fp)
-			http.Error(w, rp+": not found", http.StatusNotFound)
+		body, errX = libReadFile(fp)
+		if errX != nil {
+			errX.WriteResponse(w)
 			return
 		}
 	} else {
