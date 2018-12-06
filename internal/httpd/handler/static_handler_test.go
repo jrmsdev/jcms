@@ -22,14 +22,14 @@ func TestStaticNotFound(t *testing.T) {
 	r := c.Get("/static/notfound.txt")
 	r.Check(404, "text/plain")
 	r.StatusInfo("404 Not Found")
-	r.Body("/static/notfound.txt: not found")
+	r.Body("FileNotFound /static/notfound.txt")
 }
 
 func TestStaticGetDir(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/testdir/")
-	r.Check(404, "text/plain")
-	r.Body("/static/testdir: not found")
+	r.Check(400, "text/plain")
+	r.Body("InvalidRequest /static/testdir")
 }
 
 func TestStaticHTMLFile(t *testing.T) {

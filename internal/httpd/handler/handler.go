@@ -47,8 +47,7 @@ func newFileServer(typ string) *fileServer {
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var (
 		body []byte
-		err  error
-		errX errors.Error
+		err errors.Error
 	)
 	fp := path.Join(s.typ, r.URL.Path)
 	log.D("ServeHTTP %s", fp)
@@ -72,21 +71,16 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	// get file content (body)
 	if s.typ == "_lib" {
-		body, errX = libReadFile(fp)
-		if errX != nil {
-			errX.WriteResponse(w)
-			return
-		}
+		// _lib files
+		body, err = libReadFile(fp)
 	} else {
 		// asset files (static and view)
 		body, err = assets.ReadFile(fp)
-		if err != nil {
-			log.E("file serve %s: %s", fp, err)
-			http.Error(w, rp+": not found", http.StatusNotFound)
-			return
-		}
+	}
+	if err != nil {
+		err.WriteResponse(w)
+		return
 	}
 	// send file content
 	s.setHeaders(w, fp)

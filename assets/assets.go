@@ -4,11 +4,16 @@
 package assets
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
+	"path"
 
+	"github.com/jrmsdev/jcms/internal/errors"
 	"github.com/jrmsdev/jcms/internal/log"
 )
+
+var sprintf = fmt.Sprintf
 
 type File interface {
 	io.ReadSeeker
@@ -29,12 +34,24 @@ func SetManager(m Manager) {
 	manager = m
 }
 
-func ReadFile(relname string) ([]byte, error) {
+func ReadFile(relname string) ([]byte, errors.Error) {
 	log.D("ReadFile: %s", relname)
-	fh, err := manager.Open(relname)
+	var (
+		fh   File
+		body []byte
+		err  error
+	)
+	errp := path.Join("/", relname)
+	fh, err = manager.Open(relname)
 	if err != nil {
-		return nil, err
+		log.E("assets file %s: not found", relname)
+		return nil, errors.FileNotFound(errp)
 	}
 	defer fh.Close()
-	return ioutil.ReadAll(fh)
+	body, err = ioutil.ReadAll(fh)
+	if err != nil {
+		log.D("assets %s: %s", relname, err)
+		return nil, errors.PathError(errp, err)
+	}
+	return body, nil
 }
