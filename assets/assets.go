@@ -4,11 +4,19 @@
 package assets
 
 import (
+	"io"
+	"io/ioutil"
+
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
+type File interface {
+	io.ReadSeeker
+	io.Closer
+}
+
 type Manager interface {
-	ReadFile(relname string) ([]byte, error)
+	Open(relname string) (File, error)
 }
 
 var manager Manager
@@ -23,5 +31,10 @@ func SetManager(m Manager) {
 
 func ReadFile(relname string) ([]byte, error) {
 	log.D("ReadFile: %s", relname)
-	return manager.ReadFile(relname)
+	fh, err := manager.Open(relname)
+	if err != nil {
+		return nil, err
+	}
+	defer fh.Close()
+	return ioutil.ReadAll(fh)
 }
