@@ -8,7 +8,9 @@ package handler
 import (
 	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"path"
 
 	"github.com/jrmsdev/jcms/internal/errors"
@@ -44,6 +46,28 @@ func libReadFile(fp string) ([]byte, errors.Error) {
 	} else {
 		log.E("lib file %s: not found", fp)
 		return nil, errors.FileNotFound(errp)
+	}
+	return body, nil
+}
+
+func libDevelReadFile(fp string) ([]byte, errors.Error) {
+	log.D("libDevelReadFile %s", fp)
+	errp := path.Join("/", fp)
+	var (
+		fh   *os.File
+		body []byte
+		err  error
+	)
+	fh, err = os.Open(fp)
+	if err != nil {
+		log.E("devel lib file %s: not found", fp)
+		return nil, errors.FileNotFound(errp)
+	}
+	defer fh.Close()
+	body, err = ioutil.ReadAll(fh)
+	if err != nil {
+		log.E("devel lib read file %s: %s", fp, err)
+		return nil, errors.IOError(sprintf("%s: %s", errp, err))
 	}
 	return body, nil
 }

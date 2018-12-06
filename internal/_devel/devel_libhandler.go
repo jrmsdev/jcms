@@ -6,6 +6,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/jrmsdev/jcms/internal/httpd/handler"
 	"github.com/jrmsdev/jcms/internal/log"
 
 	"github.com/gorilla/mux"
@@ -14,6 +15,5 @@ import (
 func libHandlerSetup(r *mux.Router) {
 	log.D("libHandlerSetup")
 	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
-		http.FileServer(http.Dir("internal/httpd/handler/lib")))).
-		Name("_lib")
+		handler.NewFileServer("_lib_devel"))).Name("_lib")
 }

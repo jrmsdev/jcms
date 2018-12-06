@@ -73,6 +73,11 @@ func (s *FileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if s.typ == "_lib" {
 		// _lib files
 		body, err = libReadFile(fp)
+	} else if s.typ == "_lib_devel" {
+		// _lib devel files
+		fp = path.Join("./internal/httpd/handler/lib", r.URL.Path)
+		rp = path.Join("/", "_lib", r.URL.Path)
+		body, err = libDevelReadFile(fp)
 	} else {
 		// asset (static / view) files
 		body, err = assets.ReadFile(fp)
