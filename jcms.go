@@ -29,6 +29,7 @@ func Start(cfg *config.Config) string {
 	log.Init(cfg.Log)
 	log.D("Start: %s", cfg.Name)
 	log.Printf("jcms v%s", Version())
+	log.Printf("basedir %s", cfg.Basedir)
 	setup.Webapp(cfg)
 	httpd.Setup(cfg)
 	return httpd.Listen()

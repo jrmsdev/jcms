@@ -17,8 +17,9 @@ type astman struct {
 }
 
 func New(wapp, basedir string) *astman {
-	log.D("New: %s %s", wapp, basedir)
-	return &astman{path.Join(basedir, wapp)}
+	p := path.Join(basedir, wapp)
+	log.D("%s", p)
+	return &astman{p}
 }
 
 func (m *astman) getFilename(relname string) string {
