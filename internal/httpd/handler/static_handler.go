@@ -15,6 +15,6 @@ func setupStatic(r *mux.Router) {
 	log.D("setupStatic")
 	if r.Get("static") == nil {
 		r.PathPrefix("/static/").Handler(http.StripPrefix("/static",
-			newFileServer("static"))).Name("static")
+			NewFileServer("static"))).Name("static")
 	}
 }

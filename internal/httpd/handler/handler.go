@@ -36,15 +36,15 @@ func handlersSetup(r *mux.Router, cfg *config.Config) {
 
 // struct to serve static files
 
-type fileServer struct {
+type FileServer struct {
 	typ string
 }
 
-func newFileServer(typ string) *fileServer {
-	return &fileServer{typ}
+func NewFileServer(typ string) *FileServer {
+	return &FileServer{typ}
 }
 
-func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (s *FileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var (
 		body []byte
 		err  errors.Error
@@ -90,7 +90,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *fileServer) setHeaders(w http.ResponseWriter, fp string) {
+func (s *FileServer) setHeaders(w http.ResponseWriter, fp string) {
 	log.D("file server setHeaders %s", fp)
 	w.Header().Set("Content-Type", mime.TypeByExtension(path.Ext(fp)))
 }

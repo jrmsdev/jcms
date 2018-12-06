@@ -23,7 +23,7 @@ func setupLib(r *mux.Router) {
 	log.D("setupLib")
 	if r.Get("_lib") == nil {
 		r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib",
-			newFileServer("_lib"))).Name("_lib")
+			NewFileServer("_lib"))).Name("_lib")
 	}
 }
 

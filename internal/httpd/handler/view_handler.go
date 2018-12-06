@@ -15,6 +15,6 @@ func setupView(r *mux.Router) {
 	log.D("setupView")
 	if r.Get("view") == nil {
 		r.PathPrefix("/").Handler(http.StripPrefix("/",
-			newFileServer("view"))).Name("view")
+			NewFileServer("view"))).Name("view")
 	}
 }
