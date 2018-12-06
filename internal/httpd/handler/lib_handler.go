@@ -6,8 +6,8 @@
 package handler
 
 import (
-	"fmt"
 	"encoding/base64"
+	"fmt"
 	"net/http"
 	"path"
 
@@ -32,7 +32,7 @@ func libReadFile(fp string) ([]byte, errors.Error) {
 	errp := path.Join("/", fp)
 	var (
 		body []byte
-		err error
+		err  error
 	)
 	encBody, found := libFiles[fp]
 	if found {

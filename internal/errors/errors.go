@@ -19,11 +19,11 @@ type Error interface {
 }
 
 type err struct {
-	typ    string
-	status int
-	msg    string
+	typ      string
+	status   int
+	msg      string
 	redirect string
-	r *http.Request
+	r        *http.Request
 }
 
 func (e *err) Error() string {
@@ -52,34 +52,34 @@ func PathError(path string, x error) Error {
 func IOError(msg string) Error {
 	st := http.StatusInternalServerError
 	return &err{
-		typ: "IOError",
+		typ:    "IOError",
 		status: st,
-		msg: msg,
+		msg:    msg,
 	}
 }
 
 func FileNotFound(name string) Error {
 	return &err{
-		typ: "FileNotFound",
+		typ:    "FileNotFound",
 		status: http.StatusNotFound,
-		msg: name,
+		msg:    name,
 	}
 }
 
 func InvalidRequest(path string) Error {
 	return &err{
-		typ: "InvalidRequest",
+		typ:    "InvalidRequest",
 		status: http.StatusBadRequest,
-		msg: path,
+		msg:    path,
 	}
 }
 
 func Redirect(path string, r *http.Request, location string) Error {
 	return &err{
-		typ: "Redirect",
-		status: http.StatusMovedPermanently,
+		typ:      "Redirect",
+		status:   http.StatusMovedPermanently,
 		redirect: location,
-		r: r,
-		msg: path,
+		r:        r,
+		msg:      path,
 	}
 }

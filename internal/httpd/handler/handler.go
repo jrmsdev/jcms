@@ -47,7 +47,7 @@ func newFileServer(typ string) *fileServer {
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var (
 		body []byte
-		err errors.Error
+		err  errors.Error
 	)
 	fp := path.Join(s.typ, r.URL.Path)
 	log.D("ServeHTTP %s", fp)
