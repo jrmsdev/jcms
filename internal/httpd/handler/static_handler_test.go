@@ -36,5 +36,5 @@ func TestStaticHTMLFile(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/testdir/index.html")
 	r.Check(400, "text/plain")
-	r.Body("/static/testdir/index.html: invalid request")
+	r.Body("InvalidRequest /static/testdir/index.html")
 }

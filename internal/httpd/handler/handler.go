@@ -66,8 +66,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		if strings.HasSuffix(fp, ".html") {
 			log.D("denied .html access")
-			http.Error(w, rp+": invalid request",
-				http.StatusBadRequest)
+			errors.InvalidRequest(rp).WriteResponse(w)
 			return
 		}
 	}
