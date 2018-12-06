@@ -58,9 +58,9 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if x := path.Ext(fp); x == "" {
 			fp = path.Join(fp, "index.html")
 		} else if x != ".html" {
-			log.Printf("view redirect static: %s", fp)
-			http.Redirect(w, r, path.Join("/", "static", rp),
-				http.StatusMovedPermanently)
+			log.D("view redirect static: %s", fp)
+			errors.Redirect(rp, r, path.Join("/", "static", rp)).
+				WriteResponse(w)
 			return
 		}
 	} else {
@@ -74,7 +74,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// _lib files
 		body, err = libReadFile(fp)
 	} else {
-		// asset files (static and view)
+		// asset (static / view) files
 		body, err = assets.ReadFile(fp)
 	}
 	if err != nil {

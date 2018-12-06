@@ -22,6 +22,8 @@ type err struct {
 	typ    string
 	status int
 	msg    string
+	redirect string
+	r *http.Request
 }
 
 func (e *err) Error() string {
@@ -29,6 +31,11 @@ func (e *err) Error() string {
 }
 
 func (e *err) WriteResponse(w http.ResponseWriter) {
+	if e.redirect != "" && e.r != nil {
+		log.E("redirect %s -> %s", e.msg, e.redirect)
+		http.Redirect(w, e.r, e.redirect, e.status)
+		return
+	}
 	http.Error(w, sprintf("%s %s", e.typ, e.msg), e.status)
 }
 
@@ -63,6 +70,16 @@ func InvalidRequest(path string) Error {
 	return &err{
 		typ: "InvalidRequest",
 		status: http.StatusBadRequest,
+		msg: path,
+	}
+}
+
+func Redirect(path string, r *http.Request, location string) Error {
+	return &err{
+		typ: "Redirect",
+		status: http.StatusMovedPermanently,
+		redirect: location,
+		r: r,
 		msg: path,
 	}
 }
