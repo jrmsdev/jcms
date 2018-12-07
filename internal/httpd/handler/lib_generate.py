@@ -98,11 +98,23 @@ def _gofmt():
 	if os.system("which gofmt >/dev/null") == 0:
 		_call("gofmt -w -s lib_files.go")
 
+def _write(n):
+	orig = os.path.join("lib", ".orig.%s" % n)
+	dst = os.path.join("lib", n)
+	with open(orig, "r") as src:
+		with open(dst, "w") as fh:
+			for l in src.readlines():
+				# unify line endinds (LF)
+				l = l.rstrip()
+				fh.write("%s\n" % l)
+
 if "--update" in sys.argv:
 	if os.system("rm -f .gen.*") != 0:
 		_exit(1)
-	_call("wget -nv -c -O lib/w3.js %s" % W3JS)
-	_call("wget -nv -c -O lib/w3.css %s" % W3CSS)
+	_call("wget -nv -c -O lib/.orig.w3.js %s" % W3JS)
+	_write("w3.js")
+	_call("wget -nv -c -O lib/.orig.w3.css %s" % W3CSS)
+	_write("w3.css")
 
 _gen()
 _exit(0)
