@@ -13,9 +13,16 @@ func TestMain(m *testing.M) {
 	test.Main(m, "testing")
 }
 
-func TestManager(t *testing.T) {
+func TestReadFile(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/test.txt")
 	r.Status(200)
 	r.Body("testing")
+}
+
+func TestFileNotFound(t *testing.T) {
+	c := test.Client(t)
+	r := c.Get("/static/notfound.txt")
+	r.Status(404)
+	r.Body("FileNotFound /static/notfound.txt")
 }
