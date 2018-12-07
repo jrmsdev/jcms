@@ -46,7 +46,7 @@ func PathError(path string, x error) Error {
 			return InvalidRequest(path)
 		}
 	}
-	return InvalidRequest(path)
+	return IOError(x.Error())
 }
 
 func IOError(msg string) Error {
