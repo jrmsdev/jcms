@@ -13,7 +13,9 @@
 		* httpd setup
 		* httpd listen
 	* serve
+		* db connect (MISS)
 		* httpd serve
+		* db disconnect (MISS)
 	* stop
 		* httpd stop
 
@@ -23,6 +25,7 @@
 	* setup
 		* setup assets manager
 		* setup storage manager (MISS)
+		* setup db (MISS)
 
 * httpd
 	* setup
