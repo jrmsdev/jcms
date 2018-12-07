@@ -91,7 +91,12 @@ def _gen():
 			fh.flush()
 			fh.close()
 		src.close()
+	_gofmt()
 	_genDone()
+
+def _gofmt():
+	if os.system("which gofmt >/dev/null") == 0:
+		_call("gofmt -w -s lib_files.go")
 
 if "--update" in sys.argv:
 	if os.system("rm -f .gen.*") != 0:
