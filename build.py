@@ -30,9 +30,6 @@ def _call(cmd):
 
 argc = len(sys.argv) - 1
 
-_call("go generate ./...")
-version = check_output("go run ./internal/_build/version/main.go".split()).strip()
-
 goos = check_output("go env GOOS".split()).strip()
 goarch = check_output("go env GOARCH".split()).strip()
 
@@ -48,12 +45,20 @@ if not "--all" in sys.argv:
 			except KeyError:
 				print("unknown os")
 				sys.exit(1)
+		else:
+			for x in l:
+				if x not in BUILDS[n]:
+					print("unknown arch: %s" % x)
+					sys.exit(1)
 		BUILDS = {n: l}
 
 if os.system("rm -rf build") != 0:
 	_exit(1)
 if os.system("mkdir build") != 0:
 	_exit(1)
+
+_call("go generate ./...")
+version = check_output("go run ./internal/_build/version/main.go".split()).strip()
 
 _call("go vet ./...")
 
