@@ -24,7 +24,7 @@
 * webapp
 	* setup
 		* setup assets manager
-		* setup storage manager (MISS)
+		* setup storage driver
 		* setup db (MISS)
 
 * httpd

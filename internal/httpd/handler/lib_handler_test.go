@@ -34,5 +34,5 @@ func TestLibBase64Error(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/_lib/testerror.base64")
 	r.Check(500, "text/plain")
-	r.BodyMatch("^IOError /_lib/testerror.base64: ")
+	r.Body("IOError /_lib/testerror.base64: base64 decode")
 }

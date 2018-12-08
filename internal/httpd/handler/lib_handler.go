@@ -41,7 +41,7 @@ func libReadFile(fp string) ([]byte, errors.Error) {
 		body, err = base64.StdEncoding.DecodeString(encBody)
 		if err != nil {
 			log.E("lib read file %s: %s", fp, err)
-			return nil, errors.IOError(sprintf("%s: %s", errp, err))
+			return nil, errors.IOError(errp, "base64 decode")
 		}
 	} else {
 		log.E("lib file %s: not found", fp)
@@ -67,7 +67,7 @@ func libDevelReadFile(fp string) ([]byte, errors.Error) {
 	body, err = ioutil.ReadAll(fh)
 	if err != nil {
 		log.E("devel lib read file %s: %s", fp, err)
-		return nil, errors.IOError(sprintf("%s: %s", errp, err))
+		return nil, errors.IOError(errp, err.Error())
 	}
 	return body, nil
 }

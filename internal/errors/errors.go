@@ -46,15 +46,16 @@ func PathError(path string, x error) Error {
 			return InvalidRequest(path)
 		}
 	}
-	return IOError(x.Error())
+	return IOError(path, x.Error())
 }
 
-func IOError(msg string) Error {
-	st := http.StatusInternalServerError
+func IOError(path, msg string) Error {
+	m := sprintf("%s: %s", path, msg)
+	log.E(m)
 	return &err{
 		typ:    "IOError",
-		status: st,
-		msg:    msg,
+		status: http.StatusInternalServerError,
+		msg:    m,
 	}
 }
 
