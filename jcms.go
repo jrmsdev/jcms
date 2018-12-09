@@ -10,7 +10,7 @@ import (
 	"github.com/jrmsdev/jcms/internal/cmd/flags"
 	"github.com/jrmsdev/jcms/internal/httpd"
 	"github.com/jrmsdev/jcms/internal/log"
-	"github.com/jrmsdev/jcms/internal/webapp/setup"
+	"github.com/jrmsdev/jcms/internal/webapp"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
@@ -30,7 +30,7 @@ func Start(cfg *config.Config) string {
 	log.D("Start: %s", cfg.Name)
 	log.Printf("jcms v%s", Version())
 	log.Printf("basedir %s", cfg.Basedir)
-	setup.Webapp(cfg)
+	webapp.Setup(cfg)
 	httpd.Setup(cfg)
 	return httpd.Listen()
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-package setup
+package webapp
 
 import (
 	"github.com/jrmsdev/jcms/assets"
@@ -12,8 +12,8 @@ import (
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
-func Webapp(cfg *config.Config) {
-	log.D("Webapp: %s", cfg.Name)
+func Setup(cfg *config.Config) {
+	log.D("Setup: %s", cfg.Name)
 	assets.SetManager(cfg.GetAssetsManager())
 	storage.SetDriver(cfg.GetStorageDriver())
 	db.SetEngine(engine.New(cfg.DatabaseURI, cfg.Name, cfg.Datadir))
