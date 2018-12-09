@@ -24,6 +24,7 @@ type Config struct {
 	Datadir       string
 	AssetsManager assets.Manager
 	StorageDriver storage.Driver
+	DatabaseURI   string
 	StaticEnable  bool
 	HttpPort      string
 	HandlerSetup  map[string]HandlerSetupFunc
@@ -67,6 +68,7 @@ func New(name string) *Config {
 		StaticEnable: true,
 		HttpPort:     "0",
 		HandlerSetup: make(map[string]HandlerSetupFunc),
+		DatabaseURI:  "fs://db/jcms",
 	}
 }
 
