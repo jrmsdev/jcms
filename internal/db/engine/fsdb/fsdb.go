@@ -1,14 +1,14 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-package engine
+package fsdb
 
 type FSDB struct {
 	wapp    string
 	datadir string
 }
 
-func newFSDB(name, datadir string) *FSDB {
+func New(name, datadir string) *FSDB {
 	return &FSDB{name, datadir}
 }
 

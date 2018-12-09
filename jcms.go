@@ -10,7 +10,7 @@ import (
 	"github.com/jrmsdev/jcms/internal/cmd/flags"
 	"github.com/jrmsdev/jcms/internal/httpd"
 	"github.com/jrmsdev/jcms/internal/log"
-	"github.com/jrmsdev/jcms/internal/setup"
+	"github.com/jrmsdev/jcms/internal/webapp/setup"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 

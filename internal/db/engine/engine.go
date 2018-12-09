@@ -7,6 +7,7 @@ import (
 	"net/url"
 
 	"github.com/jrmsdev/jcms/db"
+	"github.com/jrmsdev/jcms/internal/db/engine/fsdb"
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
@@ -17,7 +18,7 @@ func New(uri, wapp, datadir string) db.Engine {
 		log.Panic("parse DatabaseURI: %s", err)
 	}
 	if x.Scheme == "fs" {
-		return newFSDB(wapp, datadir)
+		return fsdb.New(wapp, datadir)
 	} else {
 		log.Panic("%s invalid database engine: %s", wapp, x.Scheme)
 	}
