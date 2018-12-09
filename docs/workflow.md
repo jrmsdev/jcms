@@ -25,10 +25,21 @@
 	* setup
 		* setup assets manager
 		* setup storage driver
-		* setup db (MISS)
+		* setup db engine
 
 * httpd
 	* setup
 		* init httpd router
 		* setup httpd handlers
 		* create httpd server
+
+* db
+	* setup
+		* parse config database uri
+		* load engine
+	* connect (MISS)
+		* engine connect
+		* if db exists check migrations
+		* else create
+	* disconnect (MISS)
+		* engine disconnect
