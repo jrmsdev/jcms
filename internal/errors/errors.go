@@ -32,7 +32,6 @@ func (e *err) Error() string {
 
 func (e *err) WriteResponse(w http.ResponseWriter) {
 	if e.redirect != "" && e.r != nil {
-		log.E("redirect %s -> %s", e.msg, e.redirect)
 		http.Redirect(w, e.r, e.redirect, e.status)
 		return
 	}
@@ -42,7 +41,6 @@ func (e *err) WriteResponse(w http.ResponseWriter) {
 func PathError(path string, x error) Error {
 	if e, ok := x.(*os.PathError); ok {
 		if e.Op == "read" {
-			log.E("invalid request %s: %s", path, e.Err)
 			return InvalidRequest(path)
 		}
 	}
@@ -51,7 +49,7 @@ func PathError(path string, x error) Error {
 
 func IOError(path, msg string) Error {
 	m := sprintf("%s: %s", path, msg)
-	log.E(m)
+	log.E("i/o %s", m)
 	return &err{
 		typ:    "IOError",
 		status: http.StatusInternalServerError,
@@ -68,6 +66,7 @@ func FileNotFound(name string) Error {
 }
 
 func InvalidRequest(path string) Error {
+	log.E("invalid request %s", path)
 	return &err{
 		typ:    "InvalidRequest",
 		status: http.StatusBadRequest,
@@ -76,6 +75,7 @@ func InvalidRequest(path string) Error {
 }
 
 func Redirect(path string, r *http.Request, location string) Error {
+	log.E("redirect %s -> %s", path, location)
 	return &err{
 		typ:      "Redirect",
 		status:   http.StatusMovedPermanently,
