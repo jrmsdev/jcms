@@ -41,7 +41,7 @@ func (e *err) WriteResponse(w http.ResponseWriter) {
 
 func PathError(path string, x error) Error {
 	if e, ok := x.(*os.PathError); ok {
-		if e.Op == "read" && e.Err.Error() == "is a directory" {
+		if e.Op == "read" {
 			log.E("invalid request %s: %s", path, e.Err)
 			return InvalidRequest(path)
 		}
