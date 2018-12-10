@@ -70,7 +70,7 @@ func Stop() {
 		log.D("Stop done!")
 	} else {
 		log.D("Stop")
-		//~ db.Disconnect()
+		db.Disconnect()
 		httpd.Stop()
 		done = true
 	}
