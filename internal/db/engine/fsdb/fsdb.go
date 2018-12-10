@@ -10,7 +10,7 @@ import (
 )
 
 type FSDB struct {
-	wapp string
+	wapp   string
 	dbpath string
 }
 
