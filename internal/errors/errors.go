@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"syscall"
 
 	"github.com/jrmsdev/jcms/internal/log"
 )
@@ -42,8 +41,13 @@ func (e *err) WriteResponse(w http.ResponseWriter) {
 func PathError(path string, x error) Error {
 	if e, ok := x.(*os.PathError); ok {
 		log.E("PathError %#T(%d) %s", e.Err, e.Err, e.Err)
-		if e.Op == "read" && e.Err == syscall.EISDIR {
-			return InvalidRequest(path)
+		es := sprintf("%d", e.Err)
+		if e.Op == "read" {
+			// 21 -> unix "is a directory"
+			// 6  -> windows "invalid handle"
+			if es == "21" || es == "6" {
+				return InvalidRequest(path)
+			}
 		}
 	}
 	return IOError(path, x.Error())
@@ -51,7 +55,7 @@ func PathError(path string, x error) Error {
 
 func IOError(path, msg string) Error {
 	m := sprintf("%s: %s", path, msg)
-	log.E("i/o %s", m)
+	log.E("I/O %s", m)
 	return &err{
 		typ:    "IOError",
 		status: http.StatusInternalServerError,
