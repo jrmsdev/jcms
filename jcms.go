@@ -18,7 +18,6 @@ import (
 	"github.com/jrmsdev/jcms/webapp/config"
 )
 
-var stop = make(chan string, 1)
 var done bool
 
 func Main() {
@@ -39,9 +38,7 @@ func trapSignals() {
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		s := <-sigs
-		stop <- s.String()
-		sig := <-stop
-		log.Printf("got signal: %s", sig)
+		log.Printf("got signal: %s", s)
 		Stop()
 	}()
 }
