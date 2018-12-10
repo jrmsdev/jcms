@@ -68,7 +68,7 @@ func New(name string) *Config {
 		StaticEnable: true,
 		HttpPort:     "0",
 		HandlerSetup: make(map[string]HandlerSetupFunc),
-		DatabaseURI:  "fs://db/jcms",
+		DatabaseURI:  "fs://jcms",
 	}
 }
 

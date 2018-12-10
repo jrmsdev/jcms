@@ -5,6 +5,7 @@ package engine
 
 import (
 	"net/url"
+	"path/filepath"
 
 	"github.com/jrmsdev/jcms/db"
 	"github.com/jrmsdev/jcms/internal/db/engine/fsdb"
@@ -17,8 +18,10 @@ func New(uri, wapp, datadir string) db.Engine {
 	if err != nil {
 		log.Panic("parse DatabaseURI: %s", err)
 	}
+	dbdir := filepath.Join(datadir, wapp, "db")
+	log.D("db dir %s", dbdir)
 	if x.Scheme == "fs" {
-		return fsdb.New(wapp, datadir)
+		return fsdb.New(wapp, dbdir, x.Path)
 	} else {
 		log.Panic("%s invalid database engine: %s", wapp, x.Scheme)
 	}

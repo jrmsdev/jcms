@@ -13,10 +13,11 @@
 		* httpd setup
 		* httpd listen
 	* serve
-		* db connect (MISS)
 		* httpd serve
-		* db disconnect (MISS)
+		* db connect or serve error (MISS)
+		* db schema check (MISS)
 	* stop
+		* db disconnect or serve error (?) (MISS)
 		* httpd stop
 
 ## internal
@@ -37,9 +38,12 @@
 	* setup
 		* parse config database uri
 		* load engine
-	* connect (MISS)
+	* connect
 		* engine connect
-		* if db exists check migrations
-		* else create
 	* disconnect (MISS)
 		* engine disconnect
+
+* db/schema
+	* check (MISS)
+		* if db exists check migrations
+		* else create

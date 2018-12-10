@@ -11,6 +11,9 @@ var eng Engine
 
 type Engine interface {
 	String() string
+	Webapp() string
+	Connect() error
+	Disconnect() error
 }
 
 func SetEngine(e Engine) {
@@ -19,4 +22,23 @@ func SetEngine(e Engine) {
 		log.Panic("db engine already set: %s", eng)
 	}
 	eng = e
+}
+
+func CheckEngine() {
+	log.D("CheckEngine")
+	if eng == nil {
+		log.Panic("db engine not set!")
+	}
+}
+
+func Webapp() string {
+	return eng.Webapp()
+}
+
+func Connect() error {
+	return eng.Connect()
+}
+
+func Disconnect() error {
+	return eng.Disconnect()
 }

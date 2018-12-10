@@ -6,7 +6,6 @@ package flags
 import (
 	"flag"
 	"fmt"
-	fp "path/filepath"
 
 	"github.com/jrmsdev/jcms/webapp/config"
 )
@@ -24,7 +23,7 @@ func init() {
 	flag.BoolVar(&Quiet, "q", false, "quiet mode")
 	flag.IntVar(&HttpPort, "p", 0, "http `port` (default \"0\")")
 	flag.StringVar(&Webapp, "n", "default", "`webapp` name")
-	flag.StringVar(&Basedir, "d", fp.FromSlash("/srv/jcms"), "base `directory`")
+	flag.StringVar(&Basedir, "d", "", "base `directory`")
 }
 
 func Parse() *config.Config {
@@ -37,6 +36,8 @@ func Parse() *config.Config {
 		cfg.Log = "debug"
 	}
 	cfg.HttpPort = fmt.Sprintf("%d", HttpPort)
-	cfg.Basedir = Basedir
+	if Basedir != "" {
+		cfg.Basedir = Basedir
+	}
 	return cfg
 }
