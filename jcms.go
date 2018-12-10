@@ -6,6 +6,8 @@ package jcms
 import (
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/jrmsdev/jcms/db"
 	"github.com/jrmsdev/jcms/db/schema"
@@ -15,6 +17,9 @@ import (
 	"github.com/jrmsdev/jcms/internal/webapp"
 	"github.com/jrmsdev/jcms/webapp/config"
 )
+
+var stop = make(chan string, 1)
+var done bool
 
 func Main() {
 	cfg := flags.Parse()
@@ -27,6 +32,20 @@ func Main() {
 	Serve()
 }
 
+func trapSignals() {
+	log.D("trapSignals")
+	done = false
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		s := <-sigs
+		stop <- s.String()
+		sig := <-stop
+		log.Printf("got signal: %s", sig)
+		Stop()
+	}()
+}
+
 func Start(cfg *config.Config) string {
 	log.Init(cfg.Log)
 	log.D("Start: %s", cfg.Name)
@@ -35,6 +54,7 @@ func Start(cfg *config.Config) string {
 	webapp.Setup(cfg)
 	db.CheckEngine()
 	httpd.Setup(cfg)
+	trapSignals()
 	return httpd.Listen()
 }
 
@@ -43,10 +63,15 @@ func Serve() {
 	db.Connect()
 	schema.Check()
 	httpd.Serve()
-	//~ db.Disconnect()
 }
 
 func Stop() {
-	log.D("Stop")
-	httpd.Stop()
+	if done {
+		log.D("Stop done!")
+	} else {
+		log.D("Stop")
+		//~ db.Disconnect()
+		httpd.Stop()
+		done = true
+	}
 }
