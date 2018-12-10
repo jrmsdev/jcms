@@ -3,9 +3,12 @@ srcdir=`pwd`
 mainsrc=./internal/_devel
 develcmd=./build/jcms-devel.bin
 basedir=./internal/_devel/assets
+datadir=./internal/_devel/data
 go generate ./...
 go install -i .
 mkdir -p build
 rm -f $develcmd
 go build -o $develcmd $mainsrc
-exec $develcmd -D -n devel -d $basedir -p 6080
+export JCMS_BASEDIR=$basedir
+export JCMS_DATADIR=$datadir
+$develcmd -D -n devel -p 6080
