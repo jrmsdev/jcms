@@ -40,6 +40,7 @@ func Setup(cfg *config.Config) {
 }
 
 func Listen() string {
+	log.D("Listen %s", serverAddr)
 	var err error
 	listener, err = net.Listen("tcp4", serverAddr)
 	if err != nil {
