@@ -20,23 +20,27 @@ if "1.9" in goversion:
 
 verbose = ""
 race = ""
+test_only = False
 for a in sys.argv:
 	if a == "-v":
 		verbose = " -v"
 	elif a == "-race":
 		race = " -race"
+	elif a == "-test":
+		test_only = True
 
 tests = os.getenv("JCMS_TEST", "").split(",")
 if "race" in tests and race == "":
 	race = " -race"
 
 prevcmd = {
-	 0: "go generate ./...",
-	10: "go vet ./...",
-	20: "go install{} ./cmd/jcms".format(install_args),
-	30: "go get -v -t ./...",
+	0: "go generate ./...",
 }
-gotest = "go test{}{} ./...".format(verbose, race)
+
+if not test_only:
+	prevcmd[10] = "go vet ./..."
+	prevcmd[20] = "go install{} ./cmd/jcms".format(install_args)
+	prevcmd[30] = "go get -v -t ./..."
 
 for idx in sorted(prevcmd.keys()):
 	cmd = prevcmd[idx]
@@ -45,6 +49,7 @@ for idx in sorted(prevcmd.keys()):
 	if rc != 0:
 		_exit(rc)
 
+gotest = "go test{}{} ./...".format(verbose, race)
 _print(gotest)
 rc = call(gotest.split())
 if rc != 0:
