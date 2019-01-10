@@ -28,8 +28,8 @@ func TestStaticNotFound(t *testing.T) {
 func TestStaticGetDir(t *testing.T) {
 	c := test.Client(t)
 	r := c.Get("/static/testdir/")
-	r.Check(400, "text/plain")
-	r.Body("InvalidRequest /static/testdir")
+	r.Check(404, "text/plain")
+	r.Body("FileNotFound /static/testdir")
 }
 
 func TestStaticHTMLFile(t *testing.T) {

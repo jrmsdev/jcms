@@ -4,6 +4,7 @@
 package manager
 
 import (
+	"errors"
 	"os"
 	"path"
 	"path/filepath"
@@ -28,5 +29,14 @@ func (m *astman) getFilename(relname string) string {
 
 func (m *astman) Open(relname string) (assets.File, error) {
 	log.D("Open %s", relname)
-	return os.Open(m.getFilename(relname))
+	fn := m.getFilename(relname)
+	fi, err := os.Stat(fn)
+	if err != nil {
+		return nil, err
+	}
+	if fi.IsDir() {
+		log.E("%s is a directory", fn)
+		return nil, errors.New("is dir")
+	}
+	return os.Open(fn)
 }

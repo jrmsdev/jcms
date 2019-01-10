@@ -51,7 +51,7 @@ func ReadFile(relname string) ([]byte, errors.Error) {
 	body, err = ioutil.ReadAll(fh)
 	if err != nil {
 		log.D("assets %s: %s", relname, err)
-		return nil, errors.PathError(errp, err)
+		return nil, errors.IOError(errp, err.Error())
 	}
 	return body, nil
 }
