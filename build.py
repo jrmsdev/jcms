@@ -58,7 +58,10 @@ if os.system("mkdir build") != 0:
 	_exit(1)
 
 _call("go generate ./...")
+
 version = check_output("go run ./internal/_build/version/main.go".split()).strip()
+if version.startswith("devel"):
+	version = "godevel"
 
 _call("go vet ./...")
 
