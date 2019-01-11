@@ -5,7 +5,6 @@ develcmd=./build/jcms-devel.bin
 basedir=./internal/_devel/assets
 datadir=./internal/_devel/data
 go generate ./...
-go install -i .
 mkdir -p build
 rm -f $develcmd
 go build -o $develcmd $mainsrc
