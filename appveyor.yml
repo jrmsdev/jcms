@@ -24,14 +24,13 @@ install:
 before_build:
   - export GOPATH=/usr/go
   - go version
-  - go generate ./...
 
 build_script:
-  - export JCMS_VERSION=$(go run ./internal/_build/version/main.go)
-  - export JCMS_BUILDNAME=jcms-${JCMS_VERSION}-build${APPVEYOR_BUILD_NUMBER}
   - python build.py --all
 
 after_build:
+  - export JCMS_VERSION=$(go run ./internal/_build/version/main.go)
+  - export JCMS_BUILDNAME=jcms-${JCMS_VERSION}-build${APPVEYOR_BUILD_NUMBER}
   - mkdir dist
   - cd build
   - file jcms-*.bin | sort | cut -d ':' -f '2-' | sed 's/^ *//'
@@ -50,6 +49,6 @@ artifacts:
   - path: 'dist/jcms-*.txt'
 
 test_script:
-  - go test ./...
+  - python check.py -test
 
 deploy: off
