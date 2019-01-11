@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/jrmsdev/jcms/internal/httpd/handler"
@@ -44,8 +45,8 @@ func Listen() string {
 	var err error
 	listener, err = net.Listen("tcp4", serverAddr)
 	if err != nil {
-		log.E("httpd listen: %s", serverAddr)
-		log.Panic(err.Error())
+		log.E("httpd %s", err.Error())
+		os.Exit(1)
 	}
 	url := &url.URL{}
 	url.Scheme = "http"
