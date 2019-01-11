@@ -19,6 +19,7 @@ func main() {
 		os.Exit(0)
 	}
 	cfg.HandlerSetup["libhandler"] = libHandlerSetup
+	cfg.HandlerSetup["pprof"] = pprofSetup
 	log.Printf("%s %s", cfg.Name, jcms.Start(cfg))
 	defer jcms.Stop()
 	jcms.Serve()
