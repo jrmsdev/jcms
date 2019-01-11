@@ -6,6 +6,7 @@ package main
 import (
 	"fmt"
 	"runtime"
+	"strings"
 
 	"github.com/jrmsdev/jcms"
 )
@@ -15,6 +16,9 @@ func main() {
 	if jcms.VPATCH > 0 {
 		v = fmt.Sprintf("%s.%d", v, jcms.VPATCH)
 	}
-	v = fmt.Sprintf("%s-%s", v, runtime.Version())
-	fmt.Println(v)
+	rv := strings.TrimSpace(runtime.Version())
+	if strings.HasPrefix(rv, "devel") {
+		rv = "godev"
+	}
+	fmt.Printf("%s-%s", v, rv)
 }
