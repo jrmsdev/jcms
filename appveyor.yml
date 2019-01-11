@@ -47,8 +47,9 @@ after_build:
 artifacts:
   - path: 'dist/jcms-*.zip'
   - path: 'dist/jcms-*.txt'
+  - path: coverage.html
 
 test_script:
-  - python check.py -test
+  - python check.py -coverage
 
 deploy: off

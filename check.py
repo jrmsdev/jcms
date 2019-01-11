@@ -2,7 +2,7 @@
 
 import os
 import sys
-from subprocess import call, check_output
+from subprocess import check_output
 
 def _print(s):
 	print(s)
@@ -10,8 +10,15 @@ def _print(s):
 
 def _exit(rc):
 	if rc != 0:
-		_print("check failed!")
+		_print("jcms check failed!")
 	sys.exit(rc)
+
+def _call(cmd):
+	_print(cmd)
+	rc = os.system(cmd)
+	if rc != 0:
+		_exit(rc)
+	sys.stdout.flush()
 
 install_args = " -i"
 goversion = check_output("go version".split()).strip()
@@ -20,7 +27,10 @@ if "1.9" in goversion:
 
 verbose = ""
 race = ""
+coverage = ""
 test_only = False
+test_coverage = False
+
 for a in sys.argv:
 	if a == "-v":
 		verbose = " -v"
@@ -28,6 +38,10 @@ for a in sys.argv:
 		race = " -race"
 	elif a == "-test":
 		test_only = True
+	elif a == "-coverage":
+		test_only = True
+		test_coverage = True
+		coverage = " -coverprofile coverage.out"
 
 tests = os.getenv("JCMS_TEST", "").split(",")
 if "race" in tests and race == "":
@@ -43,16 +57,11 @@ if not test_only:
 	prevcmd[30] = "go get -v -t ./..."
 
 for idx in sorted(prevcmd.keys()):
-	cmd = prevcmd[idx]
-	_print(cmd)
-	rc = call(cmd.split())
-	if rc != 0:
-		_exit(rc)
+	_call(prevcmd[idx])
 
-gotest = "go test{}{} ./...".format(verbose, race)
-_print(gotest)
-rc = call(gotest.split())
-if rc != 0:
-	_exit(rc)
+_call("go test{}{}{} ./...".format(verbose, race, coverage))
+
+if test_coverage:
+	_call("go tool cover -html coverage.out -o coverage.html")
 
 _exit(0)
