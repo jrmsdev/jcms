@@ -1,0 +1,20 @@
+// v0: initial version
+
+0.1 create: tbl0
+0.2 index:  tbl0.fld0
+0.3 int:    tbl0.fld1
+0.4 string: tbl0.fld2
+
+0.5 create: tbl1
+0.6 index:  tbl1.fld0
+0.7 join:   tbl1.fld1 tbl0.fld2 // where tbl0.index == tbl1.index
+
+// v1: remove tbl0 fld1
+
+1.0 remove : tbl0.fld1
+
+// v2: join whole table
+//     tbl1.fld2.fld2 will return tbl0.fld2
+//     where tbl0.index == tbl1.index
+
+2.0 join: tbl1.fld2 tbl0
