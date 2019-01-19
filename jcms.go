@@ -12,6 +12,7 @@ import (
 	"github.com/jrmsdev/jcms/db"
 	"github.com/jrmsdev/jcms/db/schema"
 	"github.com/jrmsdev/jcms/internal/cmd/flags"
+	"github.com/jrmsdev/jcms/internal/errors"
 	"github.com/jrmsdev/jcms/internal/httpd"
 	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/internal/webapp"
@@ -57,9 +58,15 @@ func Start(cfg *config.Config) string {
 
 func Serve() {
 	log.D("Serve")
-	db.Connect()
-	schema.Check()
-	httpd.Serve()
+	// connect
+	if err := db.Connect(); err != nil {
+		httpd.Serve(errors.DBError(err.Error()))
+	}
+	// check schema
+	if err := schema.Check(); err != nil {
+		httpd.Serve(errors.DBError(err.Error()))
+	}
+	httpd.Serve(nil)
 }
 
 func Stop() {
@@ -67,7 +74,9 @@ func Stop() {
 		log.D("Stop done!")
 	} else {
 		log.D("Stop")
-		db.Disconnect()
+		if err := db.Disconnect(); err != nil {
+			log.E("DB disconnect: %s", err)
+		}
 		httpd.Stop()
 		done = true
 	}

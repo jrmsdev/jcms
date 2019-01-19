@@ -16,7 +16,7 @@ func TestHttpd(t *testing.T) {
 	httpd.Setup(cfg)
 	httpd.Listen()
 	go func() {
-		httpd.Serve()
+		httpd.Serve(nil)
 	}()
 	time.Sleep(300 * time.Millisecond)
 	httpd.Stop()

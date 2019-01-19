@@ -11,6 +11,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/jrmsdev/jcms/internal/errors"
 	"github.com/jrmsdev/jcms/internal/httpd/handler"
 	"github.com/jrmsdev/jcms/internal/httpd/router"
 	"github.com/jrmsdev/jcms/internal/log"
@@ -55,15 +56,18 @@ func Listen() string {
 	return url.String()
 }
 
-func Serve() {
+func Serve(haserror errors.Error) {
 	log.D("Serve")
 	if listener == nil {
 		log.Panic("nil listener... call httpd.Listen() first")
 	}
-	var err error
-	err = server.Serve(listener)
-	if err != nil {
-		log.E("httpd serve: %s", err.Error())
+	if haserror == nil {
+		if err := server.Serve(listener); err != nil {
+			log.E("httpd serve: %s", err.Error())
+		}
+	} else {
+		log.E("httpd serve got: %s", haserror.Error())
+		server.Handler = handler.ServeError(haserror)
 	}
 }
 

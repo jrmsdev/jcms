@@ -74,3 +74,12 @@ func Redirect(path string, r *http.Request, location string) Error {
 		msg:      path,
 	}
 }
+
+func DBError(msg string) Error {
+	log.E("DB %s", msg)
+	return &err{
+		typ:    "DBError",
+		status: http.StatusInternalServerError,
+		msg:    msg,
+	}
+}

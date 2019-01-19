@@ -18,9 +18,9 @@ func New(uri, wapp, datadir string) db.Engine {
 	if err != nil {
 		log.Panic("parse DatabaseURI: %s", err)
 	}
-	dbdir := filepath.Join(datadir, wapp, "db")
-	log.D("db dir %s", dbdir)
 	if x.Scheme == "fs" {
+		dbdir := filepath.Join(datadir, wapp, "db")
+		log.D("db dir %s", dbdir)
 		return fsdb.New(wapp, dbdir, x.Path)
 	} else {
 		log.Panic("%s invalid database engine: %s", wapp, x.Scheme)
