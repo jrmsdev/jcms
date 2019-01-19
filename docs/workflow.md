@@ -27,6 +27,7 @@
 		* setup assets manager
 		* setup storage driver
 		* setup db engine
+		* setup db schema
 
 * httpd
 	* setup
@@ -44,6 +45,8 @@
 		* engine disconnect
 
 * db/schema
+	* setup
+		* parse db schema definition
 	* check (MISS)
 		* if db exists check migrations
 		* else create

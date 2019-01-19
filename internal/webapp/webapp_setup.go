@@ -6,6 +6,7 @@ package webapp
 import (
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/db"
+	"github.com/jrmsdev/jcms/db/schema"
 	"github.com/jrmsdev/jcms/internal/db/engine"
 	"github.com/jrmsdev/jcms/internal/log"
 	"github.com/jrmsdev/jcms/storage"
@@ -17,4 +18,5 @@ func Setup(cfg *config.Config) {
 	assets.SetManager(cfg.GetAssetsManager())
 	storage.SetDriver(cfg.GetStorageDriver())
 	db.SetEngine(engine.New(cfg.DatabaseURI, cfg.Name, cfg.Datadir))
+	schema.Setup(cfg.Name, cfg.Basedir)
 }
