@@ -13,6 +13,15 @@ import (
 	"testing"
 )
 
+func NotNil(t *testing.T, got interface{}, errmsg string) bool {
+	t.Helper()
+	if got != nil {
+		t.Logf("%s not nil: %T", errmsg)
+		return true
+	}
+	return false
+}
+
 func NotTrue(t *testing.T, got bool, errmsg string) bool {
 	t.Helper()
 	if !got {

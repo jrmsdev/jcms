@@ -4,10 +4,16 @@
 package schema
 
 import (
+	"errors"
+
+	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
-func parse(s *Schema, fn string) error {
-	log.D("parse %s %s", s, fn)
+func parse(s *Schema) error {
+	log.D("parse %s", s)
+	if _, err := assets.ReadFile("db.json"); err != nil {
+		return errors.New(sprintf("parse %s: %s", s, err))
+	}
 	return nil
 }

@@ -23,7 +23,8 @@ func Main(m *testing.M, name string) {
 	if wapp != nil {
 		panic("wapp is not nil")
 	}
-	wapp = webapp.New(Config(name))
+	cfg := Config(name)
+	wapp = webapp.New(cfg)
 	serverURI = wapp.Start()
 	go func() {
 		wapp.Serve()

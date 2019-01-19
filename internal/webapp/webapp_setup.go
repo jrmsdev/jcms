@@ -18,5 +18,5 @@ func Setup(cfg *config.Config) {
 	assets.SetManager(cfg.GetAssetsManager())
 	storage.SetDriver(cfg.GetStorageDriver())
 	db.SetEngine(engine.New(cfg.DatabaseURI, cfg.Name, cfg.Datadir))
-	schema.Setup(cfg.Name, cfg.Basedir)
+	schema.Setup(cfg.Name)
 }

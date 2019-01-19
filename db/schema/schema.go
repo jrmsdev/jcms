@@ -4,16 +4,16 @@
 package schema
 
 import (
-	"path/filepath"
+	"fmt"
 
 	"github.com/jrmsdev/jcms/db"
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
 var (
-	fn  string
 	dbs *Schema
 )
+var sprintf = fmt.Sprintf
 
 type Schema struct {
 	name string
@@ -27,19 +27,16 @@ func (s *Schema) String() string {
 	return s.name
 }
 
-func Setup(wapp, basedir string) {
-	log.D("Setup %s %s", wapp, basedir)
-	if fn != "" {
-		log.Panic("db schema setup already done: %s")
+func Setup(wapp string) {
+	log.D("Setup %s %s", wapp)
+	if dbs != nil {
+		log.Panic("db schema setup already done: %s", dbs)
 	}
-	fn = filepath.Join(basedir, wapp, "db.json")
-	log.D("schema definition %s", fn)
 	dbs = newSchema(wapp)
-	if err := parse(dbs, fn); err != nil {
-		log.Panic("schema setup: %s", err)
+	if err := parse(dbs); err != nil {
+		log.Panic("schema setup: %s", err.Error())
 	}
-	dbs.name = wapp
-	log.D("dbs %s", dbs)
+	log.D("parse dbs %s done", dbs)
 }
 
 func Check() error {
