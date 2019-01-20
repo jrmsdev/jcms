@@ -1,12 +1,12 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-package schema
+package parser
 
 import (
+	"fmt"
 	"bytes"
 	"text/scanner"
-	"fmt"
 	"strconv"
 	"errors"
 
@@ -14,14 +14,12 @@ import (
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
+var sprintf = fmt.Sprintf
+
 type Data map[float32]Cmd
 type Cmd map[string]Table
 type Table map[string]Info
 type Info map[string]string
-
-func newData() Data {
-	return make(Data)
-}
 
 type cmdFunc func(Table, *scanner.Scanner) error
 var cmdToken = map[string]cmdFunc{
@@ -33,10 +31,11 @@ var cmdToken = map[string]cmdFunc{
 	"remove": dummy,
 }
 
-func parse(s *Schema) error {
-	log.D("parse %s", s)
+func Parse() (Data, error) {
+	log.D("Parse")
+	d := make(Data)
 	if blob, err := assets.ReadFile("db.schema"); err != nil {
-		return err
+		return nil, err
 	} else {
 		var (
 			x   scanner.Scanner
@@ -48,28 +47,27 @@ func parse(s *Schema) error {
 		for tok := x.Scan(); tok != scanner.EOF; tok = x.Scan() {
 			typ := scanner.TokenString(tok)
 			text := x.TokenText()
-			fmt.Printf("%s(%s): %s\n", x.Position, typ, text)
 			if typ == "Float" {
 				if val, err := strconv.ParseFloat(text, 32); err != nil {
-					return err
+					return nil, err
 				} else {
 					cur = float32(val)
-					log.Printf("parse init %f", cur)
+					log.D("parse init %f", cur)
 					if cmd, err := readStatement(&x); err != nil {
-						return err
+						return nil, err
 					} else {
-						s.Data[cur] = cmd
+						d[cur] = cmd
 					}
 				}
 			} else if tok == '\n' {
 				continue
 			} else {
-				return errors.New(sprintf("unkown token %s: %s(%s)",
+				return nil, errors.New(sprintf("unkown token %s: %s(%s)",
 					x.Position, typ, text))
 			}
 		}
 	}
-	return nil
+	return d, nil
 }
 
 func readStatement(x *scanner.Scanner) (Cmd, error) {
@@ -77,7 +75,6 @@ func readStatement(x *scanner.Scanner) (Cmd, error) {
 	for tok := x.Scan(); tok != ':'; tok = x.Scan() {
 		typ := scanner.TokenString(tok)
 		text := x.TokenText()
-		fmt.Printf("READ: %s(%s)\n", text, typ)
 		if typ == "Ident" {
 			cmd = text
 			_, ok := cmdToken[cmd]
@@ -109,7 +106,6 @@ func createTable(t Table, x *scanner.Scanner) error {
 	for tok := x.Scan(); tok != '\n'; tok = x.Scan() {
 		typ := scanner.TokenString(tok)
 		tbl := x.TokenText()
-		fmt.Printf("CREATE: %s %s\n", typ, tbl)
 		if typ == "Ident" {
 			t[tbl] = nil
 		}

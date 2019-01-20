@@ -4,49 +4,36 @@
 package schema
 
 import (
-	"fmt"
-	"encoding/json"
-
-	"github.com/jrmsdev/jcms/db"
+	"github.com/jrmsdev/jcms/internal/db/schema/parser"
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
 var (
 	dbs *Schema
 )
-var sprintf = fmt.Sprintf
 
 type Schema struct {
 	name string
-	Data Data `json:"schema"`
+	data parser.Data
 }
 
 func newSchema(n string) *Schema {
-	return &Schema{name: n, Data: newData()}
-}
-
-func (s *Schema) String() string {
-	return s.name
+	return &Schema{name: n}
 }
 
 func Setup(wapp string) {
 	log.D("Setup %s %s", wapp)
+	var err error
 	if dbs != nil {
 		log.Panic("db schema setup already done: %s", dbs)
 	}
 	dbs = newSchema(wapp)
-	if err := parse(dbs); err != nil {
+	if dbs.data, err = parser.Parse(); err != nil {
 		log.Panic("parse db schema: %s", err.Error())
 	}
 	log.D("parse dbs %s done", dbs)
 }
 
-func Check() error {
-	log.D("Check %s", db.Webapp())
-	if blob, err := json.MarshalIndent(dbs, "", "  "); err != nil {
-		return err
-	} else {
-		log.D("JSON: %s", blob)
-	}
-	return nil
+func (s *Schema) String() string {
+	return s.name
 }

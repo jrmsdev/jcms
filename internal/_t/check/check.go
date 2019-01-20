@@ -16,7 +16,7 @@ import (
 func NotNil(t *testing.T, got interface{}, errmsg string) bool {
 	t.Helper()
 	if got != nil {
-		t.Logf("%s not nil: %T", errmsg)
+		t.Logf("%s not nil: %T", errmsg, got)
 		return true
 	}
 	return false
