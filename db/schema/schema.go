@@ -22,7 +22,7 @@ func newSchema(n string) *Schema {
 }
 
 func Setup(wapp string) {
-	log.D("Setup %s %s", wapp)
+	log.D("Setup %s", wapp)
 	var err error
 	if dbs != nil {
 		log.Panic("db schema setup already done: %s", dbs)

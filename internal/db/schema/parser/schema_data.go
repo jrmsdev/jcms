@@ -35,7 +35,7 @@ func (d *Data) Pop() interface{} {
 	n := len(old)
 	s := old[n-1]
 	s.index = -1
-	*d = old[0:n-1]
+	*d = old[0 : n-1]
 	return s
 }
 
