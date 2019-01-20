@@ -4,11 +4,12 @@
 package parser
 
 import (
-	"fmt"
 	"bytes"
-	"text/scanner"
-	"strconv"
+	"container/heap"
 	"errors"
+	"fmt"
+	"strconv"
+	"text/scanner"
 
 	"github.com/jrmsdev/jcms/assets"
 	"github.com/jrmsdev/jcms/internal/log"
@@ -16,12 +17,8 @@ import (
 
 var sprintf = fmt.Sprintf
 
-type Data map[float32]Cmd
-type Cmd map[string]Table
-type Table map[string]Info
-type Info map[string]string
+type cmdFunc func(*Table, *scanner.Scanner) error
 
-type cmdFunc func(Table, *scanner.Scanner) error
 var cmdToken = map[string]cmdFunc{
 	"create": createTable,
 	"index":  dummy,
@@ -33,7 +30,8 @@ var cmdToken = map[string]cmdFunc{
 
 func Parse() (Data, error) {
 	log.D("Parse")
-	d := make(Data)
+	d := newData()
+	heap.Init(&d)
 	if blob, err := assets.ReadFile("db.schema"); err != nil {
 		return nil, err
 	} else {
@@ -43,7 +41,8 @@ func Parse() (Data, error) {
 		)
 		x.Init(bytes.NewReader(blob))
 		x.Filename = "db.schema"
-		x.Whitespace ^= 1<<'\n'
+		x.Whitespace ^= 1 << '\n'
+		idx := 0
 		for tok := x.Scan(); tok != scanner.EOF; tok = x.Scan() {
 			typ := scanner.TokenString(tok)
 			text := x.TokenText()
@@ -56,7 +55,13 @@ func Parse() (Data, error) {
 					if cmd, err := readStatement(&x); err != nil {
 						return nil, err
 					} else {
-						d[cur] = cmd
+						stmt := &Stmt{
+							cmd:      cmd,
+							priority: cur,
+							index:    idx,
+						}
+						heap.Push(&d, stmt)
+						idx++
 					}
 				}
 			} else if tok == '\n' {
@@ -70,7 +75,7 @@ func Parse() (Data, error) {
 	return d, nil
 }
 
-func readStatement(x *scanner.Scanner) (Cmd, error) {
+func readStatement(x *scanner.Scanner) (*Cmd, error) {
 	var cmd string
 	for tok := x.Scan(); tok != ':'; tok = x.Scan() {
 		typ := scanner.TokenString(tok)
@@ -85,29 +90,28 @@ func readStatement(x *scanner.Scanner) (Cmd, error) {
 			return nil, errors.New(sprintf("invalid type token: %s(%s)", typ, cmd))
 		}
 	}
-	t := make(Table)
+	t := newTable()
 	f := cmdToken[cmd]
 	if err := f(t, x); err != nil {
 		return nil, err
 	}
-	r := make(Cmd)
-	r[cmd] = t
-	return r, nil
+	return newCmd(cmd, t), nil
 }
 
-func dummy(t Table, x *scanner.Scanner) error {
+func dummy(t *Table, x *scanner.Scanner) error {
 	for tok := x.Scan(); tok != '\n'; tok = x.Scan() {
 		continue
 	}
 	return nil
 }
 
-func createTable(t Table, x *scanner.Scanner) error {
+func createTable(t *Table, x *scanner.Scanner) error {
 	for tok := x.Scan(); tok != '\n'; tok = x.Scan() {
 		typ := scanner.TokenString(tok)
 		tbl := x.TokenText()
 		if typ == "Ident" {
-			t[tbl] = nil
+			t.name = tbl
+			t.info = nil
 		}
 	}
 	return nil

@@ -4,9 +4,11 @@
 package schema
 
 import (
+	"container/heap"
 	"errors"
 
 	"github.com/jrmsdev/jcms/db"
+	"github.com/jrmsdev/jcms/internal/db/schema/parser"
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
@@ -15,6 +17,9 @@ func Check() error {
 	if dbs == nil {
 		return errors.New("nil schema")
 	}
-	log.D("dbs %#v", dbs)
+	for dbs.data.Len() > 0 {
+		stmt := heap.Pop(&dbs.data).(*parser.Stmt)
+		log.D("stmt: %s", stmt)
+	}
 	return nil
 }
