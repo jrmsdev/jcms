@@ -28,8 +28,9 @@ func Setup(wapp string) {
 		log.Panic("db schema setup already done: %s", dbs)
 	}
 	dbs = newSchema(wapp)
-	if dbs.data, err = parser.Parse(); err != nil {
-		log.Panic("parse db schema: %s", err.Error())
+	dbs.data, err = parser.Parse()
+	if err != nil {
+		log.Panic("parse db schema: %s", err)
 	}
 	log.D("parse dbs %s done", dbs)
 }
