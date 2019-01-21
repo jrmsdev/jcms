@@ -1,7 +1,9 @@
-#!/bin/sh -eu
+#!/bin/sh -eux
 . ./jcms-devel.env
 go generate ./...
 mkdir -p build
+mainsrc=./internal/_devel
+develcmd=./build/jcms-devel.bin
 rm -f $develcmd
 go build -o $develcmd $mainsrc
-$develcmd -D -n devel -p 6080
+$develcmd -D -p 6080
