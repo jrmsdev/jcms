@@ -4,6 +4,7 @@
 package handler
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -16,8 +17,19 @@ import (
 	"github.com/jrmsdev/jcms/internal/mime"
 )
 
+var sprintf = fmt.Sprintf
+
 func Setup(r *mux.Router) {
 	log.D("handler setup: zipmode(%t)", zipmode)
+	if zipmode {
+		setupZipServer(r)
+	} else {
+		setupFileServer(r)
+	}
+}
+
+func setupFileServer(r *mux.Router) {
+	log.D("setup file server")
 	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
 		newFileServer("./internal/httpd/handler/lib")))
 	s := newFileServer("./internal/admin/html")

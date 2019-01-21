@@ -7,6 +7,5 @@ package handler
 
 func init() {
 	zipmode = true
+	zipfile = ""
 }
-
-const zipfile string = ""

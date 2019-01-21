@@ -93,6 +93,10 @@ func zfile(name, fn string) error {
 	if err != nil {
 		return err
 	}
+	err = z.Flush()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -134,8 +138,8 @@ func parse(line string) string {
 	//~ println("parse line " + l)
 	if strings.HasPrefix(l, "// generated on") {
 		return sprintf("// generated on %s\n", time.Now().Format(time.RFC1123Z))
-	} else if strings.HasPrefix(l, "const zipfile string") {
-		return sprintf("const zipfile string = \"%s\"\n", b64(zbuf.Bytes()))
+	} else if strings.HasPrefix(l, "zipfile = ") {
+		return sprintf("\tzipfile = \"%s\"\n", b64(zbuf.Bytes()))
 	}
 	return line
 }
