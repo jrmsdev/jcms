@@ -12,12 +12,12 @@ import (
 
 var (
 	ShowVersion bool
-	Debug bool
-	Quiet bool
-	HttpPort int
-	Webapp string
-	Basedir string
-	Datadir string
+	Debug       bool
+	Quiet       bool
+	HttpPort    int
+	Webapp      string
+	Assetsdir   string
+	Datadir     string
 )
 
 func init() {
@@ -26,7 +26,7 @@ func init() {
 	flag.BoolVar(&Quiet, "q", false, "quiet mode")
 	flag.IntVar(&HttpPort, "p", 0, "http `port` (default \"0\")")
 	flag.StringVar(&Webapp, "n", "default", "`webapp` name")
-	flag.StringVar(&Basedir, "a", "", "assets `directory`")
+	flag.StringVar(&Assetsdir, "a", "", "assets `directory`")
 	flag.StringVar(&Datadir, "d", "", "data `directory`")
 }
 
@@ -40,8 +40,8 @@ func Parse() *config.Config {
 		cfg.Log = "debug"
 	}
 	cfg.HttpPort = fmt.Sprintf("%d", HttpPort)
-	if Basedir != "" {
-		cfg.Basedir = Basedir
+	if Assetsdir != "" {
+		cfg.Assetsdir = Assetsdir
 	}
 	if Datadir != "" {
 		cfg.Datadir = Datadir

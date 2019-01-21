@@ -20,7 +20,7 @@ type HandlerSetupFunc func(*mux.Router)
 type Config struct {
 	Name          string
 	Log           string
-	Basedir       string
+	Assetsdir     string
 	Datadir       string
 	AssetsManager assets.Manager
 	StorageDriver storage.Driver
@@ -31,10 +31,10 @@ type Config struct {
 }
 
 var (
-	defName    string
-	defLog     string
-	defBasedir string
-	defDatadir string
+	defName      string
+	defLog       string
+	defAssetsdir string
+	defDatadir   string
 )
 
 func init() {
@@ -46,9 +46,9 @@ func init() {
 	if defLog == "" {
 		defLog = "default"
 	}
-	defBasedir = os.Getenv("JCMS_BASEDIR")
-	if defBasedir == "" {
-		defBasedir = filepath.FromSlash("/srv/jcms")
+	defAssetsdir = os.Getenv("JCMS_ASSETSDIR")
+	if defAssetsdir == "" {
+		defAssetsdir = filepath.FromSlash("/srv/jcms")
 	}
 	defDatadir = os.Getenv("JCMS_DATADIR")
 	if defDatadir == "" {
@@ -63,7 +63,7 @@ func New(name string) *Config {
 	return &Config{
 		Name:         name,
 		Log:          defLog,
-		Basedir:      defBasedir,
+		Assetsdir:    defAssetsdir,
 		Datadir:      defDatadir,
 		StaticEnable: true,
 		HttpPort:     "0",
@@ -74,7 +74,7 @@ func New(name string) *Config {
 
 func (cfg *Config) GetAssetsManager() assets.Manager {
 	if cfg.AssetsManager == nil {
-		cfg.AssetsManager = manager.New(cfg.Name, cfg.Basedir)
+		cfg.AssetsManager = manager.New(cfg.Name, cfg.Assetsdir)
 	}
 	return cfg.AssetsManager
 }

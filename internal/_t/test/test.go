@@ -36,7 +36,7 @@ func Main(m *testing.M, name string) {
 
 func Config(name string) *config.Config {
 	cfg := config.New(name)
-	cfg.Basedir = filepath.FromSlash("./testdata/assets")
+	cfg.Assetsdir = filepath.FromSlash("./testdata/assets")
 	cfg.Datadir = filepath.FromSlash("./testdata/data")
 	return cfg
 }

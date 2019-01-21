@@ -14,17 +14,17 @@ import (
 )
 
 type astman struct {
-	basedir string
+	assetsdir string
 }
 
-func New(wapp, basedir string) *astman {
-	p := path.Join(basedir, wapp)
+func New(wapp, assetsdir string) *astman {
+	p := path.Join(assetsdir, wapp)
 	log.D("%s", p)
 	return &astman{p}
 }
 
 func (m *astman) getFilename(relname string) string {
-	return filepath.FromSlash(path.Join(m.basedir, relname))
+	return filepath.FromSlash(path.Join(m.assetsdir, relname))
 }
 
 func (m *astman) Open(relname string) (assets.File, error) {

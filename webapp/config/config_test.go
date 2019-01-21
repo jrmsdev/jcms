@@ -25,8 +25,8 @@ func TestDefaults(t *testing.T) {
 	if check.NotEqual(t, cfg.Log, expect, "log level") {
 		t.Fail()
 	}
-	if check.NotEqual(t, cfg.Basedir,
-		filepath.FromSlash("/srv/jcms"), "basedir") {
+	if check.NotEqual(t, cfg.Assetsdir,
+		filepath.FromSlash("/srv/jcms"), "assetsdir") {
 		t.Fail()
 	}
 	if check.NotTrue(t, cfg.StaticEnable, "static enable") {

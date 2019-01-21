@@ -48,7 +48,7 @@ func Start(cfg *config.Config) string {
 	log.Init(cfg.Log)
 	log.D("Start: %s", cfg.Name)
 	log.Printf("jcms v%s", Version())
-	log.Printf("assets %s", cfg.Basedir)
+	log.Printf("assets %s", cfg.Assetsdir)
 	log.Printf("data %s", cfg.Datadir)
 	webapp.Setup(cfg)
 	db.CheckEngine()
