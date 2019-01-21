@@ -17,7 +17,7 @@ import (
 )
 
 func Setup(r *mux.Router) {
-	log.D("handler setup")
+	log.D("handler setup: zipmode(%t)", zipmode)
 	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
 		newFileServer("./internal/httpd/handler/lib")))
 	s := newFileServer("./internal/admin/html")
@@ -26,7 +26,7 @@ func Setup(r *mux.Router) {
 }
 
 type fileServer struct {
-	dir string
+	dir     string
 	defname string
 }
 
