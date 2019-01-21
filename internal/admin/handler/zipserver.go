@@ -77,6 +77,9 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Printf("sent: %s %d bytes", rp, n)
 	}
+	if err := fh.Close(); err != nil {
+		log.E("%s", err)
+	}
 }
 
 func (s *zipServer) setHeaders(w http.ResponseWriter, rp string) {
