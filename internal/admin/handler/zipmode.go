@@ -35,7 +35,7 @@ func setupZipServer(r *mux.Router) {
 }
 
 type zipServer struct {
-	rdr *zip.Reader
+	rdr   *zip.Reader
 	files map[string]*zip.File
 }
 
@@ -49,7 +49,7 @@ func newZipServer() *zipServer {
 		zf[f.Name] = f
 	}
 	return &zipServer{
-		rdr:     zr,
+		rdr:   zr,
 		files: zf,
 	}
 }
