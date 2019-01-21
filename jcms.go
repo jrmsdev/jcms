@@ -27,6 +27,7 @@ func Main() {
 		fmt.Fprintf(os.Stderr, "jcms version %s\n", Version())
 		os.Exit(0)
 	}
+	log.Init(cfg.Log)
 	log.Printf("%s %s", cfg.Name, Start(cfg))
 	defer Stop()
 	Serve()
@@ -45,7 +46,6 @@ func trapSignals() {
 }
 
 func Start(cfg *config.Config) string {
-	log.Init(cfg.Log)
 	log.D("Start: %s", cfg.Name)
 	log.Printf("jcms v%s", Version())
 	log.Printf("assets %s", cfg.Assetsdir)
