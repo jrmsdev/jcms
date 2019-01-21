@@ -1,8 +1,12 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
+// generated on
+
 package handler
 
 func init() {
 	zipmode = true
 }
+
+const zipfile string = ""
