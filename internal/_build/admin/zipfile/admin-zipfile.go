@@ -32,6 +32,8 @@ var glob = []fdef{
 	{"../httpd/handler/lib/", "_lib", "*.css"},
 	{"../httpd/handler/lib/", "_lib", "*.js"},
 	{"./html/", "", "*.html"},
+	{"./html/inc/", "inc", "*.html"},
+	{"./html/inc/", "inc", "*.js"},
 }
 
 var (
