@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/jrmsdev/jcms/internal/admin/api"
 	"github.com/jrmsdev/jcms/internal/log"
 )
 
@@ -15,6 +16,7 @@ var sprintf = fmt.Sprintf
 
 func Setup(r *mux.Router) {
 	log.D("handler setup: zipmode(%t)", zipmode)
+	api.Setup(r)
 	if zipmode {
 		setupZipServer(r)
 	} else {
