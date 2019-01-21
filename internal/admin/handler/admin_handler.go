@@ -51,7 +51,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	fh, err := os.Open(fp)
+	fh, err := fileOpen(fp)
 	if err != nil {
 		log.E("%s", err)
 		http.Error(w, "open error", http.StatusInternalServerError)
@@ -81,4 +81,8 @@ func fileNotFound(fp string) bool {
 		return true
 	}
 	return false
+}
+
+func fileOpen(fp string) (*os.File, error) {
+	return os.Open(fp)
 }
