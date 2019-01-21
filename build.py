@@ -11,6 +11,7 @@ BUILDS = {
 	"darwin":  ("386", "amd64"),
 	"windows": ("386", "amd64"),
 }
+CMDBIN = ['jcms', 'jcms-admin']
 
 def _print(s):
 	print(s)
@@ -66,7 +67,8 @@ for goos in sorted(BUILDS.keys()):
 	os.environ["GOOS"] = goos
 	for goarch in BUILDS[goos]:
 		os.environ["GOARCH"] = goarch
-		cmd = "go build -o build/jcms-{}-{}-{}.bin ./cmd/jcms".format(version, goos, goarch)
-		_call(cmd)
+		for n in CMDBIN:
+			cmd = "go build -o build/{}-{}-{}-{}.bin ./cmd/{}".format(n, version, goos, goarch, n)
+			_call(cmd)
 
 _exit(0)
