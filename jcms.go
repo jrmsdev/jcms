@@ -24,7 +24,7 @@ var done bool
 func Main() {
 	cfg := flags.Parse()
 	if flags.ShowVersion {
-		fmt.Printf("jcms version %s\n", Version())
+		fmt.Fprintf(os.Stderr, "jcms version %s\n", Version())
 		os.Exit(0)
 	}
 	log.Printf("%s %s", cfg.Name, Start(cfg))
