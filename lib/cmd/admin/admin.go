@@ -41,7 +41,7 @@ func newRouter() *mux.Router {
 	r := mux.NewRouter()
 	return r.Host("127.0.0.1").
 		Methods("GET").
-		Schemes("http").
+		//~ Schemes("http").
 		Subrouter().
 		StrictSlash(true)
 }

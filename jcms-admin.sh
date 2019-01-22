@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 . ./jcms-devel.env
-go generate ./...
+go generate ./webapp/...
 if test "${1:-'zipmode'}" = '--devel'; then
 	rm -vf lib/internal/admin/handler/zipfile.go
 fi
