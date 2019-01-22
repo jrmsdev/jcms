@@ -11,16 +11,14 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"path"
 	fpath "path/filepath"
 	"strings"
 	"time"
 )
 
-type fdef struct {
-	dir     string
-	prefix  string
-	pattern string
+type gdef struct {
+	dir  string
+	patt []string
 }
 
 var sprintf = fmt.Sprintf
@@ -28,12 +26,11 @@ var zbuf = new(bytes.Buffer)
 var z = zip.NewWriter(zbuf)
 var b64 = base64.StdEncoding.EncodeToString
 
-var glob = []fdef{
-	{"../../webapp/_lib/", "_lib", "*.css"},
-	{"../../webapp/_lib/", "_lib", "*.js"},
-	{"../../webapp/admin/html/", "", "*.html"},
-	{"../../webapp/admin/html/inc/", "inc", "*.html"},
-	{"../../webapp/admin/html/inc/", "inc", "*.js"},
+var glob = []gdef{
+	{"../../webapp/",
+		[]string{"_lib/*.css", "_lib/*.js"}},
+	{"../../webapp/admin/",
+		[]string{"*.html", "inc/*.html", "inc/*.js"}},
 }
 
 var (
@@ -65,16 +62,15 @@ func Gen() {
 	println("generate " + dstfn)
 	for _, g := range glob {
 		dir := fpath.FromSlash(g.dir)
-		files, err := fpath.Glob(dir + g.pattern)
-		check(err)
-		for _, fn := range files {
-			n, err := fpath.Rel(dir, fn)
+		for _, patt := range g.patt {
+			files, err := fpath.Glob(dir + fpath.FromSlash(patt))
 			check(err)
-			if g.prefix != "" {
-				n = path.Join(g.prefix, fpath.ToSlash(n))
+			for _, fn := range files {
+				n, err := fpath.Rel(dir, fn)
+				check(err)
+				check(zfile(n, fn))
+				println("     zip " + n)
 			}
-			check(zfile(n, fn))
-			println("     zip " + n)
 		}
 	}
 	check(z.Close())
