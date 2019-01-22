@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
 
@@ -24,7 +25,7 @@ func Main() {
 		os.Exit(0)
 	}
 	log.Init(flags.Log)
-	log.Printf("jcms-admin version %s", jcms.Version())
+	log.Printf("%s version %s", filepath.Base(os.Args[0]), jcms.Version())
 	log.Printf("http://127.0.0.1:%s/", flags.HttpPort)
 	rtr := newRouter()
 	handler.Setup(rtr)
