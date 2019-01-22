@@ -8,8 +8,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/jrmsdev/jcms/internal/admin/api"
-	"github.com/jrmsdev/jcms/internal/log"
+	"github.com/jrmsdev/jcms/lib/internal/admin/api"
+	"github.com/jrmsdev/jcms/lib/log"
 )
 
 var sprintf = fmt.Sprintf

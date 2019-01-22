@@ -12,8 +12,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/jrmsdev/jcms/internal/log"
-	"github.com/jrmsdev/jcms/internal/mime"
+	"github.com/jrmsdev/jcms/lib/internal/mime"
+	"github.com/jrmsdev/jcms/lib/log"
 )
 
 func setupFileServer(r *mux.Router) {

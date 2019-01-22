@@ -48,18 +48,18 @@ if "race" in tests and race == "":
 	race = " -race"
 
 prevcmd = {
-	0: "go generate ./...",
+	0: "go generate ./lib/...",
 }
 
 if not test_only:
-	prevcmd[10] = "go vet ./..."
-	prevcmd[20] = "go install{} ./cmd/...".format(install_args)
-	prevcmd[30] = "go get -v -t ./..."
+	prevcmd[10] = "go vet ./bin/... ./lib/..."
+	prevcmd[20] = "go install{} ./bin/...".format(install_args)
+	prevcmd[30] = "go get -v -t ./lib/..."
 
 for idx in sorted(prevcmd.keys()):
 	_call(prevcmd[idx])
 
-_call("go test{}{}{} ./...".format(verbose, race, coverage))
+_call("go test{}{}{} ./lib/...".format(verbose, race, coverage))
 
 if test_coverage:
 	_call("go tool cover -html coverage.out -o coverage.html")

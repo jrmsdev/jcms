@@ -11,7 +11,8 @@ BUILDS = {
 	"darwin":  ("386", "amd64"),
 	"windows": ("386", "amd64"),
 }
-CMDBIN = ['jcms', 'jcms-admin']
+VERSION = "0.0"
+CMDBIN = ['jcms-admin']
 
 def _print(s):
 	print(s)
@@ -58,17 +59,18 @@ if os.system("rm -rf build") != 0:
 if os.system("mkdir build") != 0:
 	_exit(1)
 
-_call("go generate ./...")
-version = check_output("go run ./internal/_build/version/main.go".split()).strip()
+_call("go generate ./lib/...")
+goversion = check_output(["go", "version"]).strip().split()[2].strip()
 
-_call("go vet ./...")
+_call("go vet ./bin/... ./lib/...")
 
 for goos in sorted(BUILDS.keys()):
 	os.environ["GOOS"] = goos
 	for goarch in BUILDS[goos]:
 		os.environ["GOARCH"] = goarch
+		version = "{}-{}-{}-{}".format(VERSION, goversion, goos, goarch)
 		for n in CMDBIN:
-			cmd = "go build -o build/{}-{}-{}-{}.bin ./cmd/{}".format(n, version, goos, goarch, n)
+			cmd = "go build -o build/{}-{}.bin ./bin/{}".format(n, version, n)
 			_call(cmd)
 
 _exit(0)

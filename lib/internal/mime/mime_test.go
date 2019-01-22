@@ -6,7 +6,7 @@ package mime
 import (
 	"testing"
 
-	"github.com/jrmsdev/jcms/internal/_t/check"
+	"github.com/jrmsdev/jcms/_t/check"
 )
 
 func TestExt(t *testing.T) {

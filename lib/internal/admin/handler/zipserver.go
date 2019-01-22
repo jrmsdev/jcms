@@ -14,8 +14,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/jrmsdev/jcms/internal/log"
-	"github.com/jrmsdev/jcms/internal/mime"
+	"github.com/jrmsdev/jcms/lib/internal/mime"
+	"github.com/jrmsdev/jcms/lib/log"
 )
 
 var zipmode bool = false

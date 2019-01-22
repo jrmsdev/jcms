@@ -4,7 +4,7 @@
 package main
 
 import (
-	"github.com/jrmsdev/jcms/admin"
+	"github.com/jrmsdev/jcms/lib/cmd/admin"
 )
 
 func main() {

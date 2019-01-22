@@ -9,8 +9,8 @@ import (
 	"path"
 
 	"github.com/jrmsdev/jcms"
-	"github.com/jrmsdev/jcms/internal/log"
-	"github.com/jrmsdev/jcms/internal/mime"
+	"github.com/jrmsdev/jcms/lib/internal/mime"
+	"github.com/jrmsdev/jcms/lib/log"
 )
 
 type response struct {

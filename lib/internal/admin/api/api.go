@@ -6,8 +6,8 @@ package api
 import (
 	"github.com/gorilla/mux"
 
-	"github.com/jrmsdev/jcms/internal/admin/api/jcms"
-	"github.com/jrmsdev/jcms/internal/log"
+	"github.com/jrmsdev/jcms/lib/internal/admin/api/jcms"
+	"github.com/jrmsdev/jcms/lib/log"
 )
 
 func Setup(r *mux.Router) {

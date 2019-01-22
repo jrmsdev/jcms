@@ -1,9 +1,8 @@
 #!/bin/sh -eu
 extra_files='
-./internal/httpd/handler/lib_files.go.in
-./internal/admin/handler/zipfile.go.in
+./lib/internal/admin/handler/zipfile.go.in
 '
-gofmt -w -l -s .
+gofmt -w -l -s ./bin ./lib
 for f in $extra_files; do
 	gofmt -w -l -s $f
 done

@@ -29,8 +29,8 @@ var z = zip.NewWriter(zbuf)
 var b64 = base64.StdEncoding.EncodeToString
 
 var glob = []fdef{
-	{"../httpd/handler/lib/", "_lib", "*.css"},
-	{"../httpd/handler/lib/", "_lib", "*.js"},
+	{"./_lib/", "_lib", "*.css"},
+	{"./_lib/", "_lib", "*.js"},
 	{"./html/", "", "*.html"},
 	{"./html/inc/", "inc", "*.html"},
 	{"./html/inc/", "inc", "*.js"},
