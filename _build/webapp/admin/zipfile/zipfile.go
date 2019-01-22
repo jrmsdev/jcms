@@ -29,11 +29,11 @@ var z = zip.NewWriter(zbuf)
 var b64 = base64.StdEncoding.EncodeToString
 
 var glob = []fdef{
-	{"./_lib/", "_lib", "*.css"},
-	{"./_lib/", "_lib", "*.js"},
-	{"./html/", "", "*.html"},
-	{"./html/inc/", "inc", "*.html"},
-	{"./html/inc/", "inc", "*.js"},
+	{"../../webapp/_lib/", "_lib", "*.css"},
+	{"../../webapp/_lib/", "_lib", "*.js"},
+	{"../../webapp/admin/html/", "", "*.html"},
+	{"../../webapp/admin/html/inc/", "inc", "*.html"},
+	{"../../webapp/admin/html/inc/", "inc", "*.js"},
 }
 
 var (
@@ -43,11 +43,11 @@ var (
 
 func init() {
 	var err error
-	dstfn, err = fpath.Abs(fpath.FromSlash("./handler/zipfile.go"))
+	dstfn, err = fpath.Abs(fpath.FromSlash("../../lib/internal/admin/handler/zipfile.go"))
 	if err != nil {
 		panic(err)
 	}
-	srcfn, err = fpath.Abs(fpath.FromSlash("./handler/zipfile.go.in"))
+	srcfn, err = fpath.Abs(fpath.FromSlash("../../lib/internal/admin/handler/zipfile.go.in"))
 	if err != nil {
 		panic(err)
 	}

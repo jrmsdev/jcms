@@ -4,7 +4,7 @@
 package main
 
 import (
-	"github.com/jrmsdev/jcms/_build/admin/zipfile"
+	"github.com/jrmsdev/jcms/_build/webapp/admin/zipfile"
 )
 
 func main() {

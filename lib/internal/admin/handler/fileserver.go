@@ -19,8 +19,8 @@ import (
 func setupFileServer(r *mux.Router) {
 	log.D("setup file server")
 	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
-		newFileServer("./internal/httpd/handler/lib")))
-	s := newFileServer("./internal/admin/html")
+		newFileServer("./webapp/_lib")))
+	s := newFileServer("./webapp/admin/html")
 	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
