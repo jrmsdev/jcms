@@ -1,6 +1,5 @@
-w3.includeHTML();
+w3.includeHTML(includeDone);
 
-w3.getHttpObject("/_/jcms.json", jcmsDisplay);
-function jcmsDisplay(obj) {
-	w3.displayObject("jcms", obj);
+function includeDone() {
+	w3.displayHttp("jcms", "/_/jcms.json");
 }
