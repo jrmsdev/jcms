@@ -5,12 +5,8 @@ package admin
 
 import (
 	"fmt"
-	"net/http"
 	"os"
-	"time"
 	"path/filepath"
-
-	"github.com/gorilla/mux"
 
 	"github.com/jrmsdev/jcms"
 	"github.com/jrmsdev/jcms/lib/internal/admin/handler"
@@ -27,32 +23,9 @@ func Main() {
 	log.Init(flags.Log)
 	log.Printf("%s version %s", filepath.Base(os.Args[0]), jcms.Version())
 	log.Printf("http://127.0.0.1:%s/", flags.HttpPort)
-	rtr := newRouter()
-	handler.Setup(rtr)
-	srv := initServer(rtr, flags.HttpPort)
+	srv := handler.Setup()
 	if err := srv.ListenAndServe(); err != nil {
 		log.E("%s", err)
 		os.Exit(2)
-	}
-}
-
-func newRouter() *mux.Router {
-	log.D("init router")
-	r := mux.NewRouter()
-	return r.Host("127.0.0.1").
-		Methods("GET").
-		//~ Schemes("http").
-		Subrouter().
-		StrictSlash(true)
-}
-
-func initServer(rtr *mux.Router, port string) *http.Server {
-	log.D("init server")
-	return &http.Server{
-		Handler:        rtr,
-		Addr:           "127.0.0.1:" + port,
-		WriteTimeout:   10 * time.Second,
-		ReadTimeout:    10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
 	}
 }
