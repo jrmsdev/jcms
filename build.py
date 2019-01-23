@@ -12,7 +12,7 @@ BUILDS = {
 	"windows": ("386", "amd64"),
 }
 VERSION = "0.0"
-CMDBIN = ['jcms-admin']
+CMDBIN = ['jcms', 'jcms-admin']
 
 def _print(s):
 	print(s)

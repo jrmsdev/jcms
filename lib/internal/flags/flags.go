@@ -50,7 +50,7 @@ func init() {
 	if Datadir == "" {
 		Datadir = filepath.FromSlash("/srv/jcms/data")
 	}
-	flag.BoolVar(&ShowVersion, "version", false, "show version")
+	flag.BoolVar(&ShowVersion, "version", false, "show version and exit")
 	flag.BoolVar(&Debug, "debug", Debug, "enable debug")
 	flag.BoolVar(&Quiet, "quiet", Quiet, "quiet mode")
 	flag.IntVar(&intHttpPort, "port", intHttpPort, "http port `number`")
