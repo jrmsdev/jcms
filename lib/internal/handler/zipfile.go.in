@@ -3,7 +3,7 @@
 
 // generated on
 
-package admin
+package handler
 
 func init() {
 	zipmode = true

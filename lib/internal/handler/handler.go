@@ -1,7 +1,7 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-package admin
+package handler
 
 import (
 	"fmt"
@@ -23,4 +23,8 @@ func Setup(r *mux.Router) {
 	} else {
 		setupFileServer(r)
 	}
+}
+
+func Admin(r *mux.Router) {
+	log.D("admin setup")
 }

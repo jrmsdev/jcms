@@ -1,7 +1,7 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-package admin
+package handler
 
 import (
 	"archive/zip"
@@ -59,7 +59,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if rp == "" {
 		rp = "index.html"
 	}
-	log.D("ServeHTTP %s", rp)
+	log.D("serve %s", rp)
 	if s.notFound(rp) {
 		log.Printf("%s file not found", rp)
 		http.Error(w, "not found", http.StatusNotFound)
@@ -83,7 +83,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *zipServer) setHeaders(w http.ResponseWriter, rp string) {
-	log.D("setHeaders %s", rp)
+	log.D("set headers %s", rp)
 	w.Header().Set("Content-Type", mime.TypeByExtension(path.Ext(rp)))
 }
 

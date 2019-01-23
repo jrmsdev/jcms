@@ -6,13 +6,14 @@ package webapp
 import (
 	"github.com/gorilla/mux"
 
-	"github.com/jrmsdev/jcms/lib/internal/handler/admin"
+	"github.com/jrmsdev/jcms/lib/internal/handler"
 )
 
 func setup(w *Webapp) *Webapp {
 	w.router = mux.NewRouter()
+	handler.Setup(w.router)
 	if w.admin {
-		admin.Setup(w.router)
+		handler.Admin(w.router)
 	}
 	return w
 }

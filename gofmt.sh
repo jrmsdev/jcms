@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 extra_files='
-./lib/internal/admin/handler/zipfile.go.in
+./lib/internal/handler/zipfile.go.in
 '
 gofmt -w -l -s ./bin ./lib
 for f in $extra_files; do
