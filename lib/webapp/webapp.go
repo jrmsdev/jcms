@@ -31,7 +31,7 @@ func wapp() *Webapp {
 	cmd := filepath.Base(os.Args[0])
 	flags.Parse()
 	log.Init(flags.Log)
-	if ! flags.ShowVersion {
+	if !flags.ShowVersion {
 		log.Printf("%s version %s", cmd, jcms.Version())
 	}
 	return &Webapp{}

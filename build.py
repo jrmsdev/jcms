@@ -70,7 +70,8 @@ for goos in sorted(BUILDS.keys()):
 		os.environ["GOARCH"] = goarch
 		version = "{}-{}-{}-{}".format(VERSION, goversion, goos, goarch)
 		for n in CMDBIN:
-			cmd = "go build -o build/{}-{}.bin ./bin/{}".format(n, version, n)
+			t = n.replace("-", "")
+			cmd = "go build -tags {} -o build/{}-{}.bin ./bin/{}".format(t, n, version, n)
 			_call(cmd)
 
 _exit(0)
