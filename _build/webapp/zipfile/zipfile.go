@@ -130,6 +130,10 @@ func write(fn string) error {
 			return err
 		}
 	}
+	_, err = dbuf.WriteString("\n")
+	if err != nil {
+		return err
+	}
 	for _, f := range zfiles {
 		_, err = dbuf.WriteString(sprintf("// %s\n", f))
 		if err != nil {
