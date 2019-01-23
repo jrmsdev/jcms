@@ -6,7 +6,7 @@ package api
 import (
 	"github.com/gorilla/mux"
 
-	"github.com/jrmsdev/jcms/lib/internal/admin/api/jcms"
+	"github.com/jrmsdev/jcms/lib/internal/api/jcms"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 

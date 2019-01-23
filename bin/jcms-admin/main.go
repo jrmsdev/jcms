@@ -4,9 +4,10 @@
 package main
 
 import (
-	"github.com/jrmsdev/jcms/lib/cmd/admin"
+	"github.com/jrmsdev/jcms/lib/webapp"
 )
 
 func main() {
-	admin.Main()
+	wapp := webapp.Admin()
+	webapp.Main(wapp)
 }

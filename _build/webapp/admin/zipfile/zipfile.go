@@ -40,11 +40,11 @@ var (
 
 func init() {
 	var err error
-	dstfn, err = fpath.Abs(fpath.FromSlash("../../lib/internal/admin/handler/zipfile.go"))
+	dstfn, err = fpath.Abs(fpath.FromSlash("../../lib/internal/handler/admin/zipfile.go"))
 	if err != nil {
 		panic(err)
 	}
-	srcfn, err = fpath.Abs(fpath.FromSlash("../../lib/internal/admin/handler/zipfile.go.in"))
+	srcfn, err = fpath.Abs(fpath.FromSlash("../../lib/internal/handler/admin/zipfile.go.in"))
 	if err != nil {
 		panic(err)
 	}

@@ -1,11 +1,8 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-// generated on
+package webapp
 
-package handler
-
-func init() {
-	zipmode = true
-	zipfile = ""
+func Stop(w *Webapp) error {
+	return nil
 }

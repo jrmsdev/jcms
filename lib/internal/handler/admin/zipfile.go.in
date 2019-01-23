@@ -1,0 +1,11 @@
+// Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
+// See LICENSE file.
+
+// generated on
+
+package admin
+
+func init() {
+	zipmode = true
+	zipfile = ""
+}
