@@ -8,5 +8,5 @@ mkdir -p build
 mainsrc=./bin/jcms-admin
 admincmd=./build/jcms-admin.bin
 rm -f $admincmd
-go build -o $admincmd $mainsrc
+go build -tags jcmsadmin -o $admincmd $mainsrc
 $admincmd -debug
