@@ -13,7 +13,7 @@ import (
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
-func init () {
+func init() {
 	adminSetup = func(r *mux.Router) {
 		log.D("setup admin file server")
 		htmldir = "./webapp/admin"
