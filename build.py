@@ -59,7 +59,7 @@ if os.system("rm -rf build") != 0:
 if os.system("mkdir build") != 0:
 	_exit(1)
 
-_call("go generate ./webapp/...")
+_call("go generate ./webapp")
 goversion = check_output(["go", "version"]).strip().split()[2].strip()
 
 _call("go vet ./bin/... ./lib/...")

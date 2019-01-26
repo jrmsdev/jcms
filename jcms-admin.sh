@@ -1,8 +1,8 @@
 #!/bin/sh -eu
 . ./jcms-devel.env
-go generate ./webapp/...
+go generate ./webapp
 if test "${1:-'zipmode'}" = '--devel'; then
-	rm -vf lib/internal/admin/handler/zipfile.go
+	rm -vf lib/internal/handler/zipfile_admin.go
 fi
 mkdir -p build
 mainsrc=./bin/jcms-admin

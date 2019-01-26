@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jcms default webapp</title>
+		<script src="/_lib/w3.js"></script>
+	</head>
+	<body>
+		<div w3-include-html="/inc/jcms.html"></div>
+		<script>
+		w3.includeHTML(includeDone);
+		function includeDone() {
+			w3.displayHttp("jcms", "/_/jcms.json");
+		}
+		</script>
+	</body>
+</html>

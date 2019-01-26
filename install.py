@@ -27,7 +27,7 @@ goversion = check_output("go version".split()).strip()
 if "1.9" in goversion:
 	install_args = ""
 
-_call("go generate ./webapp/...")
+_call("go generate ./webapp")
 _call("go vet ./bin/... ./lib/...")
 
 for n in CMDBIN:

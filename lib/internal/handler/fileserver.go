@@ -16,11 +16,17 @@ import (
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
+var adminSetup func(r *mux.Router)
+var htmldir string = "./webapp/html"
+
 func setupFileServer(r *mux.Router) {
 	log.D("setup file server")
 	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
 		newFileServer("./webapp/_lib")))
-	s := newFileServer("./webapp/admin")
+	if adminSetup != nil {
+		adminSetup(r)
+	}
+	s := newFileServer(htmldir)
 	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }

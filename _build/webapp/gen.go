@@ -13,8 +13,8 @@ var glob = []zipfile.Glob{
 	{"./",
 		[]string{"_lib/*.css", "_lib/*.js"}},
 	// html files
-	{"./",
-		[]string{"*.html"}},
+	{"./html/",
+		[]string{"*.html", "inc/*.html"}},
 }
 
 // admin files
@@ -22,9 +22,14 @@ var adminGlob = []zipfile.Glob{
 	// _lib
 	{"./",
 		[]string{"_lib/*.css", "_lib/*.js"}},
-	// html files
-	{"./admin/",
-		[]string{"*.html", "inc/*.html", "inc/*.js"}},
+	// webapp html files
+	{"./html/",
+		[]string{"inc/*.html"}},
+	// admin html files
+	{"./html/",
+		[]string{"inc/admin/*.js"}},
+	{"./html/admin/",
+		[]string{"*.html"}},
 }
 
 func main() {

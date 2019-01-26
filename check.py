@@ -48,7 +48,7 @@ if "race" in tests and race == "":
 	race = " -race"
 
 prevcmd = {
-	0: "go generate ./webapp/...",
+	0: "go generate ./webapp",
 }
 
 if not test_only:
