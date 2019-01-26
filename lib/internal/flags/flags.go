@@ -25,7 +25,7 @@ var (
 var sprintf = fmt.Sprintf
 
 func init() {
-	intHttpPort = 6080
+	intHttpPort = 0
 	Webapp = os.Getenv("JCMS_WEBAPP")
 	if Webapp == "" {
 		Webapp = "default"

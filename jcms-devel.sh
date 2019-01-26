@@ -9,4 +9,4 @@ mainsrc=./bin/jcms
 admincmd=./build/jcms.bin
 rm -f $admincmd
 go build -tags jcms -o $admincmd $mainsrc
-$admincmd -debug
+$admincmd -debug -port 6080

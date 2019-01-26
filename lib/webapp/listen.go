@@ -5,6 +5,7 @@ package webapp
 
 import (
 	"net"
+	"net/url"
 
 	"github.com/jrmsdev/jcms/lib/internal/flags"
 	"github.com/jrmsdev/jcms/lib/log"
@@ -18,7 +19,11 @@ func Listen(w *Webapp) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	uri := sprintf("http://%s/", addr)
+	u := &url.URL{}
+	u.Scheme = "http"
+	u.Host = w.listener.Addr().String()
+	u.Path = "/"
+	uri := u.String()
 	log.Printf("%s", uri)
 	return uri, nil
 }
