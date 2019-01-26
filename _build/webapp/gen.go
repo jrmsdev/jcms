@@ -26,10 +26,8 @@ var adminGlob = []zipfile.Glob{
 	{"./html/",
 		[]string{"inc/*.html"}},
 	// admin html files
-	{"./html/",
-		[]string{"inc/admin/*.js"}},
-	{"./html/admin/",
-		[]string{"*.html"}},
+	{"./admin/",
+		[]string{"*.html", "_admin/*.js"}},
 }
 
 func main() {
