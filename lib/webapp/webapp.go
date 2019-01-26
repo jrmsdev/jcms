@@ -21,7 +21,6 @@ var sprintf = fmt.Sprintf
 var fprintf = fmt.Fprintf
 
 type Webapp struct {
-	admin    bool
 	listener net.Listener
 	router   *mux.Router
 	server   *http.Server
@@ -39,10 +38,4 @@ func wapp() *Webapp {
 
 func New() *Webapp {
 	return setup(wapp())
-}
-
-func Admin() *Webapp {
-	w := wapp()
-	w.admin = true
-	return setup(w)
 }

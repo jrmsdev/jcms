@@ -12,8 +12,5 @@ import (
 func setup(w *Webapp) *Webapp {
 	w.router = mux.NewRouter()
 	handler.Setup(w.router)
-	if w.admin {
-		handler.Admin(w.router)
-	}
 	return w
 }

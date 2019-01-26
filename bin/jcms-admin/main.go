@@ -8,6 +8,6 @@ import (
 )
 
 func main() {
-	wapp := webapp.Admin()
+	wapp := webapp.New()
 	webapp.Main(wapp)
 }

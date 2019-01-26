@@ -15,7 +15,7 @@ import (
 var sprintf = fmt.Sprintf
 
 func Setup(r *mux.Router) {
-	log.D("handler setup: zipmode(%t)", zipmode)
+	log.D("handler setup: admin(%t) zipmode(%t)", adminSetup != nil, zipmode)
 	r.Host("127.0.0.1")
 	api.Setup(r)
 	if zipmode {
@@ -23,8 +23,4 @@ func Setup(r *mux.Router) {
 	} else {
 		setupFileServer(r)
 	}
-}
-
-func Admin(r *mux.Router) {
-	log.D("admin setup")
 }
