@@ -18,7 +18,6 @@ import (
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
-var zipmode bool = false
 var zipfile string = ""
 
 var b64 = base64.StdEncoding.DecodeString

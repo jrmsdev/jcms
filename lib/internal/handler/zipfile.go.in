@@ -8,6 +8,6 @@
 package handler
 
 func init() {
-	zipmode = true
+	devel = false
 	zipfile = ""
 }

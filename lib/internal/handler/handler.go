@@ -13,14 +13,19 @@ import (
 )
 
 var sprintf = fmt.Sprintf
+var devel bool
+
+func init() {
+	devel = true
+}
 
 func Setup(r *mux.Router) {
-	log.D("handler setup: admin(%t) zipmode(%t)", adminSetup != nil, zipmode)
+	log.D("handler setup: admin(%t) devel(%t)", adminSetup != nil, devel)
 	r.Host("127.0.0.1")
 	api.Setup(r)
-	if zipmode {
-		setupZipServer(r)
+	if devel {
+		develFileServer(r)
 	} else {
-		setupFileServer(r)
+		setupZipServer(r)
 	}
 }

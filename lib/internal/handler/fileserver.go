@@ -21,6 +21,11 @@ var htmldir string = "./webapp/html"
 
 func setupFileServer(r *mux.Router) {
 	log.D("setup file server")
+	// TODO: serve webapp assets/html dir
+}
+
+func develFileServer(r *mux.Router) {
+	log.D("setup devel file server")
 	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
 		newFileServer("./webapp/_lib")))
 	if adminSetup != nil {
