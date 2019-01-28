@@ -62,7 +62,7 @@ func Gen(id string, glob []Glob) {
 	_, err := os.Stat(srcfn)
 	check(err)
 	dstfn := fpath.Join(srcdir, "zipfile_" + id + ".go")
-	println("generate " + dstfn)
+	println(dstfn)
 	for _, g := range glob {
 		dir := fpath.FromSlash(g.Dir)
 		for _, patt := range g.Patt {
@@ -72,7 +72,7 @@ func Gen(id string, glob []Glob) {
 				n, err := fpath.Rel(dir, fn)
 				check(err)
 				check(zfile(n, fn))
-				println("     zip " + n + " <- " + fn)
+				println("zip     " + n + " <- " + fn)
 				zfiles = append(zfiles, n)
 			}
 		}
