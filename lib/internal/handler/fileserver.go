@@ -62,7 +62,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		rp = path.Base(s.defname)
 	}
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
-	log.D("ServeHTTP '%s'", rp)
+	log.D("serve http '%s'", rp)
 	if s.notFound(fp) {
 		log.Printf("%s file not found", rp)
 		http.Error(w, "not found", http.StatusNotFound)
