@@ -17,11 +17,13 @@ import (
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
-var adminSetup func(r *mux.Router)
-var htmldir string = "./webapp/html"
+var admin bool = false
+var htmldir string = "./webapp/devel/html"
 
 func setupFileServer(r *mux.Router) {
-	// TODO: serve webapp assets/html dir
+	if admin {
+		return
+	}
 	log.D("setup file server")
 	dir := filepath.Join(flags.Assetsdir, flags.Webapp, "html")
 	s := newFileServer(dir)
@@ -31,12 +33,12 @@ func setupFileServer(r *mux.Router) {
 
 func develFileServer(r *mux.Router) {
 	log.D("setup devel file server")
-	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/_lib/",
-		newFileServer("./webapp/_lib")))
-	if adminSetup != nil {
-		adminSetup(r)
-	}
+	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/",
+		newFileServer("./webapp")))
+	r.PathPrefix("/_inc/").Handler(http.StripPrefix("/",
+		newFileServer("./webapp/html")))
 	s := newFileServer(htmldir)
+	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
 
@@ -60,7 +62,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		rp = path.Base(s.defname)
 	}
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
-	log.D("ServeHTTP %s", rp)
+	log.D("ServeHTTP '%s'", rp)
 	if s.notFound(fp) {
 		log.Printf("%s file not found", rp)
 		http.Error(w, "not found", http.StatusNotFound)

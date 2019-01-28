@@ -14,7 +14,7 @@ var glob = []zipfile.Glob{
 		[]string{"_lib/*.css", "_lib/*.js"}},
 	// html files
 	{"./html/",
-		[]string{"*.html", "inc/*.html"}},
+		[]string{"*.html", "_inc/*.html"}},
 }
 
 // admin files
@@ -24,7 +24,7 @@ var adminGlob = []zipfile.Glob{
 		[]string{"_lib/*.css", "_lib/*.js"}},
 	// webapp html files
 	{"./html/",
-		[]string{"inc/*.html"}},
+		[]string{"_inc/*.html"}},
 	// admin html files
 	{"./admin/",
 		[]string{"*.html", "_admin/*.js"}},

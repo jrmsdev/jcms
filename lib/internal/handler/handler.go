@@ -20,7 +20,7 @@ func init() {
 }
 
 func Setup(r *mux.Router) {
-	log.D("handler setup: admin(%t) devel(%t)", adminSetup != nil, devel)
+	log.D("handler setup: admin(%t) devel(%t)", admin, devel)
 	r.Host("127.0.0.1")
 	api.Setup(r)
 	if devel {

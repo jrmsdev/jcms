@@ -31,9 +31,12 @@ func check(err error) {
 func setupZipServer(r *mux.Router) {
 	log.D("setup zip server")
 	zs := newZipServer()
-	r.PathPrefix("/_lib/").Handler(http.StripPrefix("/", zs))
-	r.PathPrefix("/_admin/").Handler(http.StripPrefix("/", zs))
-	r.PathPrefix("/inc/").Handler(http.StripPrefix("/", zs))
+	if admin {
+		r.PathPrefix("/").Handler(http.StripPrefix("/", zs))
+	} else {
+		r.PathPrefix("/_lib/").Handler(http.StripPrefix("/", zs))
+		r.PathPrefix("/_inc/").Handler(http.StripPrefix("/", zs))
+	}
 }
 
 type zipServer struct {
