@@ -28,4 +28,5 @@ func Setup(r *mux.Router) {
 	} else {
 		setupZipServer(r)
 	}
+	setupFileServer(r)
 }

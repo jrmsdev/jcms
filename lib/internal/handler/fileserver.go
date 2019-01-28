@@ -12,6 +12,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/jrmsdev/jcms/lib/internal/flags"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
 	"github.com/jrmsdev/jcms/lib/log"
 )
@@ -20,8 +21,12 @@ var adminSetup func(r *mux.Router)
 var htmldir string = "./webapp/html"
 
 func setupFileServer(r *mux.Router) {
-	log.D("setup file server")
 	// TODO: serve webapp assets/html dir
+	log.D("setup file server")
+	dir := filepath.Join(flags.Assetsdir, flags.Webapp, "html")
+	s := newFileServer(dir)
+	s.defname = "index.html"
+	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
 
 func develFileServer(r *mux.Router) {
@@ -32,7 +37,6 @@ func develFileServer(r *mux.Router) {
 		adminSetup(r)
 	}
 	s := newFileServer(htmldir)
-	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
 
