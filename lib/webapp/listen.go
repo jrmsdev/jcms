@@ -24,6 +24,6 @@ func Listen(w *Webapp) (string, error) {
 	u.Host = w.listener.Addr().String()
 	u.Path = "/"
 	uri := u.String()
-	log.Printf("%s", uri)
+	log.Printf("%s %s", flags.Webapp, uri)
 	return uri, nil
 }
