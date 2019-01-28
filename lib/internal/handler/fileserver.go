@@ -12,6 +12,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/jrmsdev/jcms/lib/internal/asset"
 	"github.com/jrmsdev/jcms/lib/internal/flags"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
 	"github.com/jrmsdev/jcms/lib/log"
@@ -104,5 +105,5 @@ func (s *fileServer) notFound(fp string) bool {
 }
 
 func (s *fileServer) open(fp string) (io.ReadCloser, error) {
-	return os.Open(fp)
+	return asset.Open(fp)
 }
