@@ -72,7 +72,11 @@ func Gen(id string, glob []Glob) {
 				n, err := fpath.Rel(dir, fn)
 				check(err)
 				check(zfile(n, fn))
-				println("zip     " + n + " <- " + fn)
+				sep := " "
+				for i := len(n); i < 18; i++ {
+					sep += " "
+				}
+				println("zip     " + n + sep + "(" + fn + ")")
 				zfiles = append(zfiles, n)
 			}
 		}
