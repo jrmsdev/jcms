@@ -55,10 +55,10 @@ func newFileServer(dir string) *fileServer {
 }
 
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	rp := r.URL.Path
-	if rp == "" && s.defname != "" {
-		rp = path.Base(s.defname)
+	if r.URL.Path == "" && s.defname != "" {
+		r.URL.Path = s.defname
 	}
+	rp := r.URL.Path
 	log.D("serve '%s'", rp)
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
 	if s.notFound(fp) {
@@ -76,7 +76,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if n, err := io.Copy(w, fh); err != nil {
 		log.E("file serve write %s: %s", fp, err)
 	} else {
-		log.Printf("sent: %s %d bytes", rp, n)
+		log.Response(r, n)
 	}
 	if err := fh.Close(); err != nil {
 		log.E("%s", err)

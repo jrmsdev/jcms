@@ -80,7 +80,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if n, err := io.Copy(w, fh); err != nil {
 		log.E("file serve write %s: %s", rp, err)
 	} else {
-		log.Printf("sent: %s %d bytes", rp, n)
+		log.Response(r, n)
 	}
 	if err := fh.Close(); err != nil {
 		log.E("%s", err)

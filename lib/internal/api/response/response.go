@@ -25,7 +25,7 @@ func Send(w http.ResponseWriter, r *http.Request, data interface{}) {
 	if n, err := w.Write(blob); err != nil {
 		log.E("%s", err)
 	} else {
-		log.Printf("sent: %s %d bytes", r.URL.Path, n)
+		log.Response(r, int64(n))
 	}
 }
 

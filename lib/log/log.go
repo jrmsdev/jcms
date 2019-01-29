@@ -5,6 +5,7 @@ package log
 
 import (
 	"fmt"
+	"net/http"
 	xlog "log"
 	"os"
 	"path/filepath"
@@ -87,4 +88,8 @@ func printDebug(fmtstr string, args ...interface{}) {
 
 func printError(fmtstr string, args ...interface{}) {
 	l.Printf("ERROR "+fmtstr, args...)
+}
+
+func Response(r *http.Request, size int64) {
+	printf("sent: %s %d bytes", r.URL.Path, size)
 }
