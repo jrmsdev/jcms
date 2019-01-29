@@ -13,7 +13,6 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/jrmsdev/jcms/lib/internal/asset"
-	"github.com/jrmsdev/jcms/lib/internal/flags"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
 	"github.com/jrmsdev/jcms/lib/log"
 )
@@ -21,13 +20,13 @@ import (
 var admin bool = false
 var htmldir string = "./webapp/devel/html"
 
-func setupFileServer(r *mux.Router) {
+func setupAssetsServer(r *mux.Router) {
 	if admin {
 		return
 	}
-	log.D("setup file server")
-	dir := filepath.Join(flags.Assetsdir, flags.Webapp, "html")
-	s := newFileServer(dir)
+	log.D("setup assets server")
+	s := newFileServer("html")
+	s.assets = true
 	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
@@ -44,15 +43,13 @@ func develFileServer(r *mux.Router) {
 }
 
 type fileServer struct {
+	assets  bool
 	dir     string
 	defname string
 }
 
 func newFileServer(dir string) *fileServer {
-	p, err := filepath.Abs(filepath.FromSlash(dir))
-	if err != nil {
-		log.Panic("%s", err)
-	}
+	p := filepath.FromSlash(dir)
 	log.D("new file server %s", p)
 	return &fileServer{dir: p}
 }
@@ -62,8 +59,8 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if rp == "" && s.defname != "" {
 		rp = path.Base(s.defname)
 	}
+	log.D("serve '%s'", rp)
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
-	log.D("serve http '%s'", rp)
 	if s.notFound(fp) {
 		log.Printf("%s file not found", rp)
 		errhdlr(w, "not found", http.StatusNotFound)
@@ -92,6 +89,9 @@ func (s *fileServer) setHeaders(w http.ResponseWriter, fp string) {
 }
 
 func (s *fileServer) notFound(fp string) bool {
+	if s.assets {
+		return !asset.Exists(fp)
+	}
 	fi, err := os.Stat(fp)
 	if err != nil {
 		log.E("%s", err)
@@ -105,5 +105,9 @@ func (s *fileServer) notFound(fp string) bool {
 }
 
 func (s *fileServer) open(fp string) (io.ReadCloser, error) {
-	return asset.Open(fp)
+	log.D("open (asset %t) %s", s.assets, fp)
+	if s.assets {
+		return asset.Open(fp)
+	}
+	return os.Open(fp)
 }
