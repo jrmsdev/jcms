@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"path"
 
+	"github.com/jrmsdev/jcms/lib/internal/error/handler"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
 	"github.com/jrmsdev/jcms/lib/log"
 )
@@ -17,7 +18,7 @@ func Send(w http.ResponseWriter, r *http.Request, data interface{}) {
 	blob, err := json.MarshalIndent(&data, "", "  ")
 	if err != nil {
 		log.E("%s", err)
-		http.Error(w, "json error", http.StatusInternalServerError)
+		handler.Error(w, "json error", http.StatusInternalServerError)
 		return
 	}
 	setHeaders(w, r.URL.Path)

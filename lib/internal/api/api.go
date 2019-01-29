@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/jrmsdev/jcms/lib/internal/api/jcms"
+	"github.com/jrmsdev/jcms/lib/internal/error/handler"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -29,7 +30,7 @@ func (s *apisvr) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	f, ok := rreg[rp]
 	if !ok {
 		log.E("api '%s' not found", rp)
-		http.Error(w, "not found", http.StatusNotFound)
+		handler.Error(w, "not found", http.StatusNotFound)
 		return
 	}
 	f(w, r)

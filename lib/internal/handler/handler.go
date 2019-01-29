@@ -9,11 +9,13 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/jrmsdev/jcms/lib/internal/api"
+	errh "github.com/jrmsdev/jcms/lib/internal/error/handler"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
-var sprintf = fmt.Sprintf
 var devel bool
+var sprintf = fmt.Sprintf
+var errhdlr = errh.Error
 
 func init() {
 	devel = true

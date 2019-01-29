@@ -67,13 +67,13 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.D("serve %s", rp)
 	if s.notFound(rp) {
 		log.Printf("%s file not found", rp)
-		http.Error(w, "not found", http.StatusNotFound)
+		errhdlr(w, "not found", http.StatusNotFound)
 		return
 	}
 	fh, err := s.open(rp)
 	if err != nil {
 		log.E("%s", err)
-		http.Error(w, "open error", http.StatusInternalServerError)
+		errhdlr(w, "open error", http.StatusInternalServerError)
 		return
 	}
 	s.setHeaders(w, rp)

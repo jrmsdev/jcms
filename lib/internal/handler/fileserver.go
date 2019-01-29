@@ -66,13 +66,13 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.D("serve http '%s'", rp)
 	if s.notFound(fp) {
 		log.Printf("%s file not found", rp)
-		http.Error(w, "not found", http.StatusNotFound)
+		errhdlr(w, "not found", http.StatusNotFound)
 		return
 	}
 	fh, err := s.open(fp)
 	if err != nil {
 		log.E("%s", err)
-		http.Error(w, "open error", http.StatusInternalServerError)
+		errhdlr(w, "open error", http.StatusInternalServerError)
 		return
 	}
 	s.setHeaders(w, fp)
