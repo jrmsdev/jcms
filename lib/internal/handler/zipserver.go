@@ -60,10 +60,10 @@ func newZipServer() *zipServer {
 }
 
 func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	rp := r.URL.Path
-	if rp == "" {
-		rp = "index.html"
+	if r.URL.Path == "" {
+		r.URL.Path = "index.html"
 	}
+	rp := r.URL.Path
 	log.D("serve %s", rp)
 	if s.notFound(rp) {
 		log.Printf("%s file not found", rp)
