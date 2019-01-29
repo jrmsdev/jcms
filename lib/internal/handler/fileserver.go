@@ -14,6 +14,7 @@ import (
 
 	"github.com/jrmsdev/jcms/lib/internal/asset"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
+	"github.com/jrmsdev/jcms/lib/internal/request"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -55,10 +56,8 @@ func newFileServer(dir string) *fileServer {
 }
 
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "" && s.defname != "" {
-		r.URL.Path = s.defname
-	}
-	rp := r.URL.Path
+	req := request.New(r)
+	rp := req.Path()
 	log.D("serve '%s'", rp)
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
 	if s.notFound(fp) {

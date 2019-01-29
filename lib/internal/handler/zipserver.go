@@ -15,6 +15,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/jrmsdev/jcms/lib/internal/mime"
+	"github.com/jrmsdev/jcms/lib/internal/request"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -60,10 +61,8 @@ func newZipServer() *zipServer {
 }
 
 func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "" {
-		r.URL.Path = "index.html"
-	}
-	rp := r.URL.Path
+	req := request.New(r)
+	rp := req.Path()
 	log.D("serve %s", rp)
 	if s.notFound(rp) {
 		log.Printf("%s file not found", rp)

@@ -5,8 +5,8 @@ package log
 
 import (
 	"fmt"
-	"net/http"
 	xlog "log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"

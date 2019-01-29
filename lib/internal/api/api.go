@@ -10,6 +10,7 @@ import (
 
 	"github.com/jrmsdev/jcms/lib/internal/api/jcms"
 	"github.com/jrmsdev/jcms/lib/internal/error/handler"
+	"github.com/jrmsdev/jcms/lib/internal/request"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -25,7 +26,8 @@ func Setup(r *mux.Router) {
 }
 
 func (s *apisvr) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	rp := r.URL.Path
+	req := request.New(r)
+	rp := req.Path()
 	log.D("serve '%s'", rp)
 	f, ok := rreg[rp]
 	if !ok {
