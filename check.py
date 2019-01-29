@@ -53,9 +53,7 @@ prevcmd = {
 
 if not test_only:
 	prevcmd[10] = "go vet ./bin/... ./lib/..."
-	prevcmd[20] = "go install{} -tags jcms ./bin/jcms".format(install_args)
-	prevcmd[21] = "go install{} -tags jcmsadmin ./bin/jcms-admin".format(install_args)
-	prevcmd[30] = "go get -v -t ./lib/..."
+	prevcmd[20] = "go get -v -t ./lib/..."
 
 for idx in sorted(prevcmd.keys()):
 	_call(prevcmd[idx])
