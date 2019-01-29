@@ -32,4 +32,3 @@ install:
 
 script:
   - python check.py
-  - jcms -V
