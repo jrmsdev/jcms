@@ -60,6 +60,7 @@ func init() {
 }
 
 func Parse() {
+	var err error
 	flag.Parse()
 	if Quiet {
 		Log = "quiet"
@@ -68,4 +69,12 @@ func Parse() {
 		Log = "debug"
 	}
 	HttpPort = sprintf("%d", intHttpPort)
+	Assetsdir, err = filepath.Abs(Assetsdir)
+	if err != nil {
+		panic(err)
+	}
+	Datadir, err = filepath.Abs(Datadir)
+	if err != nil {
+		panic(err)
+	}
 }
