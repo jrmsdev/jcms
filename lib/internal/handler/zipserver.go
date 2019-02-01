@@ -23,7 +23,7 @@ var zipfile string = ""
 
 var b64 = base64.StdEncoding.DecodeString
 
-func check(err error) {
+func echeck(err error) {
 	if err != nil {
 		panic(err)
 	}
@@ -49,7 +49,7 @@ func newZipServer() *zipServer {
 	zf := make(map[string]*zip.File)
 	zdata := zipLoad()
 	zr, err := zip.NewReader(zdata, int64(zdata.Len()))
-	check(err)
+	echeck(err)
 	for _, f := range zr.File {
 		log.D("zip server: %s", f.Name)
 		zf[f.Name] = f
@@ -106,6 +106,6 @@ func (s *zipServer) open(rp string) (io.ReadCloser, error) {
 
 func zipLoad() *bytes.Reader {
 	blob, err := b64(zipfile)
-	check(err)
+	echeck(err)
 	return bytes.NewReader(blob)
 }

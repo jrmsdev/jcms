@@ -28,7 +28,6 @@ func setupAssetsServer(r *mux.Router) {
 	log.D("setup assets server")
 	s := newFileServer("html")
 	s.assets = true
-	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
 
@@ -39,7 +38,6 @@ func develFileServer(r *mux.Router) {
 	r.PathPrefix("/_inc/").Handler(http.StripPrefix("/",
 		newFileServer("./webapp/html")))
 	s := newFileServer(htmldir)
-	s.defname = "index.html"
 	r.PathPrefix("/").Handler(http.StripPrefix("/", s))
 }
 
