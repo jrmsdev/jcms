@@ -91,5 +91,5 @@ func printError(fmtstr string, args ...interface{}) {
 }
 
 func Response(r *http.Request, size int64) {
-	printf("sent %s %d bytes", r.URL.Path, size)
+	Printf("sent %s %d bytes", r.URL.Path, size)
 }
