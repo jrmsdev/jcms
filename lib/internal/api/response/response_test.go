@@ -4,6 +4,7 @@
 package response
 
 import (
+	"errors"
 	"io/ioutil"
 	"testing"
 
@@ -40,9 +41,16 @@ type jsonTest struct {
 	Data    interface{} `json:"testdata"`
 }
 
+type jsonError struct{}
+
+func (jerr *jsonError) MarshalJSON() ([]byte, error) {
+	return nil, errors.New("testing error")
+}
+
 var jt = []jsonTest{
 	{"test nil", 200, nil},
 	{"test", 200, "testing"},
+	{"test json error", 500, &jsonError{}},
 }
 
 func TestSend(t *testing.T) {
@@ -54,13 +62,15 @@ func TestSend(t *testing.T) {
 		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
 			t.FailNow()
 		}
-		if blob, err := ioutil.ReadAll(res.Body); err != nil {
-			t.Log(err)
-			t.FailNow()
-		} else {
-			//~ t.Log(string(blob))
-			if json.NotEqual(t, blob, "testdata", x.Data, x.Testing) {
-				t.Fail()
+		if x.status == 200 { // check response content
+			if blob, err := ioutil.ReadAll(res.Body); err != nil {
+				t.Log(err)
+				t.FailNow()
+			} else {
+				//~ t.Log(string(blob))
+				if json.NotEqual(t, blob, "testdata", x.Data, x.Testing) {
+					t.Fail()
+				}
 			}
 		}
 	}
