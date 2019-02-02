@@ -102,8 +102,10 @@ var lbuf []byte
 var tbuf *bytes.Buffer
 
 func testlog(fmtstr string, args ...interface{}) {
-	c := []byte(fmt.Sprintf(fmtstr, args...))
-	c = append(c, byte('\n'))
+	m := getCodeInfo()
+	m += fmt.Sprintf(fmtstr, args...)
+	m += "\n"
+	c := []byte(m)
 	err := ioutil.WriteFile("test.log", c, 0640)
 	if err != nil {
 		panic(err)
@@ -120,6 +122,7 @@ func InitTest() {
 			panic("log testing mode was not initialized")
 		}
 	}
+	codeInfo = true
 	D = testlog
 	E = testlog
 	Panic = testlog
