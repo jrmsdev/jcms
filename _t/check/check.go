@@ -17,7 +17,7 @@ import (
 )
 
 func init() {
-	log.Init("quiet")
+	log.InitTest()
 }
 
 func NotNil(t *testing.T, got interface{}, errmsg string) bool {

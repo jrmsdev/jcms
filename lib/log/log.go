@@ -4,6 +4,7 @@
 package log
 
 import (
+	"bytes"
 	"fmt"
 	xlog "log"
 	"net/http"
@@ -92,4 +93,24 @@ func printError(fmtstr string, args ...interface{}) {
 
 func Response(r *http.Request, size int64) {
 	Printf("sent %s %d bytes", r.URL.Path, size)
+}
+
+var lbuf []byte
+var tbuf *bytes.Buffer
+
+func InitTest() {
+	if l == nil {
+		tbuf = bytes.NewBuffer(lbuf)
+		l = xlog.New(tbuf, "", lflags)
+		setLevel("quiet")
+	} else {
+		if tbuf == nil {
+			panic("log_test was not initialized")
+		}
+	}
+	D = dummy
+	E = dummy
+	Panic = dummy
+	Printf = dummy
+	tbuf.Reset()
 }
