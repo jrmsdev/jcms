@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/jrmsdev/jcms/_t/check"
+	"github.com/jrmsdev/jcms/_t/check/json"
 	"github.com/jrmsdev/jcms/_t/http"
 )
 
@@ -58,7 +59,7 @@ func TestSend(t *testing.T) {
 			t.FailNow()
 		} else {
 			//~ t.Log(string(blob))
-			if check.NotJSON(t, blob, "testdata", x.Data, x.Testing) {
+			if json.NotEqual(t, blob, "testdata", x.Data, x.Testing) {
 				t.Fail()
 			}
 		}
