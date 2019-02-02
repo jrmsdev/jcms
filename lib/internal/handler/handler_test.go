@@ -17,3 +17,12 @@ var ht = []headerTest{
 	{"/t.css", "content-type", "text/css; charset=utf-8"},
 	{"/t.ico", "content-type", "image/vnd.microsoft.icon"},
 }
+
+type serverTest struct {
+	path   string
+	status int
+}
+
+var st = []serverTest{
+	{"/", 404},
+}
