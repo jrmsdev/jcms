@@ -75,3 +75,9 @@ func TestSend(t *testing.T) {
 		}
 	}
 }
+
+func TestWriteError(t *testing.T) {
+	r, _ := http.GET("/t.json")
+	w := http.ErrorWriter()
+	Send(w, r, jt[0])
+}

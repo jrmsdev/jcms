@@ -4,9 +4,23 @@
 package http
 
 import (
+	"errors"
+
 	x "net/http"
 	t "net/http/httptest"
 )
+
+type errw struct {
+	t.ResponseRecorder
+}
+
+func ErrorWriter() *errw {
+	return &errw{}
+}
+
+func (w *errw) Write(p []byte) (int, error) {
+	return -1, errors.New("testing error")
+}
 
 func Writer() *t.ResponseRecorder {
 	return t.NewRecorder()
