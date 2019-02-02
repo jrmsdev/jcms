@@ -6,6 +6,7 @@ package log
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	xlog "log"
 	"net/http"
 	"os"
@@ -95,8 +96,19 @@ func Response(r *http.Request, size int64) {
 	Printf("sent %s %d bytes", r.URL.Path, size)
 }
 
+// testing mode
+
 var lbuf []byte
 var tbuf *bytes.Buffer
+
+func testlog(fmtstr string, args ...interface{}) {
+	c := []byte(fmt.Sprintf(fmtstr, args...))
+	c = append(c, byte('\n'))
+	err := ioutil.WriteFile("test.log", c, 0640)
+	if err != nil {
+		panic(err)
+	}
+}
 
 func InitTest() {
 	if l == nil {
@@ -105,12 +117,12 @@ func InitTest() {
 		setLevel("quiet")
 	} else {
 		if tbuf == nil {
-			panic("log_test was not initialized")
+			panic("log testing mode was not initialized")
 		}
 	}
-	D = dummy
-	E = dummy
-	Panic = dummy
-	Printf = dummy
+	D = testlog
+	E = testlog
+	Panic = testlog
+	Printf = testlog
 	tbuf.Reset()
 }
