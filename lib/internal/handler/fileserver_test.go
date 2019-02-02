@@ -15,7 +15,7 @@ func TestHeaders(t *testing.T) {
 	w := http.Writer()
 	for _, x := range ht {
 		fs.setHeaders(w, x.path)
-		if check.NotEqual(t, w.Header().Get(x.key), x.expect, x.path + " " + x.key) {
+		if check.NotEqual(t, w.Header().Get(x.key), x.expect, x.path+" "+x.key) {
 			t.Fail()
 		}
 	}

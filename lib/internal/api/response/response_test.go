@@ -19,23 +19,23 @@ type headerTest struct {
 }
 
 var ht = []headerTest{
-	{"/",           "content-type", "application/octet-stream"},
+	{"/", "content-type", "application/octet-stream"},
 	{"/index.html", "content-type", "text/html; charset=utf-8"},
-	{"/jcms.json",  "content-type", "application/json"},
+	{"/jcms.json", "content-type", "application/json"},
 }
 
 func TestHeaders(t *testing.T) {
 	w := http.Writer()
 	for _, x := range ht {
 		setHeaders(w, x.path)
-		if check.NotEqual(t, w.Header().Get(x.key), x.expect, x.path + " " + x.key) {
+		if check.NotEqual(t, w.Header().Get(x.key), x.expect, x.path+" "+x.key) {
 			t.Fail()
 		}
 	}
 }
 
 type jsonTest struct {
-	Testing string      `json:"testing"`
+	Testing string `json:"testing"`
 	status  int
 	Data    interface{} `json:"testdata"`
 }

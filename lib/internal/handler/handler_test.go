@@ -10,10 +10,10 @@ type headerTest struct {
 }
 
 var ht = []headerTest{
-	{"/",       "content-type", "application/octet-stream"},
+	{"/", "content-type", "application/octet-stream"},
 	{"/t.html", "content-type", "text/html; charset=utf-8"},
 	{"/t.json", "content-type", "application/json"},
-	{"/t.js",   "content-type", "application/javascript; charset=utf-8"},
-	{"/t.css",  "content-type", "text/css; charset=utf-8"},
-	{"/t.ico",  "content-type", "image/vnd.microsoft.icon"},
+	{"/t.js", "content-type", "application/javascript; charset=utf-8"},
+	{"/t.css", "content-type", "text/css; charset=utf-8"},
+	{"/t.ico", "content-type", "image/vnd.microsoft.icon"},
 }
