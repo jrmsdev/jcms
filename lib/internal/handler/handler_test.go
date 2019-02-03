@@ -3,6 +3,15 @@
 
 package handler
 
+import (
+	"io/ioutil"
+	gohttp "net/http"
+	"testing"
+
+	"github.com/jrmsdev/jcms/_t/check"
+	"github.com/jrmsdev/jcms/_t/http"
+)
+
 type headerTest struct {
 	path   string
 	key    string
@@ -21,8 +30,33 @@ var ht = []headerTest{
 type serverTest struct {
 	path   string
 	status int
+	body   string
 }
 
 var st = []serverTest{
-	{"/", 404},
+	{"/", 404, ""},
+	{"/test.txt", 200, "testing\n"},
+}
+
+func testServer(t *testing.T, s gohttp.Handler) {
+	for _, x := range st {
+		r, w := http.GET(x.path)
+		s.ServeHTTP(w, r)
+		res := w.Result()
+		// status
+		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
+			t.FailNow()
+		}
+		// body
+		if x.body != "" {
+			if blob, err := ioutil.ReadAll(res.Body); err != nil {
+				t.Log(err)
+				t.FailNow()
+			} else {
+				if check.NotEqual(t, string(blob), x.body, "response body") {
+					t.Fail()
+				}
+			}
+		}
+	}
 }

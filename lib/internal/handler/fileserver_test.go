@@ -27,12 +27,5 @@ func TestFileServer(t *testing.T) {
 	if check.NotEqual(t, filepath.ToSlash(fs.dir), "./testdata", "file server dir") {
 		t.FailNow()
 	}
-	for _, x := range st {
-		r, w := http.GET(x.path)
-		fs.ServeHTTP(w, r)
-		res := w.Result()
-		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
-			t.FailNow()
-		}
-	}
+	testServer(t, fs)
 }

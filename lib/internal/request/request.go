@@ -5,6 +5,7 @@ package request
 
 import (
 	"net/http"
+	"path"
 )
 
 type Request struct {
@@ -12,6 +13,7 @@ type Request struct {
 }
 
 func New(r *http.Request) *Request {
+	r.URL.Path = path.Clean(r.URL.Path)
 	return &Request{r}
 }
 
