@@ -6,7 +6,6 @@ package log
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	xlog "log"
 	"net/http"
 	"os"
@@ -25,6 +24,7 @@ var Printf func(fmtstr string, args ...interface{})
 
 var codeInfo bool
 var shortIdx int
+var quiet bool
 
 func init() {
 	codeInfo = true
@@ -45,6 +45,7 @@ func Init(level string) {
 }
 
 func setLevel(level string) {
+	quiet = false
 	D = dummy
 	E = printError
 	Printf = printf
@@ -52,6 +53,7 @@ func setLevel(level string) {
 		D = printDebug
 	} else if level == "quiet" {
 		Printf = dummy
+		quiet = true
 	}
 }
 
@@ -93,7 +95,9 @@ func printError(fmtstr string, args ...interface{}) {
 }
 
 func Response(r *http.Request, size int64) {
-	Printf("sent %s %d bytes", r.URL.Path, size)
+	if !quiet {
+		l.Printf("sent %s %d bytes", r.URL.Path, size)
+	}
 }
 
 // testing mode
@@ -106,8 +110,18 @@ func testlog(fmtstr string, args ...interface{}) {
 	m += fmt.Sprintf(fmtstr, args...)
 	m += "\n"
 	c := []byte(m)
-	err := ioutil.WriteFile("test.log", c, 0640)
+	writeLog(c)
+}
+
+func writeLog(c []byte) {
+	fh, err := os.OpenFile("test.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0640)
 	if err != nil {
+		panic(err)
+	}
+	if _, err := fh.Write(c); err != nil {
+		panic(err)
+	}
+	if err := fh.Close(); err != nil {
 		panic(err)
 	}
 }
@@ -128,4 +142,9 @@ func InitTest() {
 	Panic = testlog
 	Printf = testlog
 	tbuf.Reset()
+	if _, err := os.Stat("test.log"); err == nil {
+		if err := os.Remove("test.log"); err != nil {
+			panic(err)
+		}
+	}
 }
