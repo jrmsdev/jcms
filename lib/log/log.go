@@ -22,11 +22,13 @@ var E func(fmtstr string, args ...interface{})
 var Panic func(fmtstr string, args ...interface{})
 var Printf func(fmtstr string, args ...interface{})
 
+var callerSkip int
 var codeInfo bool
 var shortIdx int
 var quiet bool
 
 func init() {
+	callerSkip = 2
 	codeInfo = true
 	shortIdx = 0
 	D = dummy
@@ -67,7 +69,7 @@ func shortFile(name string) string {
 
 func getCodeInfo() string {
 	if codeInfo {
-		_, fn, ln, ok := runtime.Caller(2)
+		_, fn, ln, ok := runtime.Caller(callerSkip)
 		if ok {
 			return fmt.Sprintf("%s:%d: ", shortFile(fn), ln)
 		}
@@ -139,6 +141,7 @@ func InitTest() {
 			panic("log testing mode was not initialized")
 		}
 	}
+	callerSkip = 3
 	codeInfo = true
 	D = testD
 	E = testE
