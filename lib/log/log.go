@@ -105,8 +105,11 @@ func Response(r *http.Request, size int64) {
 var lbuf []byte
 var tbuf *bytes.Buffer
 
-func testlog(fmtstr string, args ...interface{}) {
+func testlog(tag, fmtstr string, args ...interface{}) {
 	m := getCodeInfo()
+	if tag != "" {
+		m += fmt.Sprintf("[%s] ", tag)
+	}
 	m += fmt.Sprintf(fmtstr, args...)
 	m += "\n"
 	c := []byte(m)
@@ -137,14 +140,30 @@ func InitTest() {
 		}
 	}
 	codeInfo = true
-	D = testlog
-	E = testlog
-	Panic = testlog
-	Printf = testlog
+	D = testD
+	E = testE
+	Panic = testPanic
+	Printf = testPrintf
 	tbuf.Reset()
 	if _, err := os.Stat("test.log"); err == nil {
 		if err := os.Remove("test.log"); err != nil {
 			panic(err)
 		}
 	}
+}
+
+func testD(fmtstr string, args ...interface{}) {
+	testlog("D", fmtstr, args...)
+}
+
+func testE(fmtstr string, args ...interface{}) {
+	testlog("E", fmtstr, args...)
+}
+
+func testPanic(fmtstr string, args ...interface{}) {
+	testlog("Panic", fmtstr, args...)
+}
+
+func testPrintf(fmtstr string, args ...interface{}) {
+	testlog("", fmtstr, args...)
 }
