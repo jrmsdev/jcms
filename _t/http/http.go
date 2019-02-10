@@ -26,7 +26,11 @@ func Writer() *t.ResponseRecorder {
 	return t.NewRecorder()
 }
 
-func GET(path string) (*x.Request, *t.ResponseRecorder) {
+func Request(path string) *x.Request {
 	rp := "http://127.0.0.1:666" + path
-	return t.NewRequest("GET", rp, nil), Writer()
+	return t.NewRequest("GET", rp, nil)
+}
+
+func GET(path string) (*x.Request, *t.ResponseRecorder) {
+	return Request(path), Writer()
 }

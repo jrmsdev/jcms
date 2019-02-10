@@ -15,16 +15,15 @@ type Request struct {
 }
 
 func New(r *http.Request) *Request {
+	log.D("new '%s'", r.URL.Path)
 	r.URL.Path = path.Clean(r.URL.Path)
-	if r.URL.Path == "" {
-		r.URL.Path = "index.html"
-	} else if r.URL.Path == "." {
+	if r.URL.Path == "." {
 		r.URL.Path = "/"
 	}
-	log.D("new %s", r.URL.Path)
 	return &Request{r}
 }
 
 func (r *Request) Path() string {
+	log.D("path %s", r.URL.Path)
 	return r.URL.Path
 }
