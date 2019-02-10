@@ -18,11 +18,15 @@ var hreg = map[string]http.HandlerFunc{
 	"_/jcms.json": jcms.Handler,
 }
 
-type apisvr struct{}
-
 func Setup(r *mux.Router) {
 	log.D("setup")
-	r.PathPrefix("/_/").Handler(http.StripPrefix("/", &apisvr{}))
+	r.PathPrefix("/_/").Handler(newServer())
+}
+
+type apisvr struct{}
+
+func newServer() http.Handler {
+	return http.StripPrefix("/", &apisvr{})
 }
 
 func (s *apisvr) ServeHTTP(w http.ResponseWriter, r *http.Request) {
