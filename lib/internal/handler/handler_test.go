@@ -36,6 +36,7 @@ type serverTest struct {
 var st = []serverTest{
 	{"/", gohttp.StatusNotFound, ""},
 	{"/test.txt", gohttp.StatusOK, "testing\n"},
+	{"/nofile.txt", gohttp.StatusNotFound, ""},
 }
 
 func testServer(t *testing.T, s gohttp.Handler) {
