@@ -26,3 +26,11 @@ func TestZipServer(t *testing.T) {
 	zs := newZipServer()
 	testServer(t, gohttp.StripPrefix("/", zs))
 }
+
+func TestOpenError(t *testing.T) {
+	s := &zipServer{}
+	_, err := s.open("/nopath")
+	if check.IsNil(t, err, "/nopath open error") {
+		t.Fail()
+	}
+}

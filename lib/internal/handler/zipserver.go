@@ -98,9 +98,11 @@ func (s *zipServer) notFound(rp string) bool {
 }
 
 func (s *zipServer) open(rp string) (io.ReadCloser, error) {
+	log.D("open '%s'", rp)
 	f, ok := s.files[rp]
 	if !ok {
-		return nil, errors.New(sprintf("invalid zip file: %s", rp))
+		log.D("zip file '%s' not available", rp)
+		return nil, errors.New(sprintf("zip file '%s' not available", rp))
 	}
 	return f.Open()
 }

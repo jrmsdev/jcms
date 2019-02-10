@@ -153,7 +153,7 @@ func InitTest() {
 			panic(err)
 		}
 	}
-	testlog("init", "test")
+	testlog("test", "init")
 }
 
 func testD(fmtstr string, args ...interface{}) {
