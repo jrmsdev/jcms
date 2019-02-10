@@ -63,7 +63,7 @@ func Gen(id string, glob []Glob) {
 	}
 	_, err := os.Stat(srcfn)
 	check(err)
-	dstfn := fpath.Join(srcdir, "zipfile_" + id + ".go")
+	dstfn := fpath.Join(srcdir, "zipfile_"+id+".go")
 	println(dstfn)
 	for _, g := range glob {
 		dir := fpath.FromSlash(g.Dir)
@@ -111,10 +111,10 @@ func zfile(name, fn string) error {
 
 func write(fn string) error {
 	var (
-		err   error
-		src   []byte
-		sbuf  *bytes.Buffer
-		dbuf  *bytes.Buffer
+		err  error
+		src  []byte
+		sbuf *bytes.Buffer
+		dbuf *bytes.Buffer
 	)
 	src, err = ioutil.ReadFile(srcfn)
 	if err != nil {

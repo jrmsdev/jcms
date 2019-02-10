@@ -23,5 +23,5 @@ func NotEqual(t *testing.T, blob []byte, key string, expect interface{}, desc st
 		t.Logf("%s %s key not found", desc, key)
 		return true
 	}
-	return check.NotEqual(t, v, expect, "JSON " + desc + " " + key)
+	return check.NotEqual(t, v, expect, "JSON "+desc+" "+key)
 }
