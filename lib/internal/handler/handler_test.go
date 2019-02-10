@@ -40,12 +40,13 @@ var st = []serverTest{
 }
 
 func testServer(t *testing.T, s gohttp.Handler) {
+	t.Helper()
 	for _, x := range st {
 		r, w := http.GET(x.path)
 		s.ServeHTTP(w, r)
 		res := w.Result()
 		// status
-		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
+		if check.NotEqual(t, res.StatusCode, x.status, x.path+" response status") {
 			t.FailNow()
 		}
 		// body

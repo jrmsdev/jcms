@@ -9,6 +9,7 @@ import (
 
 	"github.com/jrmsdev/jcms/_t/check"
 	"github.com/jrmsdev/jcms/_t/http"
+	"github.com/jrmsdev/jcms/lib/internal/asset"
 )
 
 func TestHeaders(t *testing.T) {
@@ -27,5 +28,12 @@ func TestFileServer(t *testing.T) {
 	if check.NotEqual(t, filepath.ToSlash(fs.dir), "./testdata", "file server dir") {
 		t.FailNow()
 	}
+	testServer(t, fs)
+}
+
+func TestAssets(t *testing.T) {
+	asset.InitTest()
+	fs := newFileServer(".")
+	fs.assets = true
 	testServer(t, fs)
 }

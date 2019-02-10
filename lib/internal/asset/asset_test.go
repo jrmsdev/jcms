@@ -11,8 +11,7 @@ import (
 )
 
 func init() {
-	assetsdir = "testdata"
-	webapp = "wapp"
+	InitTest()
 }
 
 func TestFilename(t *testing.T) {

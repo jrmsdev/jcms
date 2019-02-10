@@ -56,7 +56,7 @@ func newFileServer(dir string) *fileServer {
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	req := request.New(r)
 	rp := req.Path()
-	log.D("serve '%s'", rp)
+	log.D("serve '%s' (assets:%t)", rp, s.assets)
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
 	if s.notFound(fp) {
 		errhdlr(w, "not found", http.StatusNotFound)

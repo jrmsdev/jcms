@@ -38,3 +38,8 @@ func Open(name string) (io.ReadCloser, error) {
 	log.D("open %s", name)
 	return os.Open(filename(name))
 }
+
+func InitTest() {
+	assetsdir = "testdata"
+	webapp = "wapp"
+}
