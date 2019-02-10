@@ -4,13 +4,14 @@
 package handler
 
 import (
+	gohttp "net/http"
 	"testing"
 
 	"github.com/jrmsdev/jcms/_t/check"
 	"github.com/jrmsdev/jcms/_t/http"
 )
 
-func TestZHeaders(t *testing.T) {
+func TestZipHeaders(t *testing.T) {
 	zs := &zipServer{}
 	w := http.Writer()
 	for _, x := range ht {
@@ -19,4 +20,9 @@ func TestZHeaders(t *testing.T) {
 			t.Fail()
 		}
 	}
+}
+
+func TestZipServer(t *testing.T) {
+	zs := newZipServer()
+	testServer(t, gohttp.StripPrefix("/", zs))
 }

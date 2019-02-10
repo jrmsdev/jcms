@@ -51,7 +51,7 @@ func newZipServer() *zipServer {
 	zr, err := zip.NewReader(zdata, int64(zdata.Len()))
 	echeck(err)
 	for _, f := range zr.File {
-		log.D("zip server: %s", f.Name)
+		log.D("zip file: %s", f.Name)
 		zf[f.Name] = f
 	}
 	return &zipServer{
@@ -92,6 +92,7 @@ func (s *zipServer) setHeaders(w http.ResponseWriter, rp string) {
 }
 
 func (s *zipServer) notFound(rp string) bool {
+	log.D("zip find: %s", rp)
 	_, ok := s.files[rp]
 	return !ok
 }

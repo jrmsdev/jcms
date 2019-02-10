@@ -30,7 +30,14 @@ var adminGlob = []zipfile.Glob{
 		[]string{"*.html", "_admin/*.js"}},
 }
 
+// test files
+var testGlob = []zipfile.Glob{
+	{"../lib/internal/handler/testdata/",
+		[]string{"*.txt"}},
+}
+
 func main() {
 	zipfile.Gen("webapp", glob)
 	zipfile.Gen("admin", adminGlob)
+	zipfile.Gen("test", testGlob)
 }

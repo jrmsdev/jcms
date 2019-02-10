@@ -40,7 +40,6 @@ func init() {
 		panic(err)
 	}
 	srcfn = fpath.Join(srcdir, "zipfile.go.in")
-	buildFlags = "jcms"
 }
 
 func check(err error) {
@@ -56,8 +55,11 @@ func Gen(id string, glob []Glob) {
 		zfiles = make([]string, 0)
 		zbuf.Reset()
 	}
-	if id != "webapp" {
-		buildFlags = "jcms" + id
+	buildFlags = "jcms"
+	if id == "admin" {
+		buildFlags = "jcmsadmin"
+	} else if id == "test" {
+		buildFlags = "none"
 	}
 	_, err := os.Stat(srcfn)
 	check(err)
@@ -156,7 +158,10 @@ func parse(line string) string {
 	if strings.HasPrefix(l, "// generated on") {
 		return sprintf("// generated on %s\n", time.Now().Format(time.RFC1123Z))
 	} else if strings.HasPrefix(l, "// +build jcms") {
-		return sprintf("// +build %s\n", buildFlags)
+		if buildFlags != "none" {
+			return sprintf("// +build %s\n", buildFlags)
+		}
+		return "// no build flags\n"
 	} else if strings.HasPrefix(l, "zipfile = ") {
 		return sprintf("\tzipfile = \"%s\"\n", b64(zbuf.Bytes()))
 	}
