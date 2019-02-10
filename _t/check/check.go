@@ -29,10 +29,28 @@ func NotNil(t *testing.T, got interface{}, errmsg string) bool {
 	return false
 }
 
+func IsNil(t *testing.T, got interface{}, errmsg string) bool {
+	t.Helper()
+	if got == nil {
+		t.Logf("%s is nil", errmsg)
+		return true
+	}
+	return false
+}
+
 func NotTrue(t *testing.T, got bool, errmsg string) bool {
 	t.Helper()
 	if !got {
 		t.Logf("%s: is false (should be true)", errmsg)
+		return true
+	}
+	return false
+}
+
+func NotFalse(t *testing.T, got bool, errmsg string) bool {
+	t.Helper()
+	if got {
+		t.Logf("%s: is true (should be false)", errmsg)
 		return true
 	}
 	return false

@@ -15,15 +15,15 @@ type reqt struct {
 }
 
 var rt = map[string]reqt{
-	"": reqt{path: "/"},
-	".": reqt{path: "/"},
-	"..": reqt{path: "/"},
-	"/t0": reqt{path: "/t0"},
-	"//t1": reqt{path: "/t1"},
-	"./t2": reqt{path: "/t2"},
-	"../t3": reqt{path: "/t3"},
-	"/t4": reqt{path: "/t4"},
-	"/t/../../../t5": reqt{path: "/t5"},
+	"":               {path: "/"},
+	".":              {path: "/"},
+	"..":             {path: "/"},
+	"/t0":            {path: "/t0"},
+	"//t1":           {path: "/t1"},
+	"./t2":           {path: "/t2"},
+	"../t3":          {path: "/t3"},
+	"/t4":            {path: "/t4"},
+	"/t/../../../t5": {path: "/t5"},
 }
 
 func TestRequest(t *testing.T) {

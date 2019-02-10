@@ -12,12 +12,15 @@ import (
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
+var assetsdir string = flags.Assetsdir
+var webapp string = flags.Webapp
+
 func filename(n string) string {
-	return filepath.Join(flags.Assetsdir, flags.Webapp, n)
+	return filepath.Join(assetsdir, webapp, n)
 }
 
 func Exists(name string) bool {
-	log.D("exists %s", name)
+	log.D("check exists %s", name)
 	fp := filename(name)
 	fi, err := os.Stat(fp)
 	if err != nil {
