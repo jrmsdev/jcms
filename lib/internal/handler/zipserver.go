@@ -65,19 +65,18 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rp := req.Path()
 	log.D("serve %s", rp)
 	if s.notFound(rp) {
-		log.Printf("%s file not found", rp)
+		log.Printf("'%s' zip file not found", rp)
 		errhdlr(w, "not found", http.StatusNotFound)
 		return
 	}
 	fh, err := s.open(rp)
 	if err != nil {
-		log.E("%s", err)
 		errhdlr(w, "open error", http.StatusInternalServerError)
 		return
 	}
 	s.setHeaders(w, rp)
 	if n, err := io.Copy(w, fh); err != nil {
-		log.E("file serve write %s: %s", rp, err)
+		log.E("zip file '%s' write: %s", rp, err)
 	} else {
 		log.Response(r, n)
 	}
@@ -101,8 +100,9 @@ func (s *zipServer) open(rp string) (io.ReadCloser, error) {
 	log.D("open '%s'", rp)
 	f, ok := s.files[rp]
 	if !ok {
-		log.D("zip file '%s' not available", rp)
-		return nil, errors.New(sprintf("zip file '%s' not available", rp))
+		err := errors.New(sprintf("'%s' zip file open error", rp))
+		log.E("%s", err)
+		return nil, err
 	}
 	return f.Open()
 }
