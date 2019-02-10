@@ -5,7 +5,6 @@ package check
 
 import (
 	"crypto/md5"
-	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -94,20 +93,4 @@ func NotFileChecksum(t *testing.T, got []byte, fn string) bool {
 	}
 	return NotEqual(t, fmt.Sprintf("%x", md5.Sum(got)),
 		fmt.Sprintf("%x", h.Sum(nil)), "checksum "+fn)
-}
-
-func NotJSON(t *testing.T, blob []byte, key string, expect interface{}, desc string) bool {
-	t.Helper()
-	var d map[string]interface{}
-	err := json.Unmarshal(blob, &d)
-	if err != nil {
-		t.Fatalf("%s: %s", desc, err)
-	}
-	//~ t.Log(d)
-	v, ok := d[key]
-	if !ok {
-		t.Logf("%s %s key not found", desc, key)
-		return true
-	}
-	return NotEqual(t, v, expect, "JSON " + desc + " " + key)
 }
