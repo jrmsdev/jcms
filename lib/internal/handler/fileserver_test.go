@@ -24,8 +24,8 @@ func TestHeaders(t *testing.T) {
 }
 
 func TestFileServer(t *testing.T) {
-	fs := newFileServer(filepath.FromSlash("./testdata"))
-	if check.NotEqual(t, filepath.ToSlash(fs.dir), "./testdata", "file server dir") {
+	fs := newFileServer(filepath.FromSlash("./testdata/wapp"))
+	if check.NotEqual(t, filepath.ToSlash(fs.dir), "./testdata/wapp", "file server dir") {
 		t.FailNow()
 	}
 	testServer(t, fs)

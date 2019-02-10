@@ -32,7 +32,7 @@ var adminGlob = []zipfile.Glob{
 
 // test files
 var testGlob = []zipfile.Glob{
-	{"../lib/internal/handler/testdata/",
+	{"../lib/internal/handler/testdata/wapp/",
 		[]string{"*.txt"}},
 }
 

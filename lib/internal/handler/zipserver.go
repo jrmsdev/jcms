@@ -63,6 +63,9 @@ func newZipServer() *zipServer {
 func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	req := request.New(r)
 	rp := req.Path()
+	if rp == "/" {
+		rp = "index.html"
+	}
 	log.D("serve %s", rp)
 	if s.notFound(rp) {
 		log.Printf("'%s' zip file not found", rp)
