@@ -6,6 +6,7 @@ package response
 import (
 	"errors"
 	"io/ioutil"
+	gohttp "net/http"
 	"testing"
 
 	"github.com/jrmsdev/jcms/_t/check"
@@ -48,9 +49,9 @@ func (jerr *jsonError) MarshalJSON() ([]byte, error) {
 }
 
 var jt = []jsonTest{
-	{"test nil", 200, nil},
-	{"test", 200, "testing"},
-	{"test json error", 500, &jsonError{}},
+	{"test nil", gohttp.StatusOK, nil},
+	{"test", gohttp.StatusOK, "testing"},
+	{"test json error", gohttp.StatusInternalServerError, &jsonError{}},
 }
 
 func TestSend(t *testing.T) {
@@ -62,7 +63,7 @@ func TestSend(t *testing.T) {
 		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
 			t.FailNow()
 		}
-		if x.status == 200 { // check response content
+		if x.status == gohttp.StatusOK { // check response content
 			if blob, err := ioutil.ReadAll(res.Body); err != nil {
 				t.Log(err)
 				t.FailNow()

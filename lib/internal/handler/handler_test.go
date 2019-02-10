@@ -34,8 +34,8 @@ type serverTest struct {
 }
 
 var st = []serverTest{
-	{"/", 404, ""},
-	{"/test.txt", 200, "testing\n"},
+	{"/", gohttp.StatusNotFound, ""},
+	{"/test.txt", gohttp.StatusOK, "testing\n"},
 }
 
 func testServer(t *testing.T, s gohttp.Handler) {

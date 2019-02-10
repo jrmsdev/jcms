@@ -14,7 +14,7 @@ import (
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
-var rreg = map[string]http.HandlerFunc{
+var hreg = map[string]http.HandlerFunc{
 	"_/jcms.json": jcms.Handler,
 }
 
@@ -29,7 +29,7 @@ func (s *apisvr) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	req := request.New(r)
 	rp := req.Path()
 	log.D("serve '%s'", rp)
-	f, ok := rreg[rp]
+	f, ok := hreg[rp]
 	if !ok {
 		log.E("api '%s' not found", rp)
 		handler.Error(w, "not found", http.StatusNotFound)

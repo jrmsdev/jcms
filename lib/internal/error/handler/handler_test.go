@@ -5,6 +5,7 @@ package handler
 
 import (
 	"io/ioutil"
+	gohttp "net/http"
 	"testing"
 
 	"github.com/jrmsdev/jcms/_t/check"
@@ -13,9 +14,9 @@ import (
 
 func TestHandler(t *testing.T) {
 	w := http.Writer()
-	Error(w, "testing", 500)
+	Error(w, "testing", gohttp.StatusInternalServerError)
 	res := w.Result()
-	if check.NotEqual(t, res.StatusCode, 500, "response status") {
+	if check.NotEqual(t, res.StatusCode, gohttp.StatusInternalServerError, "response status") {
 		t.FailNow()
 	}
 	if check.NotEqual(t, res.Header.Get("content-type"), "text/plain; charset=utf-8", "response content-type") {
