@@ -103,7 +103,7 @@ type reqInfo interface {
 
 func Response(r reqInfo, size int64) {
 	if !quiet {
-		l.Printf("sent %s %d bytes", r.Path(), size)
+		l.Printf("%s %d bytes", r.Path(), size)
 	}
 }
 

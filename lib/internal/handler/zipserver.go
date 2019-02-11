@@ -51,13 +51,19 @@ func newZipServer() *zipServer {
 	zr, err := zip.NewReader(zdata, int64(zdata.Len()))
 	echeck(err)
 	for _, f := range zr.File {
-		log.D("zip file: %s", f.Name)
+		log.D("%s", f.Name)
 		zf[f.Name] = f
 	}
 	return &zipServer{
 		rdr:   zr,
 		files: zf,
 	}
+}
+
+func zipLoad() *bytes.Reader {
+	blob, err := b64(zipfile)
+	echeck(err)
+	return bytes.NewReader(blob)
 }
 
 func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -74,14 +80,18 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		errhdlr(w, "open error", http.StatusInternalServerError)
 		return
 	}
+	defer fh.Close()
+	resp := new(bytes.Buffer)
+	err = s.template(resp, fh)
+	if err != nil {
+		errhdlr(w, "template error", http.StatusInternalServerError)
+		return
+	}
 	s.setHeaders(w, rp)
-	if n, err := io.Copy(w, fh); err != nil {
+	if n, err := io.Copy(w, resp); err != nil {
 		log.E("zip file '%s' write: %s", rp, err)
 	} else {
 		log.Response(req, n)
-	}
-	if err := fh.Close(); err != nil {
-		log.E("%s", err)
 	}
 }
 
@@ -107,8 +117,7 @@ func (s *zipServer) open(rp string) (io.ReadCloser, error) {
 	return f.Open()
 }
 
-func zipLoad() *bytes.Reader {
-	blob, err := b64(zipfile)
-	echeck(err)
-	return bytes.NewReader(blob)
+func (s *zipServer) template(dst io.Writer, src io.Reader) error {
+	_, err := io.Copy(dst, src)
+	return err
 }

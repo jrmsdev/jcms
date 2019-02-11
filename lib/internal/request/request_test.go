@@ -19,6 +19,8 @@ var rt = map[string]reqt{
 	"":               {path: "/"},
 	".":              {path: "/"},
 	"..":             {path: "/"},
+	"../..":          {path: "/"},
+	"../../..":       {path: "/"},
 	"/t0":            {path: "/t0"},
 	"//t1":           {path: "/t1"},
 	"./t2":           {path: "/t2"},
@@ -40,7 +42,11 @@ func TestRequest(t *testing.T) {
 		}
 		fn := p
 		if path.Ext(p) == "" {
-			fn = path.Join(p, "index.html")
+			if p == "/" {
+				fn = "index.html"
+			} else {
+				fn = path.Join(p, "index.html")
+			}
 		}
 		if check.NotEqual(t, req.Filename(), fn, uri+" request filename") {
 			t.Fail()

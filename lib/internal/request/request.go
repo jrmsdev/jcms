@@ -23,17 +23,21 @@ func New(r *http.Request) *Request {
 	}
 	fn := p
 	if path.Ext(p) == "" {
-		fn = path.Join(p, "index.html")
+		if p == "/" {
+			fn = "index.html"
+		} else {
+			fn = path.Join(p, "index.html")
+		}
 	}
+	log.D("path %s", p)
+	log.D("filename %s", fn)
 	return &Request{p, fn}
 }
 
 func (r *Request) Path() string {
-	log.D("path %s", r.path)
 	return r.path
 }
 
 func (r *Request) Filename() string {
-	log.D("filename %s", r.filename)
 	return r.filename
 }
