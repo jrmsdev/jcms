@@ -12,6 +12,7 @@ import (
 	"github.com/jrmsdev/jcms/_t/check"
 	"github.com/jrmsdev/jcms/_t/check/json"
 	"github.com/jrmsdev/jcms/_t/http"
+	"github.com/jrmsdev/jcms/lib/internal/request"
 )
 
 type headerTest struct {
@@ -57,7 +58,7 @@ var jt = []jsonTest{
 func TestSend(t *testing.T) {
 	for _, x := range jt {
 		r, w := http.GET("/t.json")
-		Send(w, r, x)
+		Send(w, request.New(r), x)
 		res := w.Result()
 		//~ t.Log(res)
 		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
@@ -81,5 +82,5 @@ func TestSend(t *testing.T) {
 func TestWriteError(t *testing.T) {
 	r, _ := http.GET("/t.json")
 	w := http.ErrorWriter()
-	Send(w, r, jt[0])
+	Send(w, request.New(r), jt[0])
 }

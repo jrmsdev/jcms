@@ -8,6 +8,7 @@ import (
 
 	"github.com/jrmsdev/jcms"
 	"github.com/jrmsdev/jcms/lib/internal/api/response"
+	"github.com/jrmsdev/jcms/lib/internal/request"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -22,6 +23,7 @@ func newResp() *resp {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	log.D("handler %s", r.URL.Path)
-	response.Send(w, r, newResp())
+	req := request.New(r)
+	log.D("handler %s", req.Path())
+	response.Send(w, req, newResp())
 }

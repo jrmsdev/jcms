@@ -10,18 +10,19 @@ import (
 
 	"github.com/jrmsdev/jcms/lib/internal/error/handler"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
+	"github.com/jrmsdev/jcms/lib/internal/request"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
-func Send(w http.ResponseWriter, r *http.Request, data interface{}) {
-	log.D("send %s", r.URL.Path)
+func Send(w http.ResponseWriter, r *request.Request, data interface{}) {
+	log.D("send %s", r.Path())
 	blob, err := json.MarshalIndent(&data, "", "  ")
 	if err != nil {
 		log.E("%s", err)
 		handler.Error(w, "json error", http.StatusInternalServerError)
 		return
 	}
-	setHeaders(w, r.URL.Path)
+	setHeaders(w, r.Path())
 	if n, err := w.Write(blob); err != nil {
 		log.E("%s", err)
 	} else {

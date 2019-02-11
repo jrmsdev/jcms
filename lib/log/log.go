@@ -7,7 +7,6 @@ import (
 	"bytes"
 	"fmt"
 	xlog "log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -96,9 +95,15 @@ func printError(fmtstr string, args ...interface{}) {
 	l.Printf("ERROR "+fmtstr, args...)
 }
 
-func Response(r *http.Request, size int64) {
+// log response
+
+type reqInfo interface {
+	Path() string
+}
+
+func Response(r reqInfo, size int64) {
 	if !quiet {
-		l.Printf("sent %s %d bytes", r.URL.Path, size)
+		l.Printf("sent %s %d bytes", r.Path(), size)
 	}
 }
 

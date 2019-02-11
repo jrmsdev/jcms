@@ -55,10 +55,7 @@ func newFileServer(dir string) *fileServer {
 
 func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	req := request.New(r)
-	rp := req.Path()
-	if rp == "/" {
-		rp = "index.html"
-	}
+	rp := req.Filename()
 	log.D("serve '%s' (assets:%t)", rp, s.assets)
 	fp := filepath.Join(s.dir, filepath.FromSlash(rp))
 	if s.notFound(fp) {
@@ -75,7 +72,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if n, err := io.Copy(w, fh); err != nil {
 		log.E("file serve write %s: %s", fp, err)
 	} else {
-		log.Response(r, n)
+		log.Response(req, n)
 	}
 	if err := fh.Close(); err != nil {
 		log.E("%s", err)
