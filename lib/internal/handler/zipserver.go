@@ -16,6 +16,7 @@ import (
 
 	"github.com/jrmsdev/jcms/lib/internal/mime"
 	"github.com/jrmsdev/jcms/lib/internal/request"
+	"github.com/jrmsdev/jcms/lib/internal/template"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -82,7 +83,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	defer fh.Close()
 	resp := new(bytes.Buffer)
-	err = s.template(resp, fh)
+	err = template.Parse(resp, fh)
 	if err != nil {
 		errhdlr(w, "template error", http.StatusInternalServerError)
 		return
@@ -92,6 +93,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.E("zip file '%s' write: %s", rp, err)
 	} else {
 		log.Response(req, n)
+		resp.Reset()
 	}
 }
 
@@ -115,9 +117,4 @@ func (s *zipServer) open(rp string) (io.ReadCloser, error) {
 		return nil, err
 	}
 	return f.Open()
-}
-
-func (s *zipServer) template(dst io.Writer, src io.Reader) error {
-	_, err := io.Copy(dst, src)
-	return err
 }

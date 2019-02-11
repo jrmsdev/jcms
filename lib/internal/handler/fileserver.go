@@ -4,6 +4,7 @@
 package handler
 
 import (
+	"bytes"
 	"io"
 	"net/http"
 	"os"
@@ -15,6 +16,7 @@ import (
 	"github.com/jrmsdev/jcms/lib/internal/asset"
 	"github.com/jrmsdev/jcms/lib/internal/mime"
 	"github.com/jrmsdev/jcms/lib/internal/request"
+	"github.com/jrmsdev/jcms/lib/internal/template"
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
@@ -68,14 +70,19 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		errhdlr(w, "open error", http.StatusInternalServerError)
 		return
 	}
+	defer fh.Close()
+	resp := new(bytes.Buffer)
+	err = template.Parse(resp, fh)
+	if err != nil {
+		errhdlr(w, "template error", http.StatusInternalServerError)
+		return
+	}
 	s.setHeaders(w, fp)
-	if n, err := io.Copy(w, fh); err != nil {
+	if n, err := io.Copy(w, resp); err != nil {
 		log.E("file serve write %s: %s", fp, err)
 	} else {
 		log.Response(req, n)
-	}
-	if err := fh.Close(); err != nil {
-		log.E("%s", err)
+		resp.Reset()
 	}
 }
 
