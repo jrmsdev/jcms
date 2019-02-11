@@ -11,19 +11,29 @@ import (
 )
 
 type Request struct {
-	*http.Request
+	path     string
+	filename string
 }
 
 func New(r *http.Request) *Request {
 	log.D("new '%s'", r.URL.Path)
-	r.URL.Path = path.Clean(r.URL.Path)
-	if r.URL.Path == "." {
-		r.URL.Path = "/"
+	p := path.Clean(r.URL.Path)
+	if p == "." {
+		p = "/"
 	}
-	return &Request{r}
+	fn := p
+	if path.Ext(p) == "" {
+		fn = path.Join(p, "index.html")
+	}
+	return &Request{p, fn}
 }
 
 func (r *Request) Path() string {
-	log.D("path %s", r.URL.Path)
-	return r.URL.Path
+	log.D("path %s", r.path)
+	return r.path
+}
+
+func (r *Request) Filename() string {
+	log.D("filename %s", r.filename)
+	return r.filename
 }

@@ -56,7 +56,7 @@ func testServer(t *testing.T, s gohttp.Handler) {
 				t.Log(err)
 				t.FailNow()
 			} else {
-				if check.NotEqual(t, string(blob), x.body, "response body") {
+				if check.NotEqual(t, string(blob), x.body, x.path+" response body") {
 					t.Fail()
 				}
 			}

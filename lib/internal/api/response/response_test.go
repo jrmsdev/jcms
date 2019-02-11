@@ -63,7 +63,8 @@ func TestSend(t *testing.T) {
 		if check.NotEqual(t, res.StatusCode, x.status, "response status") {
 			t.FailNow()
 		}
-		if x.status == gohttp.StatusOK { // check response content
+		if x.status == gohttp.StatusOK {
+			// check response content
 			if blob, err := ioutil.ReadAll(res.Body); err != nil {
 				t.Log(err)
 				t.FailNow()
