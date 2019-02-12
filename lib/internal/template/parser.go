@@ -5,12 +5,14 @@ package template
 
 import (
 	"io"
+	"path/filepath"
 
 	"github.com/jrmsdev/jcms/lib/log"
 )
 
 func Parse(dst io.Writer, src io.Reader, path string) error {
-	log.D("parse")
+	fn := filepath.Join("tpl", cfg.Get(path) + ".html")
+	log.D("parse %s", fn)
 	_, err := io.Copy(dst, src)
 	return err
 }

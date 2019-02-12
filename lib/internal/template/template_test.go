@@ -8,29 +8,8 @@ import (
 	"testing"
 
 	"github.com/jrmsdev/jcms/_t/check"
+	"github.com/jrmsdev/jcms/lib/internal/asset"
 )
-
-var tcfg = `{
-	"default": "main.html",
-	"templates": {
-		"/": "index.html"
-	}
-}`
-
-func init() {
-	cfg = new(Config)
-	cfgLoad(cfg, []byte(tcfg))
-}
-
-func TestConfig(t *testing.T) {
-	//~ t.Log(cfg)
-	if check.NotEqual(t, cfg.Default, "main.html", "default template") {
-		t.Fail()
-	}
-	if check.NotEqual(t, cfg.Templates["/"], "index.html", "/ template") {
-		t.Fail()
-	}
-}
 
 type tpltest struct {
 	path string
@@ -38,8 +17,37 @@ type tpltest struct {
 	rst  string
 }
 
+var tcfg = `{
+	"default": "main",
+	"templates": {
+		"/": "index"
+	}
+}`
+
 var tt = []tpltest{
 	{"/", "testing", "testing"},
+}
+
+func init() {
+	asset.InitTest()
+	cfg = new(Config)
+	cfgLoad(cfg, []byte(tcfg))
+}
+
+func TestConfig(t *testing.T) {
+	//~ t.Log(cfg)
+	if check.NotEqual(t, cfg.Default, "main", "default template") {
+		t.Fail()
+	}
+	if check.NotEqual(t, cfg.Templates["/"], "index", "/ template") {
+		t.Fail()
+	}
+	if check.NotEqual(t, cfg.Get("nopath"), "main", "get default template") {
+		t.Fail()
+	}
+	if check.NotEqual(t, cfg.Get("/"), "index", "get / template") {
+		t.Fail()
+	}
 }
 
 func TestTemplate(t *testing.T) {

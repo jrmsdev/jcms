@@ -15,9 +15,21 @@ type Config struct {
 }
 
 func cfgLoad(cfg *Config, blob []byte) {
-	log.D("config load")
+	log.D("load")
 	err := json.Unmarshal(blob, cfg)
 	if err != nil {
 		log.Panic("%s", err)
 	}
+	if cfg.Default == "" {
+		cfg.Default = "main"
+	}
+}
+
+func (c *Config) Get(path string) string {
+	n, ok := c.Templates[path]
+	if !ok {
+		n = c.Default
+	}
+	log.D("%s template: %s", path, n)
+	return n
 }
