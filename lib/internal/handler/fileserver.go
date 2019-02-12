@@ -72,7 +72,7 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	defer fh.Close()
 	resp := new(bytes.Buffer)
-	err = template.Parse(resp, fh)
+	err = template.Parse(resp, fh, req.Path())
 	if err != nil {
 		errhdlr(w, "template error", http.StatusInternalServerError)
 		return

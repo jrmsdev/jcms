@@ -4,10 +4,31 @@
 package template
 
 import (
-	"io"
+	"io/ioutil"
+
+	"github.com/jrmsdev/jcms/lib/internal/asset"
+	"github.com/jrmsdev/jcms/lib/log"
 )
 
-func Parse(dst io.Writer, src io.Reader) error {
-	_, err := io.Copy(dst, src)
-	return err
+var cfg *Config
+
+func Setup() {
+	log.D("setup")
+	if cfg != nil {
+		log.Panic("templates setup already done!")
+	}
+	cfg = new(Config)
+	if asset.Exists("templates.json") {
+		var blob []byte
+		fh, err := asset.Open("templates.json")
+		if err != nil {
+			log.Panic("%s", err)
+		}
+		defer fh.Close()
+		blob, err = ioutil.ReadAll(fh)
+		if err != nil {
+			log.Panic("%s", err)
+		}
+		cfgLoad(cfg, blob)
+	}
 }
