@@ -17,10 +17,6 @@ var tcfg = `{
 	}
 }`
 
-var tt = map[string]string{
-	"testing": "testing",
-}
-
 func init() {
 	cfg = new(Config)
 	cfgLoad(cfg, []byte(tcfg))
@@ -36,17 +32,27 @@ func TestConfig(t *testing.T) {
 	}
 }
 
+type tpltest struct {
+	path string
+	src  string
+	rst  string
+}
+
+var tt = []tpltest{
+	{"/", "testing", "testing"},
+}
+
 func TestTemplate(t *testing.T) {
-	for s, d := range tt {
-		t.Log(s, d)
-		src := bytes.NewBufferString(s)
+	for _, x := range tt {
+		//~ t.Log(x)
+		src := bytes.NewBufferString(x.src)
 		dst := new(bytes.Buffer)
-		err := Parse(dst, src, "/")
+		err := Parse(dst, src, x.path)
 		if err != nil {
 			t.Log(err)
 			t.FailNow()
 		}
-		if check.NotEqual(t, dst.String(), d, s) {
+		if check.NotEqual(t, dst.String(), x.rst, x.path) {
 			t.Fail()
 		}
 	}
