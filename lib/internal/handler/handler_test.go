@@ -10,6 +10,7 @@ import (
 
 	"github.com/jrmsdev/jcms/_t/check"
 	"github.com/jrmsdev/jcms/_t/http"
+	"github.com/jrmsdev/jcms/lib/internal/template"
 )
 
 type headerTest struct {
@@ -38,6 +39,10 @@ var st = []serverTest{
 	{"/test.txt", gohttp.StatusOK, "testing\n"},
 	{"/nofile.txt", gohttp.StatusNotFound, ""},
 	{"/testdir", gohttp.StatusNotFound, ""},
+}
+
+func init() {
+	template.Setup()
 }
 
 func testServer(t *testing.T, s gohttp.Handler) {

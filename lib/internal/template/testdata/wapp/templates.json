@@ -1,0 +1,7 @@
+{
+  "default": "main",
+  "templates": {
+    "/": "index",
+    "/test": "test"
+  }
+}

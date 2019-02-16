@@ -29,6 +29,8 @@ func Setup() {
 		if err != nil {
 			log.Panic("%s", err)
 		}
-		cfgLoad(cfg, blob)
+		cfgLoad(blob)
+	} else {
+		cfgLoad(nil)
 	}
 }

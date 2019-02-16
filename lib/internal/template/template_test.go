@@ -17,21 +17,14 @@ type tpltest struct {
 	rst  string
 }
 
-var tcfg = `{
-	"default": "main",
-	"templates": {
-		"/": "index"
-	}
-}`
-
 var tt = []tpltest{
 	{"/", "testing", "testing"},
+	{"/test", `{{define "testdata"}}testing{{end}}`, "testing\n"},
 }
 
 func init() {
 	asset.InitTest()
-	cfg = new(Config)
-	cfgLoad(cfg, []byte(tcfg))
+	Setup()
 }
 
 func TestConfig(t *testing.T) {
