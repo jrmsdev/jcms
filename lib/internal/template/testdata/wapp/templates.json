@@ -2,6 +2,7 @@
   "default": "main",
   "templates": {
     "/": "index",
+    "/notpl": "",
     "/test": "test"
   }
 }

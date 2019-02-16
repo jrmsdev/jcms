@@ -19,6 +19,7 @@ type tpltest struct {
 
 var tt = []tpltest{
 	{"/", "testing", "testing"},
+	{"/notpl", "testing", "testing"},
 	{"/test", `{{define "testdata"}}testing{{end}}`, "testing\n"},
 }
 
