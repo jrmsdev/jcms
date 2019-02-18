@@ -5,6 +5,8 @@ package template
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/jrmsdev/jcms/_t/check"
@@ -19,7 +21,7 @@ type tpltest struct {
 
 var tt = []tpltest{
 	{"/", "testing", "testing"},
-	{"/notpl", "testing", "testing"},
+	//~ {"/notpl", "testing", "testing"},
 	{"/test", `{{define "testdata"}}testing{{end}}`, "testing\n"},
 }
 
@@ -49,13 +51,22 @@ func TestTemplate(t *testing.T) {
 		//~ t.Log(x)
 		src := bytes.NewBufferString(x.src)
 		dst := new(bytes.Buffer)
-		err := Parse(dst, src, x.path)
-		if err != nil {
-			t.Log(err)
-			t.FailNow()
-		}
-		if check.NotEqual(t, dst.String(), x.rst, x.path) {
-			t.Fail()
+		tname := cfg.Get(x.path)
+		if tname != "" {
+			fn := filepath.Join("testdata", "wapp", "tpl", tname+".html")
+			fh, err := os.Open(fn)
+			if err != nil {
+				t.Log(x.path, err)
+				t.FailNow()
+			}
+			err = Parse(dst, src, fh)
+			if err != nil {
+				t.Log(err)
+				t.FailNow()
+			}
+			if check.NotEqual(t, dst.String(), x.rst, x.path) {
+				t.Fail()
+			}
 		}
 	}
 }

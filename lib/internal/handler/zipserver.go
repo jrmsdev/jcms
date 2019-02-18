@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"path"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
 
@@ -83,7 +84,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	defer fh.Close()
 	resp := new(bytes.Buffer)
-	err = template.Parse(resp, fh, req.Path())
+	err = s.parseTpl(resp, fh, req.Path())
 	if err != nil {
 		errhdlr(w, "template error", http.StatusInternalServerError)
 		return
@@ -117,4 +118,22 @@ func (s *zipServer) open(rp string) (io.ReadCloser, error) {
 		return nil, err
 	}
 	return f.Open()
+}
+
+func (s *zipServer) parseTpl(resp *bytes.Buffer, src io.Reader, rp string) error {
+	log.D("parse %s template", rp)
+	var (
+		tpl io.ReadCloser
+		err error
+	)
+	tname := template.Get(rp)
+	if tname != "" {
+		fn := filepath.Join("tpl", tname+".html")
+		log.D("parse template %s", fn)
+		tpl, err = s.open(fn)
+		if err != nil {
+			return err
+		}
+	}
+	return template.Parse(resp, src, tpl)
 }
