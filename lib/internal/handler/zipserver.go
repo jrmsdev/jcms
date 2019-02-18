@@ -72,7 +72,7 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rp := req.Filename()
 	log.D("serve %s", rp)
 	if s.notFound(rp) {
-		log.Printf("'%s' zip file not found", rp)
+		log.Printf("'%s' file not found", rp)
 		errhdlr(w, "not found", http.StatusNotFound)
 		return
 	}

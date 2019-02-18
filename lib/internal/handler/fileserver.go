@@ -93,11 +93,16 @@ func (s *fileServer) setHeaders(w http.ResponseWriter, fp string) {
 
 func (s *fileServer) notFound(fp string) bool {
 	if s.assets {
-		return !asset.Exists(fp)
+		if !asset.Exists(fp) {
+			log.E("%s asset not found", fp)
+			return true
+		}
+		return false
 	}
 	fi, err := os.Stat(fp)
 	if err != nil {
-		log.E("%s", err)
+		log.D("%s", err)
+		log.E("%s file not found", fp)
 		return true
 	}
 	if fi.IsDir() {

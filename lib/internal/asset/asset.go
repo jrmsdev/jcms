@@ -20,15 +20,15 @@ func filename(n string) string {
 }
 
 func Exists(name string) bool {
-	log.D("check exists %s", name)
+	log.D("%s exists?", name)
 	fp := filename(name)
 	fi, err := os.Stat(fp)
 	if err != nil {
-		log.E("%s", err)
+		log.D("%s", err)
 		return false
 	}
 	if fi.IsDir() {
-		log.E("%s is a directory", fp)
+		log.D("%s is a directory", fp)
 		return false
 	}
 	return true
