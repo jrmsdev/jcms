@@ -19,6 +19,7 @@ import (
 
 var sprintf = fmt.Sprintf
 var fprintf = fmt.Fprintf
+var admin bool = false
 
 type Webapp struct {
 	listener net.Listener

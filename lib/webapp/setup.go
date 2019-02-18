@@ -13,6 +13,10 @@ import (
 func setup(w *Webapp) *Webapp {
 	w.router = mux.NewRouter()
 	handler.Setup(w.router)
-	template.Setup()
+	if admin {
+		template.AdminSetup()
+	} else {
+		template.Setup()
+	}
 	return w
 }

@@ -19,8 +19,13 @@ var initcfg = []byte(`{
 	"templates": {}
 }`)
 
-func cfgLoad(blob []byte) {
-	log.D("load")
+var admincfg = []byte(`{
+	"default": "",
+	"templates": {}
+}`)
+
+func cfgLoad(n string, blob []byte) {
+	log.D("load %s", n)
 	if blob == nil {
 		blob = initcfg
 	}

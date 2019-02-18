@@ -29,8 +29,17 @@ func Setup() {
 		if err != nil {
 			log.Panic("%s", err)
 		}
-		cfgLoad(blob)
+		cfgLoad("file", blob)
 	} else {
-		cfgLoad(nil)
+		cfgLoad("default", nil)
 	}
+}
+
+func AdminSetup() {
+	log.D("admin setup")
+	if cfg != nil {
+		log.Panic("templates setup already done!")
+	}
+	cfg = new(Config)
+	cfgLoad("admin", admincfg)
 }
