@@ -20,7 +20,7 @@ var initcfg = []byte(`{
 }`)
 
 var admincfg = []byte(`{
-	"default": "",
+	"default": "main",
 	"templates": {}
 }`)
 

@@ -132,6 +132,7 @@ func (s *fileServer) parseTpl(resp *bytes.Buffer, src io.Reader, rp string) erro
 		log.D("parse template %s", fn)
 		tpl, err = s.open(fn)
 		if err != nil {
+			log.E("%s", err)
 			return err
 		}
 	}

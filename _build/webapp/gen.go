@@ -27,7 +27,7 @@ var adminGlob = []zipfile.Glob{
 		[]string{"_inc/*.html"}},
 	// admin html files
 	{"./admin/",
-		[]string{"*.html", "_admin/*.js"}},
+		[]string{"*.html", "tpl/*.html", "_admin/*.js"}},
 }
 
 // test files
