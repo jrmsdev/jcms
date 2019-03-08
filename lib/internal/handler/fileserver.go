@@ -74,12 +74,12 @@ func (s *fileServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	resp := new(bytes.Buffer)
 	err = s.parseTpl(resp, fh, req.Path())
 	if err != nil {
-		errhdlr(w, "template error", http.StatusInternalServerError)
+		errhdlr(w, "read/write error", http.StatusInternalServerError)
 		return
 	}
 	s.setHeaders(w, fp)
 	if n, err := io.Copy(w, resp); err != nil {
-		log.E("file serve write %s: %s", fp, err)
+		log.E("write %s: %s", fp, err)
 	} else {
 		log.Response(req, n)
 		resp.Reset()
@@ -121,7 +121,6 @@ func (s *fileServer) open(fp string) (io.ReadCloser, error) {
 }
 
 func (s *fileServer) parseTpl(resp *bytes.Buffer, src io.Reader, rp string) error {
-	log.D("parse %s template", rp)
 	var (
 		tpl io.ReadCloser
 		err error
@@ -135,6 +134,9 @@ func (s *fileServer) parseTpl(resp *bytes.Buffer, src io.Reader, rp string) erro
 			log.E("%s", err)
 			return err
 		}
+		return template.Parse(resp, src, tpl)
 	}
-	return template.Parse(resp, src, tpl)
+	log.D("copy")
+	_, err = io.Copy(resp, src)
+	return err
 }

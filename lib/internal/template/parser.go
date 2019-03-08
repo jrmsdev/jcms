@@ -20,14 +20,6 @@ func Parse(dst io.Writer, src io.Reader, tpl io.ReadCloser) error {
 	if cfg == nil {
 		log.Panic("nil template cfg")
 	}
-	if tpl != nil {
-		return parseTpl(dst, src, tpl)
-	}
-	_, err := io.Copy(dst, src)
-	return err
-}
-
-func parseTpl(dst io.Writer, src io.Reader, tpl io.ReadCloser) error {
 	var (
 		err   error
 		main  *htpl.Template

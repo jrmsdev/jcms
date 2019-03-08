@@ -86,12 +86,12 @@ func (s *zipServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	resp := new(bytes.Buffer)
 	err = s.parseTpl(resp, fh, req.Path())
 	if err != nil {
-		errhdlr(w, "template error", http.StatusInternalServerError)
+		errhdlr(w, "read/write error", http.StatusInternalServerError)
 		return
 	}
 	s.setHeaders(w, rp)
 	if n, err := io.Copy(w, resp); err != nil {
-		log.E("zip file '%s' write: %s", rp, err)
+		log.E("write %s: %s", rp, err)
 	} else {
 		log.Response(req, n)
 		resp.Reset()
@@ -121,7 +121,6 @@ func (s *zipServer) open(rp string) (io.ReadCloser, error) {
 }
 
 func (s *zipServer) parseTpl(resp *bytes.Buffer, src io.Reader, rp string) error {
-	log.D("parse %s template", rp)
 	var (
 		tpl io.ReadCloser
 		err error
@@ -134,6 +133,12 @@ func (s *zipServer) parseTpl(resp *bytes.Buffer, src io.Reader, rp string) error
 		if err != nil {
 			return err
 		}
+		return template.Parse(resp, src, tpl)
 	}
-	return template.Parse(resp, src, tpl)
+	log.D("copy")
+	_, err = io.Copy(resp, src)
+	if err != nil {
+		log.E("%s", err)
+	}
+	return err
 }
