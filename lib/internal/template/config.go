@@ -10,18 +10,15 @@ import (
 )
 
 type Config struct {
-	Default   string            `json:"default"`
 	Templates map[string]string `json:"templates"`
 }
 
-var initcfg = []byte(`{
-	"default": "",
-	"templates": {}
-}`)
+var initcfg = []byte(`{"templates": {}}`)
 
 var admincfg = []byte(`{
-	"default": "main",
-	"templates": {}
+	"templates": {
+		"/": "main"
+	}
 }`)
 
 func cfgLoad(n string, blob []byte) {
@@ -38,7 +35,7 @@ func cfgLoad(n string, blob []byte) {
 func (c *Config) Get(path string) string {
 	n, ok := c.Templates[path]
 	if !ok {
-		n = c.Default
+		return ""
 	}
 	return n
 }

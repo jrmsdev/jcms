@@ -32,13 +32,10 @@ func init() {
 
 func TestConfig(t *testing.T) {
 	//~ t.Log(cfg)
-	if check.NotEqual(t, cfg.Default, "main", "default template") {
-		t.Fail()
-	}
 	if check.NotEqual(t, cfg.Templates["/"], "index", "/ template") {
 		t.Fail()
 	}
-	if check.NotEqual(t, cfg.Get("nopath"), "main", "get default template") {
+	if check.NotEqual(t, cfg.Get("nopath"), "", "get default template") {
 		t.Fail()
 	}
 	if check.NotEqual(t, cfg.Get("/"), "index", "get / template") {
